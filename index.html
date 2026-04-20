@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camilinhas Amigurumi | Arte que toca o coração</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.5);
+        }
+
+        .biblical-badge {
+            display: inline-block;
+            color: #f59e0b;
+            font-size: 9px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            margin-top: 20px;
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            max-width: 600px;
+        }
+
+        h1.hero-title {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            line-height: 1.1;
+        }
+
+        .hero-quote {
+            font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+            line-height: 1.6;
+        }
+
+        /* Category Custom Cards */
+        .card-custom-request {
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            background: rgba(245, 158, 11, 0.02);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            min-height: 100%;
+            border-radius: 24px;
+        }
+
+        .card-custom-request:hover {
+            border-color: var(--amber-500);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .icon-plus-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--amber-500);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--amber-500);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        /* Shrink Footer Custom Section */
+        .section-compact {
+            padding-top: 60px !important;
+            padding-bottom: 60px !important;
+        }
+
+        .title-compact {
+            font-size: clamp(2rem, 4vw, 3.5rem) !important;
+            line-height: 1 !important;
+        }
+
+        .desc-compact {
+            font-size: 0.9rem !important;
+            max-width: 450px;
+        }
+
+        .form-compact {
+            padding: 25px !important;
+            border-radius: 30px !important;
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #121212;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loader-logo {
+            width: 220px;
+            height: auto;
+            margin-bottom: 24px;
+            filter: invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.2) drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
+            mix-blend-mode: screen;
+        }
+
+        .logo-interactive {
+            filter: invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.1) drop-shadow(0 0 10px rgba(245, 158, 11, 0.4));
+            mix-blend-mode: screen;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .loader-line-container {
+            width: 120px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 1024px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+            }
+            .product-card {
+                padding: 8px !important;
+            }
+            .product-title {
+                font-size: 10px !important;
+            }
+            .product-price {
+                font-size: 12px !important;
+            }
+            .product-meta {
+                font-size: 7px !important;
+            }
+            .btn-add-mini {
+                font-size: 7px !important;
+                padding: 4px 8px !important;
+            }
+        }
+
+        /* Octopus Color Animation */
+        @keyframes hueCycle {
+            from { filter: hue-rotate(0deg); }
+            to { filter: hue-rotate(360deg); }
+        }
+        .octopus-anim {
+            animation: hueCycle 5s infinite linear;
+        }
+
+        .loader-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0%;
+            background: #f59e0b;
+        }
+    </style>
+</head>
+
+<body class="bg-[#121212]">
+
+    <!-- Loading Screen -->
+    <div id="loader">
+            <div class="absolute -inset-10 bg-amber-500/10 blur-[80px] rounded-full opacity-30"></div>
+            <img src="LOGO TEXT.png" alt="Camilinhas" class="loader-logo relative z-10">
+            <p class="text-amber-500/40 text-[7px] font-black uppercase tracking-[0.6em] mb-8 relative z-10">ARTE QUE TOCA O CORAÇÃO</p>
+            <div class="loader-line-container relative z-10">
+                <div class="loader-line" id="loader-line"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"
+        class="fixed w-4 h-4 bg-amber-500 rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block">
+    </div>
+
+    <!-- Cart Drawer -->
+    <div id="cart-drawer" class="cart-drawer">
+        <div class="flex justify-between items-center mb-10">
+            <h2 class="!text-3xl text-white h-serif italic">Sua Sacola</h2>
+            <button onclick="toggleCart()"
+                class="text-3xl text-white/50 hover:text-white transition-colors">&times;</button>
+        </div>
+        <div id="cart-items" class="flex-1 overflow-y-auto space-y-4 pr-4"></div>
+        <div class="pt-8 border-t border-white/5 mt-auto">
+            <div class="flex justify-between mb-6">
+                <span class="font-bold text-lg text-white/60">Total Estimado:</span>
+                <span id="cart-total" class="font-black text-2xl text-amber-500">R$ 0,00</span>
+            </div>
+            <button onclick="finalizeOrder()" class="btn-order">Finalizar Encomenda</button>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 w-full z-50 px-6 py-6 transition-all duration-500" id="main-nav">
+        <div
+            class="max-w-7xl mx-auto flex justify-between items-center px-8 py-4 rounded-full border border-white/5 backdrop-blur-md bg-white/5">
+            <div class="flex items-center gap-4">
+                <a href="#home" class="group relative block">
+                    <div
+                        class="absolute -inset-4 bg-amber-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
+                    </div>
+                    <img src="LOGO TEXT.png" alt="Camilinhas"
+                        class="h-10 w-auto relative z-10 transition-all duration-300 logo-interactive" id="logo-img">
+                </a>
+            </div>
+            <div class="flex items-center gap-6">
+                <nav class="hidden md:flex gap-10 text-[9px] font-black uppercase tracking-[0.3em] text-white/50"
+                    id="nav-links">
+                    <a href="#home" class="hover:text-amber-500 transition-colors">Início</a>
+                    <a href="#products" class="hover:text-amber-500 transition-colors">Vitrine</a>
+                    <a href="#about" class="hover:text-amber-500 transition-colors">Sobre</a>
+                    <a href="#custom" class="hover:text-amber-500 transition-colors">Encomendar</a>
+                </nav>
+
+                <button onclick="toggleCart()" class="flex items-center gap-3 font-black text-white text-[10px]"
+                    id="cart-btn">
+                    <span
+                        class="bg-amber-500 text-white w-5 h-5 rounded-full text-[8px] flex items-center justify-center shadow-lg"
+                        id="cart-count">0</span>
+                    <span class="hidden sm:inline">SACOLA</span>
+                </button>
+
+                <!-- Mobile Menu Toggle -->
+                <button onclick="toggleMobileMenu()" class="md:hidden text-white text-xl">
+                    <i class="fas fa-bars" id="menu-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section id="home" class="relative w-full h-screen overflow-hidden bg-black">
+        <div id="slideshow-container">
+            <!-- Slide 1: Main Banner -->
+            <div class="hero-slide active">
+                <img src="CAMILA BANNER.png" alt="Camilinhas Banner">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                    <div class="hero-content">
+                        <h1 class="text-white hero-title font-black h-serif mb-6">
+                            Arte que <span class="italic text-amber-500">toca o coração.</span>
+                        </h1>
+                        <p class="text-white/60 hero-quote font-medium italic mb-8">
+                            "Muitas mulheres são exemplares, mas você a todas supera."
+                        </p>
+                        <div class="biblical-badge">Provérbios 31:29</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 2: Sagrado -->
+            <div class="hero-slide">
+                <img src="presepio_biblico_premium_1776651916296.png" alt="Presépio Sagrado">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                    <div class="hero-content">
+                        <h1 class="text-white hero-title font-black h-serif mb-6">
+                            Um presente <span class="italic text-amber-500">do céu</span> para o seu lar.
+                        </h1>
+                        <p class="text-white/60 hero-quote font-medium italic mb-8">
+                            "Deixai vir a mim os pequeninos, não os impeçais de vir a mim..."
+                        </p>
+                        <div class="biblical-badge">Mateus 19:14</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 3: Maternidade / Mother -->
+            <div class="hero-slide">
+                <img src="assets/hero_mother.png" alt="Afeto Materno">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                    <div class="hero-content">
+                        <h1 class="text-white hero-title font-black h-serif mb-6">
+                            Memórias que <span class="italic text-amber-500">permanecem.</span>
+                        </h1>
+                        <p class="text-white/60 hero-quote font-medium italic mb-8">
+                            "Os filhos são herança do Senhor, uma recompensa que ele dá."
+                        </p>
+                        <div class="biblical-badge">Salmos 127:3</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 4: Maternidade / Children -->
+            <div class="hero-slide">
+                <img src="assets/hero_children.png" alt="Infância Feliz">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                    <div class="hero-content">
+                        <h1 class="text-white hero-title font-black h-serif mb-6">
+                            O primeiro <span class="italic text-amber-500">melhor amigo.</span>
+                        </h1>
+                        <p class="text-white/60 hero-quote font-medium italic mb-8">
+                            "Ensina a criança no caminho em que deve andar..."
+                        </p>
+                        <div class="biblical-badge">Provérbios 22:6</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 5: Funko / Puppets -->
+            <div class="hero-slide">
+                <img src="assets/hero_puppets.png" alt="Personagens Amigurumi">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                    <div class="hero-content">
+                        <h1 class="text-white hero-title font-black h-serif mb-6">
+                            Seus heróis, <span class="italic text-amber-500">feitos à mão.</span>
+                        </h1>
+                        <p class="text-white/60 hero-quote font-medium italic mb-8">
+                            "Tudo o que fizerem, façam de todo o coração, como para o Senhor..."
+                        </p>
+                        <div class="biblical-badge">Colossenses 3:23</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 6: Chaveiros -->
+            <div class="hero-slide">
+                <img src="assets/hero_keychain.png" alt="Mimos em Crochê">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                    <div class="hero-content">
+                        <h1 class="text-white hero-title font-black h-serif mb-6">
+                            Mimos que <span class="italic text-amber-500">transbordam afeto.</span>
+                        </h1>
+                        <p class="text-white/60 hero-quote font-medium italic mb-8">
+                            "A vossa doçura seja conhecida de todos os homens."
+                        </p>
+                        <div class="biblical-badge">Filipenses 4:5</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Slide 7: Capybara -->
+            <div class="hero-slide">
+                <img src="capybara_keychain_premium_1776651988124.png" alt="Capicaco Mimo">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                    <div class="hero-content">
+                        <h1 class="text-white hero-title font-black h-serif mb-6">
+                            Cada detalhe, <span class="italic text-amber-500">um carinho.</span>
+                        </h1>
+                        <p class="text-white/60 hero-quote font-medium italic mb-8">
+                            "O coração alegre aformoseia o rosto..."
+                        </p>
+                        <div class="biblical-badge">Provérbios 15:13</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fixed Hero CTA (Stay even when slides change) -->
+        <div class="absolute inset-0 flex items-center px-10 md:px-32 pointer-events-none">
+            <div class="hero-content mt-80 pointer-events-auto">
+                <a href="#products" class="btn-netflix-main">Ver Vitrine</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vitrine Categorizada Dark -->
+    <main class="bg-[#121212] py-32 px-6" id="products">
+        <div class="max-w-7xl mx-auto space-y-32">
+
+            <!-- Categoria: Sagrado -->
+            <section id="biblical">
+                <div class="category-header">
+                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Coleção Bíblica</h2>
+                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções</p>
+                </div>
+                <div class="product-grid" id="biblical-grid">
+                    <!-- Itens removidos conforme solicitado. Próximo de receber novos itens da Coleção Bíblica. -->
+                    <div class="col-span-full py-10 text-center text-white/20 italic text-[10px] uppercase tracking-widest">
+                        Novidades em breve...
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categoria: Funko -->
+            <section id="funko">
+                <div class="category-header">
+                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Universo Funko</h2>
+                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções</p>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card group">
+                        <img src="TURMA DO CHAVES.png" alt="Turma do Chaves">
+                        <h3 class="product-title">Vila do Chaves (Kit)</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 850</span>
+                        </div>
+                        <button onclick="addToCart('Vila do Chaves (Kit)', 850)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="CHAVES.png" alt="Chaves">
+                        <h3 class="product-title">Chaves</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Chaves', 160)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="CHIQUINHA.png" alt="Chiquinha">
+                        <h3 class="product-title">Chiquinha</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Chiquinha', 160)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="QUICO.png" alt="Quico">
+                        <h3 class="product-title">Quico</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Quico', 160)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="SR. MADRUGA.png" alt="Seu Madruga">
+                        <h3 class="product-title">Seu Madruga</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Seu Madruga', 160)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="DONA FLORINDA.png" alt="Dona Florinda">
+                        <h3 class="product-title">Dona Florinda</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Dona Florinda', 160)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="CHAPOLIM COLORADO.png" alt="Chapolim Colorado">
+                        <h3 class="product-title">Chapolim Colorado</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Chapolim Colorado', 160)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categoria: Animais -->
+            <section id="animals">
+                <div class="category-header">
+                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Animais</h2>
+                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções</p>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card group">
+                        <img src="fox_joy_premium_1776652002653.png" alt="Raposa Joy">
+                        <h3 class="product-title">Raposa Joy</h3>
+                        <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Raposa Joy', 160)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="assets/lion.png" alt="Leão">
+                        <h3 class="product-title">Leão Safari</h3>
+                        <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 180</span>
+                        </div>
+                        <button onclick="addToCart('Leão Safari', 180)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="assets/bunny.png" alt="Coelhinha">
+                        <h3 class="product-title">Coelhinha Mel</h3>
+                        <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 150</span>
+                        </div>
+                        <button onclick="addToCart('Coelhinha Mel', 150)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="assets/dino.png" alt="Dino">
+                        <h3 class="product-title">Dino Baby</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Kit</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 140</span>
+                        </div>
+                        <button onclick="addToCart('Dino Baby', 140)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categoria: Chaveiros -->
+            <section>
+                <div class="category-header">
+                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Mimos & Chaveiros</h2>
+                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Lembranças Especiais</p>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card group">
+                        <img src="capybara_keychain_premium_1776651988124.png" alt="Capicaco">
+                        <h3 class="product-title">Capicaco</h3>
+                        <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 45</span>
+                        </div>
+                        <button onclick="addToCart('Capicaco Chaveiro', 45)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="octopus_amigurumi_premium_1776652060473.png" alt="Polvinho" class="octopus-anim">
+                        <h3 class="product-title">Polvinho Baby</h3>
+                        <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 60</span>
+                        </div>
+                        <button onclick="addToCart('Polvinho Baby', 60)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="assets/hero_keychain.png" alt="Coração Mimo">
+                        <h3 class="product-title">Coração Afeto</h3>
+                        <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 35</span>
+                        </div>
+                        <button onclick="addToCart('Coração Afeto', 35)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img src="https://images.unsplash.com/photo-1601055283742-ce3a63897775?auto=format&fit=crop&q=80&w=800"
+                            alt="Lembrancinha">
+                        <h3 class="product-title">Mimo Personalizado</h3>
+                        <p class="product-meta mb-4">Tam: 10cm | Mimo</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 40</span>
+                        </div>
+                        <button onclick="addToCart('Mimo Personalizado', 40)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Seção Sobre: Adriana Nunes -->
+    <section id="about" class="py-12 px-6 bg-[#0b0b0b] relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-1/4 h-full bg-gradient-to-l from-amber-500/5 to-transparent"></div>
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+                <!-- Foto Otimizada e Colorida -->
+                <div class="w-full max-w-[260px] lg:max-w-[300px] shrink-0">
+                    <div class="relative group">
+                        <div class="absolute -inset-2 bg-amber-500/10 blur-2xl opacity-20"></div>
+                        <div
+                            class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5]">
+                            <img src="assets/adriana_nunes.png" alt="Adriana Nunes"
+                                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 saturate-[1.2] brightness-[1.05]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                            </div>
+                            <div class="absolute bottom-4 left-5">
+                                <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-0.5">Artesã
+                                    Fundadora</p>
+                                <h3 class="text-white text-lg h-serif italic">Adriana Nunes</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conteúdo de Texto Proporcional -->
+                <div class="flex-1 space-y-5">
+                    <div class="category-header !mb-0 text-left">
+                        <h2 class="text-clamp-lg text-white h-serif italic font-light leading-tight">Onde a Fé encontra
+                            o Fio</h2>
+                        <p class="text-[8px] font-black text-white/30 uppercase tracking-[0.4em] mt-2">A Alma do Ateliê
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 text-white/70 font-medium leading-relaxed text-clamp-sm">
+                        <div class="bg-white/5 border-l-2 border-amber-500/50 p-4 rounded-r-xl space-y-2">
+                            <p class="text-white/90 italic font-serif text-sm md:text-base">
+                                "Eu te louvo porque me fizeste de modo especial e admirável. Tuas obras são
+                                maravilhosas! Disso tenho plena certeza."
+                            </p>
+                            <p class="text-amber-500 font-bold text-[10px] uppercase tracking-widest">Salmos 139:14</p>
+                        </div>
+
+                        <p>
+                            Adriana Nunes não apenas tece fios; ela tece propósitos. Natural de <span
+                                class="text-white font-bold">Campo Grande - MS</span>, traz em suas mãos a sabedoria de
+                            53 anos e a sensibilidade de uma vida dedicada à família e à fé como <span
+                                class="text-amber-500/80 border-b border-amber-500/20">Adventista do Sétimo Dia</span>.
+                        </p>
+                        <p>
+                            Há mais de três anos, o Ateliê Camilinhas tornou-se o palco onde o algodão se transforma em
+                            histórias sagradas. Cada peça é um convite ao aconchego, um testemunho de amor e um presente
+                            que carrega a alma de quem entende que o artesanato é, acima de tudo, um ato de adoração.
+                        </p>
+                    </div>
+                    
+                    <div id="custom-orders-container" class="space-y-4">
+                        <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
+                            <textarea placeholder="Descreva como você imagina seu amigurumi... (Cores, tamanho, personagem)"
+                                class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-32 resize-none custom-desc"></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="button" onclick="addCustomField()" class="flex items-center gap-2 text-amber-500 font-black text-[9px] uppercase tracking-widest mt-4">
+                        <span class="w-6 h-6 rounded-full border border-amber-500/30 flex items-center justify-center text-lg">+</span>
+                        Adicionar outro pedido
+                    </button>
+
+                    <div class="flex gap-10 pt-6 border-t border-white/5">
+                        <div class="group">
+                            <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Experiência
+                            </p>
+                            <p class="text-white font-bold text-lg h-serif italic">+3 Anos</p>
+                        </div>
+                        <div class="group">
+                            <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Origem</p>
+                            <p class="text-white font-bold text-lg h-serif italic">Campo Grande, MS</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Projetos Especiais Premium Compacta -->
+    <section id="custom" class="py-20 px-6 bg-[#121212] border-t border-white/5">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal-content">
+                    <span class="text-amber-500 font-black text-[8px] uppercase tracking-[0.4em] mb-2 block">Atendimento
+                        Exclusivo</span>
+                    <h2 class="text-white h-serif italic font-light mb-4 text-4xl">Projetos <br>Especiais</h2>
+                    <p class="text-white/40 font-medium leading-relaxed mb-6 text-sm max-w-md">
+                        Para grandes encomendas, lembranças de eventos ou amigurumis de grande porte, entre em contato
+                        para um orçamento detalhado.
+                    </p>
+
+                    <!-- Social Links Compact -->
+                    <div class="flex gap-3 mb-8">
+                        <a href="https://wa.me/556792804803" target="_blank"
+                            class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
+                            <span class="text-amber-500 text-lg"><i class="fab fa-whatsapp"></i></span>
+                            <div class="text-left">
+                                <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">WhatsApp</p>
+                                <p class="text-white font-bold text-xs">Falar com Adriana</p>
+                            </div>
+                        </a>
+                        <a href="https://instagram.com/camilinhasamigurumi" target="_blank"
+                            class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
+                            <span class="text-amber-500 text-lg"><i class="fab fa-instagram"></i></span>
+                            <div class="text-left">
+                                <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">Instagram</p>
+                                <p class="text-white font-bold text-xs">@camilinhasamigurumi</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="relative group">
+                    <div
+                        class="absolute -inset-4 bg-amber-500/10 blur-2xl opacity-0 group-hover:opacity-100 transition-duration-1000">
+                    </div>
+                    <div
+                        class="relative p-8 bg-[#1c1c1c] border border-amber-500/20 text-white rounded-[40px] shadow-2xl overflow-hidden">
+                        <h3 class="text-2xl font-black mb-4 italic h-serif text-amber-500">Concierge Camilinhas</h3>
+                        <p class="text-white/60 mb-6 font-medium text-sm leading-relaxed">
+                            Solicite um orçamento para projetos que exigem atenção especial. Retornaremos via WhatsApp
+                            com uma proposta.
+                        </p>
+                        <ul class="space-y-3 mb-8 text-[10px] font-bold text-white/40 uppercase tracking-widest">
+                            <li class="flex items-center gap-3"><span
+                                    class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Lembranças Personalizadas</li>
+                            <li class="flex items-center gap-3"><span
+                                    class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Encomendas em Lote</li>
+                            <li class="flex items-center gap-3"><span
+                                    class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Design Exclusivo</li>
+                        </ul>
+                        <button onclick="submitCustomOrder()"
+                            class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl">
+                            Enviar via WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-20 bg-[#0d0d0d] text-white/20 text-center border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-6">
+            <img src="LOGO TEXT.png" alt="Camilinhas" class="h-8 mx-auto mb-8 opacity-60"
+                style="filter: invert(1) sepia(1) saturate(20) hue-rotate(-15deg); mix-blend-mode: screen;">
+            <div class="flex flex-wrap justify-center gap-10 mb-12 text-[9px] font-black uppercase tracking-[0.4em]">
+                <a href="#home" class="hover:text-amber-500 transition-colors">Home</a>
+                <a href="#products" class="hover:text-amber-500 transition-colors">Catálogo</a>
+                <a href="#custom" class="hover:text-amber-500 transition-colors">Personalizados</a>
+                <a href="#" class="hover:text-amber-500 transition-colors">Privacidade</a>
+            </div>
+            <p class="text-[8px] font-black uppercase tracking-[0.6em] mb-4">© 2026 CAMILINHAS ATELIÊ | ADRIANA NUNES
+            </p>
+            <p class="text-[7px] text-white/5 uppercase tracking-[0.2em]">Todas as receitas oficiais por Caco Amigurumi
+                | Feito com amor em Campo Grande - MS</p>
+        </div>
+    </footer>
+
+    <script>
+        let cart = [];
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        
+        // Smooth Scroll Setup
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % slides.length;
+            slides[currentSlide].classList.add('active');
+            setTimeout(nextSlide, 10000);
+        }
+
+        window.onload = () => {
+            const tl = gsap.timeline();
+
+            tl.to("#loader-line", { width: "100%", duration: 1.5, ease: "power2.inOut" })
+                .to(".loader-logo", { scale: 1.1, opacity: 0, duration: 0.8, ease: "power2.in" }, "-=0.3")
+                .to("#loader", { opacity: 0, pointerEvents: "none", duration: 1, ease: "power2.out" }, "-=0.5")
+                .from(".hero-title", { y: 50, opacity: 0, duration: 1, ease: "power4.out" }, "-=0.5")
+                .from(".btn-netflix-main", { scale: 0.8, opacity: 0, duration: 0.8, ease: "back.out(1.7)" }, "-=0.8");
+
+            setTimeout(nextSlide, 10000);
+
+            const cursor = document.getElementById('custom-cursor');
+            const interactiveLogo = document.querySelector('.logo-interactive');
+
+            window.addEventListener('mousemove', (e) => {
+                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+
+                if (interactiveLogo) {
+                    const rect = interactiveLogo.getBoundingClientRect();
+                    const logoX = e.clientX - (rect.left + rect.width / 2);
+                    const logoY = e.clientY - (rect.top + rect.height / 2);
+                    gsap.to(interactiveLogo, {
+                        filter: `invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.1) drop-shadow(${logoX * 0.1}px ${logoY * 0.1}px 10px rgba(245, 158, 11, 0.6))`,
+                        duration: 0.4,
+                        ease: "power2.out"
+                    });
+                }
+            });
+
+            const interactives = document.querySelectorAll('button, a, .product-card, input, textarea');
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => { gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(245, 158, 11, 0.3)', duration: 0.3 }); });
+                el.addEventListener('mouseleave', () => { gsap.to(cursor, { scale: 1, backgroundColor: '#f59e0b', duration: 0.3 }); });
+            });
+        };
+
+        function toggleCart() { document.getElementById('cart-drawer').classList.toggle('active'); }
+
+        function addToCart(name, price) {
+            cart.push({ name, price, type: 'standard' });
+            updateCart();
+            const cartBtn = document.getElementById('cart-btn');
+            gsap.to(cartBtn, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1, ease: "power2.out" });
+        }
+
+        function updateCart() {
+            const list = document.getElementById('cart-items');
+            const count = document.getElementById('cart-count');
+            const totalEl = document.getElementById('cart-total');
+            list.innerHTML = '';
+            let total = 0;
+            cart.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center p-5 bg-white/5 rounded-2xl border border-white/5 mb-3';
+                div.innerHTML = `<div class="text-xs font-black text-white h-serif">${item.name}</div><div class="flex items-center gap-3 font-black text-amber-500 text-xs">R$ ${item.price}<button onclick="removeFromCart(${index})" class="text-white/20 hover:text-red-500">&times;</button></div>`;
+                list.appendChild(div);
+                total += item.price;
+            });
+            count.innerText = cart.length;
+            totalEl.innerText = `R$ ${total.toFixed(2)}`;
+        }
+
+        function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
+
+        function addCustomField() {
+            const container = document.getElementById('custom-orders-container');
+            const newField = document.createElement('div');
+            newField.className = 'bg-white/5 p-6 rounded-3xl border border-white/5 relative group';
+            newField.innerHTML = `
+                <textarea placeholder="Descreva outro pedido personalizado..."
+                    class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-32 resize-none custom-desc"></textarea>
+                <button onclick="this.parentElement.remove()" class="absolute top-4 right-4 text-white/20 hover:text-red-500 transition-colors">×</button>
+            `;
+            container.appendChild(newField);
+        }
+
+        function submitCustomOrder() {
+            const descs = Array.from(document.querySelectorAll('.custom-desc')).map(t => t.value).filter(v => v.trim());
+            if (descs.length === 0) {
+                alert('Por favor, descreva seu pedido.');
+                return;
+            }
+            
+            const message = `Olá! Gostaria de fazer orçamentos personalizados para:\n\n${descs.join('\n\n--- NEXT ---\n\n')}`;
+            window.open(`https://wa.me/5567999999999?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function finalizeOrder() {
+            if (cart.length === 0) return alert('Sacola vazia!');
+            let message = `*NOVO PEDIDO - CAMILINHAS*\n==================================\n\n`;
+            let total = 0;
+            const standard = cart.filter(i => i.type === 'standard');
+            if (standard.length > 0) {
+                message += `*VITRINE:* \n`;
+                standard.forEach(i => { message += `- ${i.name} (R$ ${i.price.toFixed(2)})\n`; total += i.price; });
+            }
+            const custom = cart.filter(i => i.type === 'custom');
+            if (custom.length > 0) {
+                message += `\n*ENCOMENDAS:* \n`;
+            }
+            message += `\n==================================\n*TOTAL:* R$ ${total.toFixed(2)}\n\nOlá Adriana! Vi seu catálogo e gostaria de fazer esse pedido.`;
+            window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) nav.querySelector('div').classList.add('bg-[#1a1a1a]/90', 'shadow-2xl');
+            else nav.querySelector('div').classList.remove('bg-[#1a1a1a]/90', 'shadow-2xl');
+        });
+
+        function toggleMobileMenu() {
+            const nav = document.getElementById('nav-links');
+            const icon = document.getElementById('menu-icon');
+            nav.classList.toggle('mobile-active');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+            if (nav.classList.contains('mobile-active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        document.querySelectorAll('#nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const nav = document.getElementById('nav-links');
+                if (nav.classList.contains('mobile-active')) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

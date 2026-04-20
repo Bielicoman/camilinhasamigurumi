@@ -1,0 +1,272 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,900;1,400;1,900&family=Inter:wght@400;500;700;900&display=swap');
+
+:root {
+    --bg-dark: #121212;
+    --card-dark: #1c1c1c;
+    --amber-500: #f59e0b;
+    --amber-600: #d97706;
+    --text-light: #fafaf9;
+    --text-dim: rgba(250, 250, 249, 0.6);
+}
+
+/* Fluid Typography Utilities */
+.text-clamp-xs { font-size: clamp(0.7rem, 1.5vw, 0.8rem); }
+.text-clamp-sm { font-size: clamp(0.8rem, 2vw, 0.9rem); }
+.text-clamp-md { font-size: clamp(1rem, 3vw, 1.25rem); }
+.text-clamp-lg { font-size: clamp(1.25rem, 5vw, 2.5rem); }
+.text-clamp-xl { font-size: clamp(2rem, 8vw, 4.5rem); }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    cursor: none !important;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-light);
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+.h-serif {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Cinematic Hero Slideshow */
+#home {
+    background: #121212;
+}
+
+.hero-slide {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+.hero-slide img {
+    transform: scale(1.1);
+    transition: transform 10s linear;
+}
+
+.hero-slide.active img {
+    transform: scale(1);
+}
+
+.btn-netflix-main {
+    background: var(--amber-500);
+    color: white;
+    padding: 24px 60px;
+    border-radius: 20px;
+    font-weight: 900;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    display: inline-block;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 0 0 rgba(245, 158, 11, 0);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-netflix-main:hover {
+    transform: translateY(-5px);
+    background: var(--amber-600);
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.4), 0 0 20px rgba(245, 158, 11, 0.2);
+    letter-spacing: 0.35em;
+}
+
+/* Product Grid - Premium Dark Glass */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    padding: 12px;
+    border-radius: 30px;
+    transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--card-dark);
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    border-color: var(--amber-500);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.product-card img {
+    border-radius: 20px;
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+.product-title {
+    font-size: 14px;
+    font-weight: 900;
+    margin-top: 15px;
+    color: var(--text-light);
+}
+
+.product-meta {
+    font-size: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+}
+
+.product-price {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--amber-500);
+}
+
+.btn-add-mini {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-add-mini:hover {
+    background: var(--amber-500);
+    border-color: var(--amber-500);
+}
+
+/* Category Headers */
+.category-header {
+    border-left: 4px solid var(--amber-500);
+    padding-left: 20px;
+    margin-bottom: 40px;
+}
+
+.category-header h2 {
+    color: var(--text-light);
+}
+
+.category-header p {
+    color: var(--text-dim);
+}
+
+/* Custom Cursor */
+#custom-cursor {
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s, background-color 0.3s;
+    background-color: var(--amber-500);
+    z-index: 9999;
+}
+
+/* Cart Drawer - Dark Edition */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 100%;
+    max-width: 450px;
+    height: 100vh;
+    background: #1c1c1c;
+    z-index: 1000;
+    box-shadow: -50px 0 100px rgba(0, 0, 0, 0.5);
+    transition: right 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cart-drawer h2 {
+    color: var(--text-light);
+}
+
+.cart-drawer.active {
+    right: 0;
+}
+
+/* Custom Form - Dark */
+.custom-form-container {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+input,
+textarea,
+select {
+    background: rgba(0, 0, 0, 0.2) !important;
+    color: white !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    #nav-links.mobile-active {
+        display: flex !important;
+        position: fixed;
+        inset: 0;
+        background: rgba(18, 18, 18, 0.98);
+        backdrop-blur: 20px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+        font-size: 1.5rem;
+        gap: 2rem;
+    }
+
+    #nav-links.mobile-active a {
+        font-size: 1rem;
+        letter-spacing: 0.5em;
+    }
+
+    h1 {
+        font-size: 2.5rem !important;
+    }
+}
+
+.btn-order {
+    background: var(--amber-500);
+    color: white;
+    width: 100%;
+    padding: 20px;
+    border-radius: 18px;
+    font-weight: 900;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
+    border: none;
+    margin-top: 20px;
+}
+
+.btn-order:hover {
+    background: var(--amber-600);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3);
+}
