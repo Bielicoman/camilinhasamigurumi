@@ -14,55 +14,65 @@
     
     <style>
         body {
-            background-color: #0a0a0a;
+            background-color: #f7f3ee;
+            color: #2d2a26;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
+            font-family: 'Inter', sans-serif;
         }
 
         .error-container {
             text-align: center;
             z-index: 10;
+            animation: bounceIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .error-code {
-            font-size: clamp(6rem, 15vw, 12rem);
-            font-weight: 900;
-            line-height: 1;
-            background: linear-gradient(to bottom, #f59e0b, #d97706);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            opacity: 0.2;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: -1;
-            user-select: none;
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
-        .btn-back {
+        .error-badge {
             display: inline-block;
-            margin-top: 40px;
-            padding: 18px 40px;
+            padding: 8px 16px;
+            background: #fff8f0;
+            color: #f59e0b;
+            border-radius: 100px;
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            border: 1px solid rgba(245, 158, 11, 0.1);
+        }
+
+        .h-serif {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .btn-home {
+            display: inline-block;
+            margin-top: 48px;
+            padding: 20px 48px;
             background: #f59e0b;
             color: white;
-            border-radius: 50px;
+            border-radius: 20px;
             font-weight: 900;
             text-transform: uppercase;
-            letter-spacing: 0.3em;
-            font-size: 11px;
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            letter-spacing: 0.25em;
+            font-size: 13px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-decoration: none;
-            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
         }
 
-        .btn-back:hover {
+        .btn-home:hover {
             transform: translateY(-5px);
             background: #d97706;
-            box-shadow: 0 30px 60px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3);
         }
 
         .bg-glow {
@@ -70,45 +80,41 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80%;
-            height: 80%;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 70%);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
             pointer-events: none;
+            z-index: 1;
         }
 
-        /* Light Mode */
-        html.light body {
-            background-color: #f2ede4;
+        .decor {
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.05;
+            color: #f59e0b;
+            z-index: 0;
+            pointer-events: none;
         }
-        html.light .h-serif { color: #1a1816; }
-        html.light .text-white\/60 { color: #5c554a; }
     </style>
 </head>
 
 <body>
     <div class="bg-glow"></div>
-    <div class="error-code">404</div>
+    <div class="decor" style="top: 10%; left: 10%; transform: rotate(-15deg);"><i class="fas fa-heart"></i></div>
+    <div class="decor" style="bottom: 15%; right: 10%; transform: rotate(20deg);"><i class="fas fa-star"></i></div>
 
-    <div class="error-container px-6">
-        <div class="mb-8">
-            <img src="assets/img/brand/logo-camilinhas-circle.webp" alt="Logo" class="h-24 mx-auto mb-12 opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
-        </div>
+    <div class="error-container px-8">
+        <div class="error-badge">Página não encontrada</div>
         
-        <h1 class="h-serif italic text-4xl md:text-6xl text-white mb-6">Ops! Este amigurumi se perdeu.</h1>
-        <p class="text-white/60 text-sm md:text-base uppercase tracking-[0.2em] max-w-md mx-auto leading-relaxed">
-            A página que você está procurando não foi encontrada ou foi movida para outro cantinho.
+        <h1 class="h-serif italic text-5xl md:text-7xl text-[#2d2a26] mb-8 leading-tight">Um ponto <br>escapou da agulha.</h1>
+        <p class="text-[#2d2a26]/50 text-sm md:text-base font-medium max-w-sm mx-auto leading-relaxed">
+            Parece que o amigurumi que você procura se perdeu no novelo. Não se preocupe, vamos te guiar de volta!
         </p>
 
-        <a href="index.html" class="btn-back">
+        <a href="index.html" class="btn-home">
             Voltar para o Início
         </a>
     </div>
-
-    <script>
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.add('light');
-        }
-    </script>
 </body>
 
 </html>

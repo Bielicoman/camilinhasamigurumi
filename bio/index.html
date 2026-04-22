@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camilinhas Amigurumi | Bio</title>
-    <meta name="description" content="Acesse todos os nossos canais de atendimento e redes sociais.">
     
     <!-- Favicon -->
     <link rel="icon" type="image/webp" href="../assets/img/brand/logo-camilinhas-circle.webp">
@@ -15,157 +14,204 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:ital,wght@0,900;1,900&display=swap');
+
         body {
-            background-color: #0a0a0a;
+            background-color: #f7f3ee;
+            color: #2d2a26;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 24px;
+            font-family: 'Inter', sans-serif;
         }
 
         .links-container {
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
             text-align: center;
-            animation: fadeIn 1s ease-out;
+            animation: softFadeIn 1s ease-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes softFadeIn {
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .link-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 18px;
-            border-radius: 20px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            color: white;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-size: 11px;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-decoration: none;
+        .h-serif {
+            font-family: 'Playfair Display', serif;
         }
 
-        .link-card:hover {
-            background: #f59e0b;
-            border-color: #f59e0b;
-            transform: scale(1.02);
-            color: white;
+        .profile-section {
+            margin-bottom: 40px;
         }
 
         .profile-img {
-            width: 96px;
-            height: 96px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
-            border: 2px solid #f59e0b;
-            padding: 4px;
-            margin: 0 auto 20px;
-            background: rgba(245, 158, 11, 0.1);
-            box-shadow: 0 0 30px rgba(245, 158, 11, 0.2);
+            border: 4px solid white;
+            padding: 0;
+            margin: 0 auto 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            background: white;
         }
 
-        .bg-glow {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 300px;
+        .link-card {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            padding: 16px 24px;
+            border-radius: 24px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #2d2a26;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            font-size: 12px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+        }
+
+        .link-card:hover {
+            transform: scale(1.02);
+            background: #ffffff;
+            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
+            border-color: #f59e0b;
+        }
+
+        .link-card .icon-wrapper {
+            width: 32px;
+            height: 32px;
+            background: #fff8f0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #f59e0b;
+            transition: all 0.3s;
+        }
+
+        .link-card:hover .icon-wrapper {
             background: #f59e0b;
-            filter: blur(150px);
-            opacity: 0.1;
+            color: white;
+        }
+
+        .social-links {
+            margin-top: 48px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+        }
+
+        .social-icon {
+            width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2d2a26;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+
+        .social-icon:hover {
+            background: #f59e0b;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .bg-blobs {
+            position: fixed;
+            inset: 0;
             z-index: -1;
+            overflow: hidden;
             pointer-events: none;
         }
 
-        /* Light Mode */
-        html.light body {
-            background-color: #f2ede4;
-        }
-        html.light .link-card {
-            background: white;
-            color: #1a1816;
-            border-color: rgba(0,0,0,0.06);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
-        }
-        html.light .link-card:hover {
+        .blob {
+            position: absolute;
             background: #f59e0b;
-            color: white;
-            border-color: #f59e0b;
+            filter: blur(80px);
+            opacity: 0.08;
+            border-radius: 50%;
         }
-        html.light .h-serif { color: #1a1816; }
-        html.light .text-white\/40 { color: rgba(26, 24, 22, 0.5); }
     </style>
 </head>
 
 <body>
-    <div class="bg-glow"></div>
+    <div class="bg-blobs">
+        <div class="blob w-64 h-64 -top-20 -left-20"></div>
+        <div class="blob w-96 h-96 -bottom-32 -right-32" style="background: #eab308;"></div>
+    </div>
 
     <div class="links-container">
-        <!-- Profile Header -->
-        <div class="mb-12">
+        <!-- Profile -->
+        <div class="profile-section">
             <div class="profile-img">
-                <img src="../assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas Amigurumi" class="w-full h-full rounded-full object-cover">
+                <img src="../assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas Amigurumi" class="w-full h-full object-cover">
             </div>
-            <h1 class="h-serif italic text-3xl mb-2 text-white">Camilinhas Amigurumi</h1>
-            <p class="text-white/40 uppercase tracking-[0.3em] text-[10px] font-black">Arte que toca o coração</p>
+            <h1 class="h-serif italic text-4xl text-[#2d2a26] mb-1">Camilinhas</h1>
+            <p class="text-[#2d2a26]/40 uppercase tracking-[0.3em] text-[10px] font-black">Arte que toca o coração</p>
         </div>
 
-        <!-- Links List -->
+        <!-- Links -->
         <div class="space-y-4">
             <a href="../index.html" class="link-card">
-                <i class="fas fa-shopping-bag"></i>
-                Visitar Loja Online
+                <span>Loja Online</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
             </a>
             
             <a href="https://instagram.com/camilinhasamigurumi" target="_blank" class="link-card">
-                <i class="fab fa-instagram text-lg"></i>
-                Instagram
+                <span>Instagram</span>
+                <div class="icon-wrapper">
+                    <i class="fab fa-instagram"></i>
+                </div>
             </a>
 
             <a href="https://wa.me/556792804803" target="_blank" class="link-card">
-                <i class="fab fa-whatsapp text-lg"></i>
-                WhatsApp Direto
-            </a>
-
-            <a href="../index.html#custom" class="link-card">
-                <i class="fas fa-magic"></i>
-                Encomendas Personalizadas
+                <span>WhatsApp</span>
+                <div class="icon-wrapper">
+                    <i class="fab fa-whatsapp"></i>
+                </div>
             </a>
 
             <a href="../index.html#products" class="link-card">
-                <i class="fas fa-book-open"></i>
-                Ver Catálogo
+                <span>Ver Catálogo</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-book-open"></i>
+                </div>
+            </a>
+
+            <a href="../index.html#custom" class="link-card">
+                <span>Encomendas</span>
+                <div class="icon-wrapper">
+                    <i class="fas fa-magic"></i>
+                </div>
             </a>
         </div>
 
-        <!-- Social Icons Footer -->
-        <div class="mt-16 flex justify-center gap-8 text-white/20">
-            <a href="https://instagram.com/camilinhasamigurumi" class="hover:text-amber-500 transition-colors"><i class="fab fa-instagram text-xl"></i></a>
-            <a href="https://wa.me/556792804803" class="hover:text-amber-500 transition-colors"><i class="fab fa-whatsapp text-xl"></i></a>
-            <a href="mailto:contato@camilinhas.com.br" class="hover:text-amber-500 transition-colors"><i class="far fa-envelope text-xl"></i></a>
+        <!-- Social Icons -->
+        <div class="social-links">
+            <a href="https://instagram.com/camilinhasamigurumi" class="social-icon"><i class="fab fa-instagram"></i></a>
+            <a href="https://wa.me/556792804803" class="social-icon"><i class="fab fa-whatsapp"></i></a>
+            <a href="mailto:contato@camilinhas.com.br" class="social-icon"><i class="far fa-envelope"></i></a>
         </div>
         
-        <p class="mt-12 text-[9px] uppercase tracking-[0.4em] text-white/10 font-bold">
+        <p class="mt-12 text-[10px] uppercase tracking-[0.4em] text-[#2d2a26]/20 font-bold">
             © 2024 Camilinhas Amigurumi
         </p>
     </div>
-
-    <script>
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.add('light');
-        }
-    </script>
 </body>
 
 </html>
