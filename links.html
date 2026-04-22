@@ -12,6 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/main.css?v=1.6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:ital,wght@0,900;1,900&display=swap');
@@ -153,13 +154,18 @@
         <div class="blob w-96 h-96 -bottom-32 -right-32" style="background: #eab308;"></div>
     </div>
 
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"
+        class="fixed w-4 h-4 bg-[#facc15] rounded-full pointer-events-none z-[9999] hidden md:block">
+    </div>
+
     <div class="links-container">
         <!-- Profile -->
         <div class="profile-section">
             <div class="profile-img">
                 <img src="assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas Amigurumi" class="w-full h-full object-cover">
             </div>
-            <h1 class="h-serif italic text-4xl text-[#2d2a26] mb-1">Camilinhas</h1>
+            <h1 class="h-serif italic text-4xl text-[#2d2a26] mb-1">Camilinhas Amigurumi</h1>
             <p class="text-[#2d2a26]/40 uppercase tracking-[0.3em] text-[10px] font-black">Arte que toca o coração</p>
         </div>
 
@@ -205,13 +211,38 @@
         <div class="social-links">
             <a href="https://instagram.com/camilinhasamigurumi" class="social-icon"><i class="fab fa-instagram"></i></a>
             <a href="https://wa.me/556792804803" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-            <a href="mailto:contato@camilinhas.com.br" class="social-icon"><i class="far fa-envelope"></i></a>
+
         </div>
         
         <p class="mt-12 text-[10px] uppercase tracking-[0.4em] text-[#2d2a26]/20 font-bold">
             © 2024 Camilinhas Amigurumi
         </p>
     </div>
+    <script>
+        // Cursor Logic
+        const cursor = document.getElementById('custom-cursor');
+        const interactives = document.querySelectorAll('a, .social-icon');
+
+        window.addEventListener('mousemove', (e) => {
+            if (cursor) {
+                gsap.to(cursor, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.1,
+                    ease: "power2.out"
+                });
+            }
+        });
+
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(250, 204, 21, 0.3)', duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#facc15', duration: 0.3 });
+            });
+        });
+    </script>
 </body>
 
 </html>

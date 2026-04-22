@@ -15,11 +15,16 @@
 .text-clamp-lg { font-size: clamp(1.25rem, 5vw, 2.5rem); }
 .text-clamp-xl { font-size: clamp(2rem, 8vw, 4.5rem); }
 
+@media (min-width: 768px) {
+    * {
+        cursor: none !important;
+    }
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    cursor: none !important;
 }
 
 body {

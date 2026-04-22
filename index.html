@@ -267,7 +267,7 @@
 
     <!-- Custom Cursor -->
     <div id="custom-cursor"
-        class="fixed w-4 h-4 bg-amber-500 rounded-full pointer-events-none z-[9999] mix-blend-difference hidden md:block">
+        class="fixed w-4 h-4 bg-[#facc15] rounded-full pointer-events-none z-[9999] hidden md:block">
     </div>
 
     <!-- Cart Drawer -->
@@ -1255,8 +1255,8 @@
             });
 
             interactives.forEach(el => {
-                el.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(245, 158, 11, 0.3)', duration: 0.3 }); });
-                el.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#f59e0b', duration: 0.3 }); });
+                el.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(250, 204, 21, 0.3)', duration: 0.3 }); });
+                el.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#facc15', duration: 0.3 }); });
             });
 
             // 3. Loader Progress

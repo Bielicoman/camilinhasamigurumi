@@ -11,6 +11,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="assets/css/main.css?v=1.6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     
     <style>
         body {
@@ -95,11 +96,32 @@
             z-index: 0;
             pointer-events: none;
         }
+
+        .bg-text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 35vw;
+            font-weight: 900;
+            color: #2d2a26;
+            opacity: 0.03;
+            z-index: 1;
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+        }
     </style>
 </head>
 
 <body>
     <div class="bg-glow"></div>
+    <div class="bg-text">404</div>
+    
+    <!-- Custom Cursor -->
+    <div id="custom-cursor"
+        class="fixed w-4 h-4 bg-[#facc15] rounded-full pointer-events-none z-[9999] hidden md:block">
+    </div>
     <div class="decor" style="top: 10%; left: 10%; transform: rotate(-15deg);"><i class="fas fa-heart"></i></div>
     <div class="decor" style="bottom: 15%; right: 10%; transform: rotate(20deg);"><i class="fas fa-star"></i></div>
 
@@ -115,6 +137,31 @@
             Voltar para o Início
         </a>
     </div>
+    <script>
+        // Cursor Logic
+        const cursor = document.getElementById('custom-cursor');
+        const interactives = document.querySelectorAll('a, button');
+
+        window.addEventListener('mousemove', (e) => {
+            if (cursor) {
+                gsap.to(cursor, {
+                    x: e.clientX,
+                    y: e.clientY,
+                    duration: 0.1,
+                    ease: "power2.out"
+                });
+            }
+        });
+
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(250, 204, 21, 0.3)', duration: 0.3 });
+            });
+            el.addEventListener('mouseleave', () => {
+                if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#facc15', duration: 0.3 });
+            });
+        });
+    </script>
 </body>
 
 </html>
