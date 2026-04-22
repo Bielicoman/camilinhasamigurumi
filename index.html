@@ -7,11 +7,32 @@
     <title>Camilinhas Amigurumi | Arte que toca o coração</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/main.css?v=1.6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #121212;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease-out;
+        }
+
+        #app-content {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        #app-content.revealed {
+            visibility: visible;
+            opacity: 1;
+        }
+
         .hero-slide {
             position: absolute;
             inset: 0;
@@ -47,7 +68,7 @@
 
         h1.hero-title {
             font-size: clamp(2rem, 4vw, 3.5rem);
-            line-height: 1.1;
+            line-height: 1.2;
         }
 
         .hero-quote {
@@ -108,10 +129,18 @@
         }
 
         /* Loading Screen */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
         #loader {
             position: fixed;
             inset: 0;
-            background: #121212;
+            background: linear-gradient(-45deg, #0a0a0a, #1a1510, #241808, #121212);
+            background-size: 400% 400%;
+            animation: gradientFlow 5s ease infinite;
             z-index: 9999;
             display: flex;
             flex-direction: column;
@@ -119,12 +148,17 @@
             align-items: center;
         }
 
+        html.light #loader {
+            background: linear-gradient(-45deg, #f2ede4, #e8dfcc, #fcedc5, #f2ede4);
+            background-size: 400% 400%;
+            animation: gradientFlow 5s ease infinite;
+        }
+
         .loader-logo {
             width: 220px;
             height: auto;
             margin-bottom: 24px;
-            filter: invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.2) drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
-            mix-blend-mode: screen;
+            filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
         }
 
         .logo-interactive {
@@ -157,24 +191,37 @@
 
         @media (max-width: 640px) {
             .product-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
             }
             .product-card {
-                padding: 8px !important;
+                padding: 12px !important;
+                display: flex !important;
+                flex-direction: column !important;
+                height: 100% !important;
             }
             .product-title {
-                font-size: 10px !important;
-            }
-            .product-price {
-                font-size: 12px !important;
+                font-size: 13px !important;
+                line-height: 1.2 !important;
+                margin-top: 10px !important;
+                margin-bottom: 4px !important;
             }
             .product-meta {
-                font-size: 7px !important;
+                font-size: 9px !important;
+                margin-bottom: 12px !important;
+            }
+            .product-card > .flex.justify-between {
+                margin-top: auto !important; /* Pushes price to bottom */
+                margin-bottom: 10px !important;
+            }
+            .product-price {
+                font-size: 16px !important;
             }
             .btn-add-mini {
-                font-size: 7px !important;
-                padding: 4px 8px !important;
+                font-size: 10px !important;
+                padding: 10px !important;
+                border-radius: 10px !important;
+                width: 100% !important;
             }
         }
 
@@ -200,16 +247,19 @@
 
 <body class="bg-[#121212]">
 
-    <!-- Loading Screen -->
     <div id="loader">
-            <div class="absolute -inset-10 bg-amber-500/10 blur-[80px] rounded-full opacity-30"></div>
-            <img src="assets/img/logo-text.webp" alt="Camilinhas" class="loader-logo relative z-10">
-            <p class="text-amber-500/40 text-[7px] font-black uppercase tracking-[0.6em] mb-8 relative z-10">ARTE QUE TOCA O CORAÇÃO</p>
-            <div class="loader-line-container relative z-10">
-                <div class="loader-line" id="loader-line"></div>
-            </div>
+        <div class="absolute -inset-10 bg-amber-500/10 blur-[80px] rounded-full opacity-30"></div>
+        <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="loader-logo relative z-10">
+        <p class="text-amber-500/40 text-[7px] font-black uppercase tracking-[0.6em] mb-8 relative z-10">ARTE QUE TOCA O CORAÇÃO</p>
+        <div class="loader-line-container relative z-10">
+            <div class="loader-line" id="loader-line" style="width: 0%;"></div>
         </div>
+
     </div>
+
+    <!-- App Content Wrapper -->
+    <div id="app-content">
+
 
 
     <!-- Custom Cursor -->
@@ -234,41 +284,78 @@
         </div>
     </div>
 
+    <!-- Product Quick View Modal -->
+    <div id="product-modal" class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-center p-4">
+        <!-- Close overlay -->
+        <div class="absolute inset-0" onclick="closeProductModal()"></div>
+        
+        <!-- Modal Content (Glassmorphism + Rounded) -->
+        <div class="relative bg-[#1a1a1a]/80 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300" id="product-modal-content">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white flex items-center justify-center backdrop-blur-md z-10 transition-colors text-2xl font-light">
+                &times;
+            </button>
+            <div class="relative w-full aspect-square rounded-[30px] overflow-hidden mb-8 shadow-2xl border border-white/5">
+                <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+            </div>
+            <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
+            <p id="modal-meta" class="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-6"></p>
+            <div class="flex justify-between items-center mb-8">
+                <span id="modal-price" class="text-3xl font-black text-amber-500"></span>
+            </div>
+            <button id="modal-add-btn" class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl mb-4">
+                ADICIONAR À SACOLA
+            </button>
+            <div class="flex items-start gap-2 px-2">
+                <i class="fas fa-info-circle text-amber-500/50 mt-0.5 text-xs"></i>
+                <p class="text-left text-[11px] font-medium text-white/40 leading-tight">
+                    <strong class="text-white/60">Atenção:</strong> O valor refere-se apenas ao amigurumi. Cenários e itens decorativos da foto não estão inclusos.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <!-- Navigation -->
-    <header class="fixed top-0 left-0 w-full z-50 px-6 py-6 transition-all duration-500" id="main-nav">
-        <div
-            class="max-w-7xl mx-auto flex justify-between items-center px-8 py-4 rounded-full border border-white/5 backdrop-blur-md bg-white/5">
-            <div class="flex items-center gap-4">
-                <a href="#home" class="group relative block">
-                    <div
-                        class="absolute -inset-4 bg-amber-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full">
-                    </div>
-                    <img src="assets/img/logo-text.webp" alt="Camilinhas"
-                        class="h-10 w-auto relative z-10 transition-all duration-300 logo-interactive" id="logo-img">
-                </a>
-            </div>
-            <div class="flex items-center gap-6">
-                <nav class="hidden md:flex gap-10 text-[9px] font-black uppercase tracking-[0.3em] text-white/50"
-                    id="nav-links">
-                    <a href="#home" class="hover:text-amber-500 transition-colors">Início</a>
-                    <a href="#products" class="hover:text-amber-500 transition-colors">Vitrine</a>
-                    <a href="#about" class="hover:text-amber-500 transition-colors">Sobre</a>
-                    <a href="#custom" class="hover:text-amber-500 transition-colors">Encomendar</a>
-                </nav>
+    <!-- Desktop Glass Header -->
+    <header class="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl h-20 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full z-50 px-10 items-center justify-between shadow-2xl transition-all duration-500" id="desktop-nav">
+        <!-- Logo Left -->
+        <a href="#home" class="group block">
+            <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-10 w-auto transition-transform group-hover:scale-105">
+        </a>
 
-                <button onclick="toggleCart()" class="flex items-center gap-3 font-black text-white text-[10px]"
-                    id="cart-btn">
-                    <span
-                        class="bg-amber-500 text-white w-5 h-5 rounded-full text-[8px] flex items-center justify-center shadow-lg"
-                        id="cart-count">0</span>
-                    <span class="hidden sm:inline">SACOLA</span>
-                </button>
+        <!-- Nav Links + Cart -->
+        <div class="flex items-center gap-8">
+            <nav class="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-white/50">
+                <a href="#home" class="hover:text-amber-500 transition-colors">Início</a>
+                <a href="#products" class="hover:text-amber-500 transition-colors">Vitrine</a>
+                <a href="#custom" class="hover:text-amber-500 transition-colors">Encomendar</a>
+                <a href="#about" class="hover:text-amber-500 transition-colors">Sobre</a>
+            </nav>
+            
+            <button onclick="toggleCart()" class="flex items-center gap-3 bg-white/10 hover:bg-amber-500/20 px-5 py-2.5 rounded-full transition-all group">
+                <div class="relative">
+                    <span class="absolute -top-2 -right-2 bg-amber-500 text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center font-black" id="desktop-cart-count">0</span>
+                    <i class="fas fa-shopping-bag text-amber-500 text-sm"></i>
+                </div>
+                <span class="text-[10px] font-black uppercase tracking-widest text-white">Sacola</span>
+            </button>
 
-                <!-- Mobile Menu Toggle -->
-                <button onclick="toggleMobileMenu()" class="md:hidden text-white text-xl">
-                    <i class="fas fa-bars" id="menu-icon"></i>
-                </button>
-            </div>
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
+                <i class="fas fa-moon text-[10px]"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Minimal Header -->
+    <header class="md:hidden fixed top-0 left-0 w-full z-50 px-6 py-8 transition-all duration-500 flex justify-center items-center pointer-events-none" id="mobile-header">
+        <!-- Centered Logo -->
+        <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-8 w-auto pointer-events-auto">
+
+        <!-- Theme Toggle on the Right -->
+        <div class="absolute top-8 right-6 pointer-events-auto">
+            <button onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
+                <i class="fas fa-moon text-[10px]"></i>
+            </button>
         </div>
     </header>
 
@@ -276,12 +363,13 @@
         <div id="slideshow-container">
             <!-- Slide 1: Main Banner -->
             <div class="hero-slide active">
-                <img src="assets/img/camila-banner.webp" alt="Camilinhas Banner">
+                <img src="assets/img/brand/camila-banner.webp" alt="Camilinhas Banner">
+
                 <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 flex items-center px-10 md:px-32">
                     <div class="hero-content">
                         <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Arte que <span class="italic text-amber-500">toca o coração.</span>
+                            Arte que<br><span class="italic text-amber-500">toca o coração.</span>
                         </h1>
                         <p class="text-white/60 hero-quote font-medium italic mb-8">
                             "Muitas mulheres são exemplares, mas você a todas supera."
@@ -292,12 +380,13 @@
             </div>
             <!-- Slide 2: Sagrado -->
             <div class="hero-slide">
-                <img loading="lazy" src="assets/img/presepio-sagrado.webp" alt="Presépio Sagrado">
+                <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp" alt="Presépio Sagrado">
+
                 <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 flex items-center px-10 md:px-32">
                     <div class="hero-content">
                         <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Um presente <span class="italic text-amber-500">do céu</span> para o seu lar.
+                            Um presente <span class="italic text-amber-500">do céu</span><br>para o seu lar.
                         </h1>
                         <p class="text-white/60 hero-quote font-medium italic mb-8">
                             "Deixai vir a mim os pequeninos, não os impeçais de vir a mim..."
@@ -308,12 +397,13 @@
             </div>
             <!-- Slide 3: Maternidade / Mother -->
             <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero-mother.webp" alt="Afeto Materno">
+                <img loading="lazy" src="assets/img/hero/hero-mother.webp" alt="Afeto Materno">
+
                 <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 flex items-center px-10 md:px-32">
                     <div class="hero-content">
                         <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Memórias que <span class="italic text-amber-500">permanecem.</span>
+                            Memórias que<br><span class="italic text-amber-500">permanecem.</span>
                         </h1>
                         <p class="text-white/60 hero-quote font-medium italic mb-8">
                             "Os filhos são herança do Senhor, uma recompensa que ele dá."
@@ -324,12 +414,13 @@
             </div>
             <!-- Slide 4: Maternidade / Children -->
             <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero-children.webp" alt="Infância Feliz">
+                <img loading="lazy" src="assets/img/hero/hero-children.webp" alt="Infância Feliz">
+
                 <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 flex items-center px-10 md:px-32">
                     <div class="hero-content">
                         <h1 class="text-white hero-title font-black h-serif mb-6">
-                            O primeiro <span class="italic text-amber-500">melhor amigo.</span>
+                            O primeiro<br><span class="italic text-amber-500">melhor amigo.</span>
                         </h1>
                         <p class="text-white/60 hero-quote font-medium italic mb-8">
                             "Ensina a criança no caminho em que deve andar..."
@@ -340,12 +431,13 @@
             </div>
             <!-- Slide 5: Funko / Puppets -->
             <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero-puppets.webp" alt="Personagens Amigurumi">
+                <img loading="lazy" src="assets/img/hero/hero-puppets.webp" alt="Personagens Amigurumi">
+
                 <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 flex items-center px-10 md:px-32">
                     <div class="hero-content">
                         <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Seus heróis, <span class="italic text-amber-500">feitos à mão.</span>
+                            Seus heróis,<br><span class="italic text-amber-500">feitos à mão.</span>
                         </h1>
                         <p class="text-white/60 hero-quote font-medium italic mb-8">
                             "Tudo o que fizerem, façam de todo o coração, como para o Senhor..."
@@ -356,12 +448,13 @@
             </div>
             <!-- Slide 6: Chaveiros -->
             <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero-keychain.webp" alt="Mimos em Crochê">
+                <img loading="lazy" src="assets/img/hero/hero-keychain.webp" alt="Mimos em Crochê">
+
                 <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 flex items-center px-10 md:px-32">
                     <div class="hero-content">
                         <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Mimos que <span class="italic text-amber-500">transbordam afeto.</span>
+                            Mimos que<br><span class="italic text-amber-500">transbordam afeto.</span>
                         </h1>
                         <p class="text-white/60 hero-quote font-medium italic mb-8">
                             "A vossa doçura seja conhecida de todos os homens."
@@ -372,12 +465,13 @@
             </div>
             <!-- Slide 7: Capybara -->
             <div class="hero-slide">
-                <img loading="lazy" src="assets/img/capybara.webp" alt="Capicaco Mimo">
+                <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco Mimo">
+
                 <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                 <div class="absolute inset-0 flex items-center px-10 md:px-32">
                     <div class="hero-content">
                         <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Cada detalhe, <span class="italic text-amber-500">um carinho.</span>
+                            Cada detalhe,<br><span class="italic text-amber-500">um carinho.</span>
                         </h1>
                         <p class="text-white/60 hero-quote font-medium italic mb-8">
                             "O coração alegre aformoseia o rosto..."
@@ -389,15 +483,18 @@
         </div>
 
         <!-- Fixed Hero CTA (Stay even when slides change) -->
-        <div class="absolute inset-0 flex items-center px-10 md:px-32 pointer-events-none">
+        <div class="absolute inset-0 flex items-center px-10 md:px-32 pointer-events-none z-30">
             <div class="hero-content mt-80 pointer-events-auto">
                 <a href="#products" class="btn-netflix-main">Ver Vitrine</a>
             </div>
         </div>
+
+        <!-- Hero Transition Gradient -->
+        <div class="absolute bottom-0 left-0 w-full h-48 z-20 pointer-events-none" id="hero-transition"></div>
     </section>
 
     <!-- Vitrine Categorizada Dark -->
-    <main class="bg-[#121212] py-32 px-6" id="products">
+    <main class="bg-[#121212] py-32 px-6 scroll-mt-24" id="products">
         <div class="max-w-7xl mx-auto space-y-32">
 
             <!-- Categoria: Sagrado -->
@@ -407,9 +504,32 @@
                     <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções</p>
                 </div>
                 <div class="product-grid" id="biblical-grid">
-                    <!-- Itens removidos conforme solicitado. Próximo de receber novos itens da Coleção Bíblica. -->
-                    <div class="col-span-full py-10 text-center text-white/20 italic text-[10px] uppercase tracking-widest">
-                        Novidades em breve...
+                    <div class="product-card group">
+                        <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp" alt="Presépio Sagrado">
+                        <h3 class="product-title">Presépio Sagrado</h3>
+                        <p class="product-meta mb-4">Tam: 15cm | Kit Completo</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 350</span>
+                        </div>
+                        <button onclick="addToCart('Presépio Sagrado', 350)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img loading="lazy" src="assets/img/products/religiosos/sagrada-familia.png" alt="Sagrada Família">
+                        <h3 class="product-title">Sagrada Família</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Kit M</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 280</span>
+                        </div>
+                        <button onclick="addToCart('Sagrada Família', 280)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img loading="lazy" src="assets/img/products/religiosos/jesus-funko.png" alt="Jesus Funko">
+                        <h3 class="product-title">Jesus Funko</h3>
+                        <p class="product-meta mb-4">Tam: 18cm | Funko</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 160</span>
+                        </div>
+                        <button onclick="addToCart('Jesus Funko', 160)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                 </div>
             </section>
@@ -422,7 +542,8 @@
                 </div>
                 <div class="product-grid">
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/turma-do-chaves.webp" alt="Turma do Chaves">
+                        <img loading="lazy" src="assets/img/products/turma-do-chaves/turma-do-chaves.webp" alt="Turma do Chaves">
+
                         <h3 class="product-title">Vila do Chaves (Kit)</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                         <div class="flex justify-between items-center mb-4">
@@ -431,7 +552,8 @@
                         <button onclick="addToCart('Vila do Chaves (Kit)', 850)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/chaves.webp" alt="Chaves">
+                        <img loading="lazy" src="assets/img/products/turma-do-chaves/chaves.webp" alt="Chaves">
+
                         <h3 class="product-title">Chaves</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                         <div class="flex justify-between items-center mb-4">
@@ -440,7 +562,8 @@
                         <button onclick="addToCart('Chaves', 160)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/chiquinha.webp" alt="Chiquinha">
+                        <img loading="lazy" src="assets/img/products/turma-do-chaves/chiquinha.webp" alt="Chiquinha">
+
                         <h3 class="product-title">Chiquinha</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                         <div class="flex justify-between items-center mb-4">
@@ -449,7 +572,8 @@
                         <button onclick="addToCart('Chiquinha', 160)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/quico.webp" alt="Quico">
+                        <img loading="lazy" src="assets/img/products/turma-do-chaves/quico.webp" alt="Quico">
+
                         <h3 class="product-title">Quico</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                         <div class="flex justify-between items-center mb-4">
@@ -458,7 +582,8 @@
                         <button onclick="addToCart('Quico', 160)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/sr-madruga.webp" alt="Seu Madruga">
+                        <img loading="lazy" src="assets/img/products/turma-do-chaves/sr-madruga.webp" alt="Seu Madruga">
+
                         <h3 class="product-title">Seu Madruga</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                         <div class="flex justify-between items-center mb-4">
@@ -467,7 +592,8 @@
                         <button onclick="addToCart('Seu Madruga', 160)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/dona-florinda.webp" alt="Dona Florinda">
+                        <img loading="lazy" src="assets/img/products/turma-do-chaves/dona-florinda.webp" alt="Dona Florinda">
+
                         <h3 class="product-title">Dona Florinda</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                         <div class="flex justify-between items-center mb-4">
@@ -476,7 +602,8 @@
                         <button onclick="addToCart('Dona Florinda', 160)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/chapolim-colorado.webp" alt="Chapolim Colorado">
+                        <img loading="lazy" src="assets/img/products/turma-do-chaves/chapolim-colorado.webp" alt="Chapolim Colorado">
+
                         <h3 class="product-title">Chapolim Colorado</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                         <div class="flex justify-between items-center mb-4">
@@ -495,7 +622,8 @@
                 </div>
                 <div class="product-grid">
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/fox-joy.webp" alt="Raposa Joy">
+                        <img loading="lazy" src="assets/img/products/animals/fox-joy.webp" alt="Raposa Joy">
+
                         <h3 class="product-title">Raposa Joy</h3>
                         <p class="product-meta mb-4">Tam: 25cm | Kit</p>
                         <div class="flex justify-between items-center mb-4">
@@ -504,7 +632,8 @@
                         <button onclick="addToCart('Raposa Joy', 160)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/lion.webp" alt="Leão">
+                        <img loading="lazy" src="assets/img/products/animals/lion.webp" alt="Leão">
+
                         <h3 class="product-title">Leão Safari</h3>
                         <p class="product-meta mb-4">Tam: 25cm | Kit</p>
                         <div class="flex justify-between items-center mb-4">
@@ -513,7 +642,8 @@
                         <button onclick="addToCart('Leão Safari', 180)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/bunny.webp" alt="Coelhinha">
+                        <img loading="lazy" src="assets/img/products/animals/bunny.webp" alt="Coelhinha">
+
                         <h3 class="product-title">Coelhinha Mel</h3>
                         <p class="product-meta mb-4">Tam: 25cm | Kit</p>
                         <div class="flex justify-between items-center mb-4">
@@ -522,13 +652,23 @@
                         <button onclick="addToCart('Coelhinha Mel', 150)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/dino.webp" alt="Dino">
+                        <img loading="lazy" src="assets/img/products/animals/dino.webp" alt="Dino">
+
                         <h3 class="product-title">Dino Baby</h3>
                         <p class="product-meta mb-4">Tam: 20cm | Kit</p>
                         <div class="flex justify-between items-center mb-4">
                             <span class="product-price">R$ 140</span>
                         </div>
                         <button onclick="addToCart('Dino Baby', 140)" class="btn-add-mini">ADICIONAR</button>
+                    </div>
+                    <div class="product-card group">
+                        <img loading="lazy" src="assets/img/products/outros/galo.png" alt="Galo">
+                        <h3 class="product-title">Galo Amigurumi</h3>
+                        <p class="product-meta mb-4">Tam: 20cm | Animal</p>
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="product-price">R$ 150</span>
+                        </div>
+                        <button onclick="addToCart('Galo Amigurumi', 150)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                 </div>
             </section>
@@ -541,7 +681,8 @@
                 </div>
                 <div class="product-grid">
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/capybara.webp" alt="Capicaco">
+                        <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco">
+
                         <h3 class="product-title">Capicaco</h3>
                         <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
                         <div class="flex justify-between items-center mb-4">
@@ -550,7 +691,8 @@
                         <button onclick="addToCart('Capicaco Chaveiro', 45)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/octopus.webp" alt="Polvinho" class="octopus-anim">
+                        <img loading="lazy" src="assets/img/products/animals/octopus.webp" alt="Polvinho">
+
                         <h3 class="product-title">Polvinho Baby</h3>
                         <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
                         <div class="flex justify-between items-center mb-4">
@@ -559,7 +701,8 @@
                         <button onclick="addToCart('Polvinho Baby', 60)" class="btn-add-mini">ADICIONAR</button>
                     </div>
                     <div class="product-card group">
-                        <img loading="lazy" src="assets/img/hero-keychain.webp" alt="Coração Mimo">
+                        <img loading="lazy" src="assets/img/hero/hero-keychain.webp" alt="Coração Mimo">
+
                         <h3 class="product-title">Coração Afeto</h3>
                         <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
                         <div class="flex justify-between items-center mb-4">
@@ -567,16 +710,7 @@
                         </div>
                         <button onclick="addToCart('Coração Afeto', 35)" class="btn-add-mini">ADICIONAR</button>
                     </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="https://images.unsplash.com/photo-1601055283742-ce3a63897775?auto=format&fit=crop&q=80&w=800"
-                            alt="Lembrancinha">
-                        <h3 class="product-title">Mimo Personalizado</h3>
-                        <p class="product-meta mb-4">Tam: 10cm | Mimo</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 40</span>
-                        </div>
-                        <button onclick="addToCart('Mimo Personalizado', 40)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
+
                 </div>
             </section>
 
@@ -584,7 +718,7 @@
     </main>
 
     <!-- Seção Sobre: Adriana Nunes -->
-    <section id="about" class="py-12 px-6 bg-[#0b0b0b] relative overflow-hidden">
+    <section id="about" class="py-12 px-6 bg-[#0b0b0b] relative overflow-hidden scroll-mt-48">
         <div class="absolute top-0 right-0 w-1/4 h-full bg-gradient-to-l from-amber-500/5 to-transparent"></div>
         <div class="max-w-5xl mx-auto">
             <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
@@ -594,14 +728,15 @@
                         <div class="absolute -inset-2 bg-amber-500/10 blur-2xl opacity-20"></div>
                         <div
                             class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5]">
-                            <img loading="lazy" src="assets/img/adriana-nunes.webp" alt="Adriana Nunes"
+                            <img loading="lazy" src="assets/img/about/adriana-nunes.webp" alt="Adriana Nunes"
                                 class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 saturate-[1.2] brightness-[1.05]">
+
                             <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
                             </div>
                             <div class="absolute bottom-4 left-5">
                                 <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-0.5">Artesã
                                     Fundadora</p>
-                                <h3 class="text-white text-lg h-serif italic">Adriana Nunes</h3>
+                                <h3 class="text-white text-lg h-serif italic" style="color: white !important;">Adriana Nunes</h3>
                             </div>
                         </div>
                     </div>
@@ -632,25 +767,13 @@
                                 class="text-amber-500/80 border-b border-amber-500/20">Adventista do Sétimo Dia</span>.
                         </p>
                         <p>
-                            Há mais de três anos, o Ateliê Camilinhas tornou-se o palco onde o algodão se transforma em
+                            Há mais de três anos, o Camilinhas Amigurumi tornou-se o palco onde o algodão se transforma em
                             histórias sagradas. Cada peça é um convite ao aconchego, um testemunho de amor e um presente
                             que carrega a alma de quem entende que o artesanato é, acima de tudo, um ato de adoração.
                         </p>
                     </div>
-                    
-                    <div id="custom-orders-container" class="space-y-4">
-                        <div class="bg-white/5 p-6 rounded-3xl border border-white/5">
-                            <textarea placeholder="Descreva como você imagina seu amigurumi... (Cores, tamanho, personagem)"
-                                class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-32 resize-none custom-desc"></textarea>
-                        </div>
-                    </div>
-                    
-                    <button type="button" onclick="addCustomField()" class="flex items-center gap-2 text-amber-500 font-black text-[9px] uppercase tracking-widest mt-4">
-                        <span class="w-6 h-6 rounded-full border border-amber-500/30 flex items-center justify-center text-lg">+</span>
-                        Adicionar outro pedido
-                    </button>
 
-                    <div class="flex gap-10 pt-6 border-t border-white/5">
+                    <div class="flex gap-10 pt-6 border-t border-white/5 mt-8">
                         <div class="group">
                             <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Experiência
                             </p>
@@ -667,7 +790,7 @@
     </section>
 
     <!-- Seção de Projetos Especiais Premium Compacta -->
-    <section id="custom" class="py-20 px-6 bg-[#121212] border-t border-white/5">
+    <section id="custom" class="py-20 px-6 bg-[#121212] border-t border-white/5 scroll-mt-48">
         <div class="max-w-6xl mx-auto">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="reveal-content">
@@ -711,14 +834,17 @@
                             Solicite um orçamento para projetos que exigem atenção especial. Retornaremos via WhatsApp
                             com uma proposta.
                         </p>
-                        <ul class="space-y-3 mb-8 text-[10px] font-bold text-white/40 uppercase tracking-widest">
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Lembranças Personalizadas</li>
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Encomendas em Lote</li>
-                            <li class="flex items-center gap-3"><span
-                                    class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span> Design Exclusivo</li>
-                        </ul>
+                        <div id="custom-orders-container" class="space-y-4 mb-4">
+                            <div class="border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500">
+                                <textarea oninput="saveCustomFields()" placeholder="Descreva como você imagina seu amigurumi... (Cores, tamanho, personagem)"
+                                    class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-24 resize-none custom-desc outline-none"></textarea>
+                            </div>
+                        </div>
+                        
+                        <button type="button" onclick="addCustomField()" class="flex items-center gap-2 text-amber-500 font-black text-[9px] uppercase tracking-widest mb-8 hover:text-amber-400 transition-colors">
+                            <span class="w-6 h-6 rounded-full border border-amber-500/30 flex items-center justify-center text-lg">+</span>
+                            Adicionar outro pedido
+                        </button>
                         <button onclick="submitCustomOrder()"
                             class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl">
                             Enviar via WhatsApp
@@ -730,20 +856,48 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-20 bg-[#0d0d0d] text-white/20 text-center border-t border-white/5">
-        <div class="max-w-7xl mx-auto px-6">
-            <img loading="lazy" src="assets/img/logo-text.webp" alt="Camilinhas" class="h-8 mx-auto mb-8 opacity-60"
-                style="filter: invert(1) sepia(1) saturate(20) hue-rotate(-15deg); mix-blend-mode: screen;">
-            <div class="flex flex-wrap justify-center gap-10 mb-12 text-[9px] font-black uppercase tracking-[0.4em]">
-                <a href="#home" class="hover:text-amber-500 transition-colors">Home</a>
-                <a href="#products" class="hover:text-amber-500 transition-colors">Catálogo</a>
-                <a href="#custom" class="hover:text-amber-500 transition-colors">Personalizados</a>
-                <a href="#" class="hover:text-amber-500 transition-colors">Privacidade</a>
+    <footer class="relative bg-[#0a0a0a] border-t border-white/10 pt-16 md:pt-24 pb-48 md:pb-12 overflow-hidden">
+        <!-- Subtle Glow Effect -->
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-500/5 blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+            <!-- Mobile Layout (visible only on mobile) -->
+            <div class="block md:hidden space-y-12">
+                <!-- Brand Mobile -->
+                <div class="text-center space-y-4">
+                    <div class="inline-block relative">
+                        <div class="absolute -inset-2 bg-amber-500/20 blur-xl rounded-full opacity-50"></div>
+                        <img src="assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas" class="h-20 w-20 relative rounded-full border border-white/10 shadow-2xl mx-auto">
+                    </div>
+                    <h4 class="text-white h-serif italic text-2xl tracking-tight">Camilinhas Amigurumi</h4>
+                    <p class="text-white/40 text-xs leading-relaxed max-w-[250px] mx-auto uppercase tracking-[0.2em] font-medium">
+                        Arte que toca o coração
+                    </p>
+                </div>
+
+                <!-- Social Bar Mobile -->
+                <div class="flex justify-center gap-6 pt-8 pb-12 border-t border-white/5">
+                    <a href="https://wa.me/556792804803" class="text-white/20 hover:text-amber-500 text-xl"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://instagram.com/camilinhasamigurumi" class="text-white/20 hover:text-amber-500 text-xl"><i class="fab fa-instagram"></i></a>
+                    <a href="#home" class="text-white/20 hover:text-amber-500 text-xl"><i class="fas fa-chevron-up"></i></a>
+                </div>
             </div>
-            <p class="text-[8px] font-black uppercase tracking-[0.6em] mb-4">© 2026 CAMILINHAS ATELIÊ | ADRIANA NUNES
-            </p>
-            <p class="text-[7px] text-white/5 uppercase tracking-[0.2em]">Todas as receitas oficiais por Caco Amigurumi
-                | Feito com amor em Campo Grande - MS</p>
+
+            <!-- Desktop Layout (visible only on desktop) -->
+            <div class="hidden md:flex flex-col items-center text-center space-y-12 py-12">
+                <!-- Brand -->
+                <div class="space-y-4">
+                    <img loading="lazy" src="assets/img/brand/logo-amber.webp" alt="Camilinhas Amigurumi" class="h-20 mx-auto">
+                </div>
+
+                <!-- Footer Links -->
+                <nav class="flex gap-12 text-[11px] font-black uppercase tracking-[0.3em] text-white/40">
+                    <a href="#home" class="hover:text-amber-500 transition-colors">Home</a>
+                    <a href="#products" class="hover:text-amber-500 transition-colors">Catálogo</a>
+                    <a href="#custom" class="hover:text-amber-500 transition-colors">Personalizados</a>
+                </nav>
+
+            </div>
         </div>
     </footer>
 
@@ -752,13 +906,7 @@
         let currentSlide = 0;
         const slides = document.querySelectorAll('.hero-slide');
         
-        // Smooth Scroll Setup
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-            });
-        });
+        // Smooth Scroll Setup moved to DOMContentLoaded for reliability
 
         function nextSlide() {
             slides[currentSlide].classList.remove('active');
@@ -767,78 +915,193 @@
             setTimeout(nextSlide, 10000);
         }
 
-        window.onload = () => {
-            const tl = gsap.timeline();
+        // Global Slide State
+        setTimeout(nextSlide, 10000);
 
-            tl.to("#loader-line", { width: "100%", duration: 1.5, ease: "power2.inOut" })
-                .to(".loader-logo", { scale: 1.1, opacity: 0, duration: 0.8, ease: "power2.in" }, "-=0.3")
-                .to("#loader", { opacity: 0, pointerEvents: "none", duration: 1, ease: "power2.out" }, "-=0.5")
-                .from(".hero-title", { y: 50, opacity: 0, duration: 1, ease: "power4.out" }, "-=0.5")
-                .from(".btn-netflix-main", { scale: 0.8, opacity: 0, duration: 0.8, ease: "back.out(1.7)" }, "-=0.8");
 
-            setTimeout(nextSlide, 10000);
+        function toggleTheme() {
+            const html = document.documentElement;
+            const themeIcon = document.getElementById('theme-icon');
+            
+            if (html.classList.contains('light')) {
+                html.classList.remove('light');
+                if(themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.classList.add('light');
+                if(themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+                localStorage.setItem('theme', 'light');
+            }
+        }
 
-            const cursor = document.getElementById('custom-cursor');
-            const interactiveLogo = document.querySelector('.logo-interactive');
+        // Check LocalStorage on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('theme') === 'light') {
+                document.documentElement.classList.add('light');
+                const themeIcon = document.getElementById('theme-icon');
+                if(themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+            }
 
-            window.addEventListener('mousemove', (e) => {
-                gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
-
-                if (interactiveLogo) {
-                    const rect = interactiveLogo.getBoundingClientRect();
-                    const logoX = e.clientX - (rect.left + rect.width / 2);
-                    const logoY = e.clientY - (rect.top + rect.height / 2);
-                    gsap.to(interactiveLogo, {
-                        filter: `invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.1) drop-shadow(${logoX * 0.1}px ${logoY * 0.1}px 10px rgba(245, 158, 11, 0.6))`,
-                        duration: 0.4,
-                        ease: "power2.out"
-                    });
-                }
+            // Smooth Scroll Initialization
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetEl = document.querySelector(targetId);
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
             });
 
-            const interactives = document.querySelectorAll('button, a, .product-card, input, textarea');
-            interactives.forEach(el => {
-                el.addEventListener('mouseenter', () => { gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(245, 158, 11, 0.3)', duration: 0.3 }); });
-                el.addEventListener('mouseleave', () => { gsap.to(cursor, { scale: 1, backgroundColor: '#f59e0b', duration: 0.3 }); });
-            });
-        };
+            // Restore Cart
+            const savedCart = localStorage.getItem('camilinhas-cart');
+            if (savedCart) {
+                try {
+                    cart = JSON.parse(savedCart);
+                    updateCart();
+                } catch(e) {}
+            }
+
+            // Restore Custom Fields
+            const savedCustom = localStorage.getItem('camilinhas-custom');
+            if (savedCustom) {
+                try {
+                    const arr = JSON.parse(savedCustom);
+                    if (arr.length > 0) {
+                        const container = document.getElementById('custom-orders-container');
+                        container.innerHTML = '';
+                        arr.forEach((text, i) => {
+                            if (i === 0) {
+                                container.innerHTML += `
+                                    <div class="border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500">
+                                        <textarea oninput="saveCustomFields()" placeholder="Descreva como você imagina seu amigurumi... (Cores, tamanho, personagem)"
+                                            class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-24 resize-none custom-desc outline-none">${text}</textarea>
+                                    </div>
+                                `;
+                            } else {
+                                addCustomField(text);
+                            }
+                        });
+                    }
+                } catch(e) {}
+            }
+        });
+
+        function saveCart() {
+            localStorage.setItem('camilinhas-cart', JSON.stringify(cart));
+        }
+
+        function saveCustomFields() {
+            const descs = Array.from(document.querySelectorAll('.custom-desc')).map(t => t.value);
+            localStorage.setItem('camilinhas-custom', JSON.stringify(descs));
+        }
 
         function toggleCart() { document.getElementById('cart-drawer').classList.toggle('active'); }
 
         function addToCart(name, price) {
-            cart.push({ name, price, type: 'standard' });
+            const existingItem = cart.find(item => item.name === name);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ name, price, quantity: 1, type: 'standard' });
+            }
             updateCart();
-            const cartBtn = document.getElementById('cart-btn');
-            gsap.to(cartBtn, { scale: 1.2, duration: 0.2, yoyo: true, repeat: 1, ease: "power2.out" });
+            saveCart();
+            
+            // Animate PC Cart Button
+            const cartBtn = document.querySelector('#desktop-nav button[onclick="toggleCart()"]');
+            if(cartBtn && getComputedStyle(cartBtn.parentElement.parentElement).display !== 'none') {
+                const cartIcon = cartBtn.querySelector('i');
+                gsap.timeline()
+                    .to(cartBtn, { scale: 1.1, duration: 0.15, ease: "back.out(2)" })
+                    .to(cartIcon, { color: '#ffffff', duration: 0.15 }, "<")
+                    .to(cartBtn, { scale: 1, duration: 0.4, ease: "bounce.out" });
+            }
+
+            // Animate Mobile Cart Nav
+            const mobileNavCart = document.getElementById('mobile-nav-cart');
+            if(mobileNavCart && getComputedStyle(mobileNavCart).display !== 'none') {
+                const iconContainer = mobileNavCart.querySelector('div');
+                gsap.timeline()
+                    .to(iconContainer, { scale: 1.2, duration: 0.15, ease: "back.out(2)", backgroundColor: "#d97706" })
+                    .to(iconContainer, { scale: 1, duration: 0.4, ease: "bounce.out", clearProps: "backgroundColor" });
+            }
+        }
+
+        function updateQuantity(index, delta) {
+            if (cart[index].quantity + delta > 0) {
+                cart[index].quantity += delta;
+            } else {
+                cart.splice(index, 1);
+            }
+            updateCart();
+            saveCart();
+        }
+
+        function setQuantity(index, value) {
+            let val = parseInt(value, 10);
+            if (isNaN(val) || val <= 0) val = 1;
+            cart[index].quantity = val;
+            updateCart();
+            saveCart();
         }
 
         function updateCart() {
             const list = document.getElementById('cart-items');
-            const count = document.getElementById('cart-count');
             const totalEl = document.getElementById('cart-total');
+            if (!list) return;
+
             list.innerHTML = '';
             let total = 0;
+            let itemsCount = 0;
+            
             cart.forEach((item, index) => {
                 const div = document.createElement('div');
-                div.className = 'flex justify-between items-center p-5 bg-white/5 rounded-2xl border border-white/5 mb-3';
-                div.innerHTML = `<div class="text-xs font-black text-white h-serif">${item.name}</div><div class="flex items-center gap-3 font-black text-amber-500 text-xs">R$ ${item.price}<button onclick="removeFromCart(${index})" class="text-white/20 hover:text-red-500">&times;</button></div>`;
+                div.className = 'flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5 mb-3 gap-4';
+                div.innerHTML = `
+                    <div class="flex-1">
+                        <div class="text-sm font-black text-white mb-1">${item.name}</div>
+                        <div class="text-amber-500 font-black text-xs">R$ ${item.price}</div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-1 bg-black/40 rounded-lg p-1 border border-white/5">
+                            <button onclick="updateQuantity(${index}, -1)" class="w-6 h-6 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 rounded-md transition-colors font-bold text-lg leading-none qty-text">-</button>
+                            <input type="number" min="1" value="${item.quantity}" onchange="setQuantity(${index}, this.value)" class="text-xs font-bold text-white bg-transparent w-12 text-center qty-text outline-none focus:ring-0 appearance-none p-0 border-none m-0 [-moz-appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none">
+                            <button onclick="updateQuantity(${index}, 1)" class="w-6 h-6 flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 rounded-md transition-colors font-bold text-lg leading-none qty-text">+</button>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="text-white/20 hover:text-red-500 transition-colors w-6 h-6 flex items-center justify-center">
+                            <i class="fas fa-trash-alt text-xs"></i>
+                        </button>
+                    </div>
+                `;
                 list.appendChild(div);
-                total += item.price;
+                total += item.price * item.quantity;
+                itemsCount += item.quantity;
             });
-            count.innerText = cart.length;
-            totalEl.innerText = `R$ ${total.toFixed(2)}`;
+
+            // Update all counters
+            const mobileCount = document.getElementById('mobile-cart-count');
+            const desktopCount = document.getElementById('desktop-cart-count');
+            const globalCount = document.getElementById('cart-count'); // Fallback if exists
+
+            if(mobileCount) mobileCount.innerText = itemsCount;
+            if(desktopCount) desktopCount.innerText = itemsCount;
+            if(globalCount) globalCount.innerText = itemsCount;
+            
+            if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
         }
 
-        function removeFromCart(index) { cart.splice(index, 1); updateCart(); }
+        function removeFromCart(index) { cart.splice(index, 1); updateCart(); saveCart(); }
 
-        function addCustomField() {
+        function addCustomField(value = '') {
             const container = document.getElementById('custom-orders-container');
             const newField = document.createElement('div');
-            newField.className = 'bg-white/5 p-6 rounded-3xl border border-white/5 relative group';
+            newField.className = 'border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500 relative group mt-4';
             newField.innerHTML = `
-                <textarea placeholder="Descreva outro pedido personalizado..."
-                    class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-32 resize-none custom-desc"></textarea>
-                <button onclick="this.parentElement.remove()" class="absolute top-4 right-4 text-white/20 hover:text-red-500 transition-colors">×</button>
+                <textarea oninput="saveCustomFields()" placeholder="Descreva outro pedido personalizado..."
+                    class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-24 resize-none custom-desc outline-none">${value}</textarea>
+                <button onclick="this.parentElement.remove(); saveCustomFields();" class="absolute top-0 right-0 text-white/20 hover:text-red-500 transition-colors text-lg">×</button>
             `;
             container.appendChild(newField);
         }
@@ -851,30 +1114,96 @@
             }
             
             const message = `Olá! Gostaria de fazer orçamentos personalizados para:\n\n${descs.join('\n\n--- NEXT ---\n\n')}`;
-            window.open(`https://wa.me/5567999999999?text=${encodeURIComponent(message)}`, '_blank');
+            window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         function finalizeOrder() {
             if (cart.length === 0) return alert('Sacola vazia!');
-            let message = `*NOVO PEDIDO - CAMILINHAS*\n==================================\n\n`;
+            
+            let message = `✨ *NOVO PEDIDO - CAMILINHAS*\n`;
+            message += `━━━━━━━━━━━━━━━━━━\n\n`;
+            
             let total = 0;
             const standard = cart.filter(i => i.type === 'standard');
+            
             if (standard.length > 0) {
-                message += `*VITRINE:* \n`;
-                standard.forEach(i => { message += `- ${i.name} (R$ ${i.price.toFixed(2)})\n`; total += i.price; });
+                message += `🛍️ *ITENS DA VITRINE:*\n`;
+                standard.forEach(i => { 
+                    const itemTotal = i.price * i.quantity;
+                    const formattedTotal = itemTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                    message += `• ${i.quantity}x ${i.name} — R$ ${formattedTotal}\n`; 
+                    total += itemTotal; 
+                });
             }
-            const custom = cart.filter(i => i.type === 'custom');
-            if (custom.length > 0) {
-                message += `\n*ENCOMENDAS:* \n`;
-            }
-            message += `\n==================================\n*TOTAL:* R$ ${total.toFixed(2)}\n\nOlá Adriana! Vi seu catálogo e gostaria de fazer esse pedido.`;
+
+            const formattedFinalTotal = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            message += `\n━━━━━━━━━━━━━━━━━━\n`;
+            message += `💰 *TOTAL ESTIMADO:* R$ ${formattedFinalTotal}\n\n`;
+            message += `Olá Adriana! Vi seu catálogo e gostaria de fazer este pedido.`;
+            
             window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
         }
 
+        function openProductModal(src, title, meta, price, btnCall) {
+            document.getElementById('modal-img').src = src;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-meta').innerText = meta;
+            document.getElementById('modal-price').innerText = price;
+            
+            const btn = document.getElementById('modal-add-btn');
+            btn.setAttribute('onclick', btnCall + '; closeProductModal();');
+            
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            
+            const content = document.getElementById('product-modal-content');
+            content.classList.remove('scale-95');
+            content.classList.add('scale-100');
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('product-modal');
+            const content = document.getElementById('product-modal-content');
+            
+            content.classList.remove('scale-100');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.classList.add('cursor-pointer');
+                card.addEventListener('click', (e) => {
+                    if(e.target.closest('button')) return;
+                    const img = card.querySelector('img').src;
+                    const title = card.querySelector('.product-title').innerText;
+                    const meta = card.querySelector('.product-meta').innerText;
+                    const price = card.querySelector('.product-price').innerText;
+                    const btnCall = card.querySelector('button').getAttribute('onclick');
+                    openProductModal(img, title, meta, price, btnCall);
+                });
+            });
+        });
+
         window.addEventListener('scroll', () => {
-            const nav = document.getElementById('main-nav');
-            if (window.scrollY > 50) nav.querySelector('div').classList.add('bg-[#1a1a1a]/90', 'shadow-2xl');
-            else nav.querySelector('div').classList.remove('bg-[#1a1a1a]/90', 'shadow-2xl');
+            const desktopNav = document.getElementById('desktop-nav');
+            if (desktopNav) {
+                if (window.scrollY > 50) {
+                    desktopNav.classList.add('bg-[#1a1a1a]/80', 'py-4');
+                    desktopNav.classList.remove('top-6');
+                    desktopNav.classList.add('top-2');
+                } else {
+                    desktopNav.classList.remove('bg-[#1a1a1a]/80', 'py-4');
+                    desktopNav.classList.add('top-6');
+                    desktopNav.classList.remove('top-2');
+                }
+            }
         });
 
         function toggleMobileMenu() {
@@ -898,7 +1227,142 @@
                 }
             });
         });
-    </script>
-</body>
 
-</html>
+        // Unified Initialization & Loader Sequence
+        (function() {
+            // 1. Initial State for interactives
+            const cursor = document.getElementById('custom-cursor');
+            const interactiveLogo = document.querySelector('.logo-interactive');
+            const interactives = document.querySelectorAll('button, a, .product-card, input, textarea');
+
+            // 2. Cursor & Logo Mouse Track
+            window.addEventListener('mousemove', (e) => {
+                if (cursor) gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+
+                if (interactiveLogo) {
+                    const rect = interactiveLogo.getBoundingClientRect();
+                    const logoX = e.clientX - (rect.left + rect.width / 2);
+                    const logoY = e.clientY - (rect.top + rect.height / 2);
+                    gsap.to(interactiveLogo, {
+                        filter: `invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.1)`,
+                        duration: 0.4,
+                        ease: "power2.out"
+                    });
+                }
+            });
+
+            interactives.forEach(el => {
+                el.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(245, 158, 11, 0.3)', duration: 0.3 }); });
+                el.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#f59e0b', duration: 0.3 }); });
+            });
+
+            // 3. Loader Progress
+            gsap.to("#loader-line", {
+                width: "100%",
+                duration: 2.5,
+                ease: "power2.inOut"
+            });
+
+            // 4. Reveal Function
+            const reveal = () => {
+                const loader = document.getElementById('loader');
+                const content = document.getElementById('app-content');
+                if (loader && loader.style.display !== 'none') {
+                    gsap.to(loader, {
+                        opacity: 0,
+                        duration: 0.8,
+                        onComplete: () => {
+                            loader.style.display = 'none';
+                            if (content) content.classList.add('revealed');
+                            document.body.style.overflow = 'auto';
+                            window.scrollTo(0,0);
+                            
+                            // Entrance Animations
+                            gsap.from(".hero-title, .hero-quote, .biblical-badge", {
+                                y: 30,
+                                opacity: 0,
+                                duration: 1,
+                                stagger: 0.2,
+                                ease: "power3.out"
+                            });
+                            gsap.from(".btn-netflix-main", {
+                                scale: 0.8,
+                                opacity: 0,
+                                duration: 0.8,
+                                delay: 0.6,
+                                ease: "back.out(1.7)"
+                            });
+                        }
+                    });
+                }
+            };
+
+            window.forceReveal = reveal;
+
+            // 5. Lifecycle Events
+            const safetyTimeout = setTimeout(() => {
+                console.warn('Loader safety timeout reached. Forcing reveal.');
+                reveal();
+            }, 5000);
+
+            window.addEventListener('load', () => {
+                clearTimeout(safetyTimeout);
+                setTimeout(reveal, 800); // Slight delay for premium feel
+            });
+
+            // Extra check: if page is already loaded (from cache)
+            if (document.readyState === 'complete') {
+                clearTimeout(safetyTimeout);
+                setTimeout(reveal, 800);
+            }
+        })();
+
+
+    </script>
+</div> <!-- End #app-content -->
+
+    <!-- Mobile Bottom Navigation (Ultra-Refined Glass) -->
+    <nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[360px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem] z-50 px-4 py-2 shadow-[0_15px_40px_rgba(0,0,0,0.3)] flex justify-between items-center transition-all duration-500" id="mobile-nav">
+        <!-- Home -->
+        <a href="#home" class="flex flex-col items-center gap-1 group">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+                <i class="fas fa-home text-sm"></i>
+            </div>
+            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Início</span>
+        </a>
+
+        <!-- Catalog -->
+        <a href="#products" class="flex flex-col items-center gap-1 group">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+                <i class="fas fa-th-large text-sm"></i>
+            </div>
+            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Vitrine</span>
+        </a>
+
+        <!-- Cart (3D Pop-out) -->
+        <button id="mobile-nav-cart" onclick="toggleCart()" class="relative flex flex-col items-center group -top-6">
+            <div class="w-14 h-14 bg-amber-500 rounded-full flex items-center justify-center text-white shadow-[0_10px_25px_rgba(245,158,11,0.5)] active:scale-90 transition-all border-4 border-white/10">
+                <i class="fas fa-shopping-bag text-2xl"></i>
+                <span class="absolute -top-1 -right-1 bg-white text-amber-500 border-2 border-amber-500 w-6 h-6 rounded-full text-[10px] font-black flex items-center justify-center shadow-lg" id="mobile-cart-count">0</span>
+            </div>
+            <span class="mt-2 text-[8px] font-black uppercase tracking-widest text-amber-500 drop-shadow-md">Sacola</span>
+        </button>
+
+        <!-- Custom Orders -->
+        <a href="#custom" class="flex flex-col items-center gap-1 group">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+                <i class="fas fa-pen-nib text-sm"></i>
+            </div>
+            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Pedidos</span>
+        </a>
+
+        <!-- About -->
+        <a href="#about" class="flex flex-col items-center gap-1 group">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+                <i class="fas fa-user text-sm"></i>
+            </div>
+            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Sobre</span>
+        </a>
+    </nav>
+</body>
+</html>

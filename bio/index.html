@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links Úteis | Camilinhas Amigurumi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #C1440E;
+            --bg: #FBF6F0;
+            --text: #2C1810;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Nunito', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+            min-height: 100vh;
+        }
+        .profile {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .profile img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .profile h1 {
+            font-family: 'Baloo 2', cursive;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .links {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .link-btn {
+            background: #FFFFFF;
+            padding: 18px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #E8D5C4;
+        }
+        .link-btn:hover {
+            transform: scale(1.03);
+            background: var(--primary);
+            color: #FFFFFF;
+            border-color: var(--primary);
+        }
+        .link-btn i { font-size: 1.2rem; }
+        .socials {
+            margin-top: 40px;
+            display: flex;
+            gap: 20px;
+            font-size: 1.5rem;
+        }
+        .socials a { color: var(--primary); transition: opacity 0.2s; }
+        .socials a:hover { opacity: 0.7; }
+        .footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            opacity: 0.5;
+            padding-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile">
+        <img src="../assets/img/brand/logo-profile.jpg" alt="Camilinhas Amigurumi">
+        <h1>@camilinhasamigurumi</h1>
+        <p>Artesanato com alma e coração ❤️</p>
+    </div>
+
+    <div class="links">
+        <a href="../index.html" class="link-btn">
+            <i class="fas fa-shopping-bag"></i> Ver Loja Completa
+        </a>
+        <a href="https://wa.me/5511999999999" class="link-btn">
+            <i class="fab fa-whatsapp"></i> Fazer Pedido Personalizado
+        </a>
+        <a href="#" class="link-btn">
+            <i class="fas fa-calendar-alt"></i> Agenda de Oficinas
+        </a>
+        <a href="#" class="link-btn">
+            <i class="fas fa-gift"></i> Guia de Presentes
+        </a>
+    </div>
+
+    <div class="socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+
+    <p class="footer">Feito com carinho por Camilinhas</p>
+</body>
+</html>
