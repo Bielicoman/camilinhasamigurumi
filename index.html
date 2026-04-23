@@ -133,9 +133,17 @@
 
         /* Loading Screen */
         @keyframes gradientFlow {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
         }
 
         #loader {
@@ -197,29 +205,36 @@
                 grid-template-columns: repeat(2, 1fr);
                 gap: 12px;
             }
+
             .product-card {
                 padding: 12px !important;
                 display: flex !important;
                 flex-direction: column !important;
                 height: 100% !important;
             }
+
             .product-title {
                 font-size: 13px !important;
                 line-height: 1.2 !important;
                 margin-top: 10px !important;
                 margin-bottom: 4px !important;
             }
+
             .product-meta {
                 font-size: 9px !important;
                 margin-bottom: 12px !important;
             }
-            .product-card > .flex.justify-between {
-                margin-top: auto !important; /* Pushes price to bottom */
+
+            .product-card>.flex.justify-between {
+                margin-top: auto !important;
+                /* Pushes price to bottom */
                 margin-bottom: 10px !important;
             }
+
             .product-price {
                 font-size: 16px !important;
             }
+
             .btn-add-mini {
                 font-size: 10px !important;
                 padding: 10px !important;
@@ -230,9 +245,15 @@
 
         /* Octopus Color Animation */
         @keyframes hueCycle {
-            from { filter: hue-rotate(0deg); }
-            to { filter: hue-rotate(360deg); }
+            from {
+                filter: hue-rotate(0deg);
+            }
+
+            to {
+                filter: hue-rotate(360deg);
+            }
         }
+
         .octopus-anim {
             animation: hueCycle 5s infinite linear;
         }
@@ -253,7 +274,8 @@
     <div id="loader">
         <div class="absolute -inset-10 bg-amber-500/10 blur-[80px] rounded-full opacity-30"></div>
         <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="loader-logo relative z-10">
-        <p class="text-amber-500/40 text-[7px] font-black uppercase tracking-[0.6em] mb-8 relative z-10">ARTE QUE TOCA O CORAÇÃO</p>
+        <p class="text-amber-500/40 text-[7px] font-black uppercase tracking-[0.6em] mb-8 relative z-10">ARTE QUE TOCA O
+            CORAÇÃO</p>
         <div class="loader-line-container relative z-10">
             <div class="loader-line" id="loader-line" style="width: 0%;"></div>
         </div>
@@ -265,804 +287,863 @@
 
 
 
-    <!-- Custom Cursor -->
-    <div id="custom-cursor"
-        class="fixed w-4 h-4 bg-[#facc15] rounded-full pointer-events-none z-[9999] hidden md:block">
-    </div>
-
-    <!-- Cart Drawer -->
-    <div id="cart-drawer" class="cart-drawer">
-        <div class="flex justify-between items-center mb-10">
-            <h2 class="!text-3xl text-white h-serif italic">Sua Sacola</h2>
-            <button onclick="toggleCart()"
-                class="text-3xl text-white/50 hover:text-white transition-colors">&times;</button>
+        <!-- Custom Cursor -->
+        <div id="custom-cursor"
+            class="fixed w-4 h-4 bg-[#facc15] rounded-full pointer-events-none z-[9999] hidden md:block">
         </div>
-        <div id="cart-items" class="flex-1 overflow-y-auto space-y-4 pr-4"></div>
-        <div class="pt-8 border-t border-white/5 mt-auto">
-            <div class="flex justify-between mb-6">
-                <span class="font-bold text-lg text-white/60">Total Estimado:</span>
-                <span id="cart-total" class="font-black text-2xl text-amber-500">R$ 0,00</span>
-            </div>
-            <button onclick="finalizeOrder()" class="btn-order">Finalizar Encomenda</button>
-        </div>
-    </div>
 
-    <!-- Product Quick View Modal -->
-    <div id="product-modal" class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-center p-4">
-        <!-- Close overlay -->
-        <div class="absolute inset-0" onclick="closeProductModal()"></div>
-        
-        <!-- Modal Content (Glassmorphism + Rounded) -->
-        <div class="relative bg-[#1a1a1a]/80 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300" id="product-modal-content">
-            <button onclick="closeProductModal()" class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white flex items-center justify-center backdrop-blur-md z-10 transition-colors text-2xl font-light">
-                &times;
-            </button>
-            <div class="relative w-full aspect-square rounded-[30px] overflow-hidden mb-8 shadow-2xl border border-white/5">
-                <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+        <!-- Cart Drawer -->
+        <div id="cart-drawer" class="cart-drawer">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="!text-3xl text-white h-serif italic">Sua Sacola</h2>
+                <button onclick="toggleCart()"
+                    class="text-3xl text-white/50 hover:text-white transition-colors">&times;</button>
             </div>
-            <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
-            <p id="modal-meta" class="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-6"></p>
-            <div class="flex justify-between items-center mb-8">
-                <span id="modal-price" class="text-3xl font-black text-amber-500"></span>
-            </div>
-            <button id="modal-add-btn" class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl mb-4">
-                ADICIONAR À SACOLA
-            </button>
-            <div class="flex items-start gap-2 px-2">
-                <i class="fas fa-info-circle text-amber-500/50 mt-0.5 text-xs"></i>
-                <p class="text-left text-[11px] font-medium text-white/40 leading-tight">
-                    <strong class="text-white/60">Atenção:</strong> O valor refere-se apenas ao amigurumi. Cenários e itens decorativos da foto não estão inclusos.
-                </p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Navigation -->
-    <!-- Desktop Glass Header -->
-    <header class="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl h-20 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full z-50 px-10 items-center justify-between shadow-2xl transition-all duration-500" id="desktop-nav">
-        <!-- Logo Left -->
-        <a href="#home" class="group block">
-            <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-10 w-auto transition-transform group-hover:scale-105">
-        </a>
-
-        <!-- Nav Links + Cart -->
-        <div class="flex items-center gap-8">
-            <nav class="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-white/50">
-                <a href="#home" class="hover:text-amber-500 transition-colors">Início</a>
-                <a href="#products" class="hover:text-amber-500 transition-colors">Vitrine</a>
-                <a href="#custom" class="hover:text-amber-500 transition-colors">Encomendar</a>
-                <a href="#about" class="hover:text-amber-500 transition-colors">Sobre</a>
-            </nav>
-            
-            <button onclick="toggleCart()" class="flex items-center gap-3 bg-white/10 hover:bg-amber-500/20 px-5 py-2.5 rounded-full transition-all group">
-                <div class="relative">
-                    <span class="absolute -top-2 -right-2 bg-amber-500 text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center font-black" id="desktop-cart-count">0</span>
-                    <i class="fas fa-shopping-bag text-amber-500 text-sm"></i>
+            <div id="cart-items" class="flex-1 overflow-y-auto space-y-4 pr-4"></div>
+            <div class="pt-8 border-t border-white/5 mt-auto">
+                <div class="flex justify-between mb-6">
+                    <span class="font-bold text-lg text-white/60">Total Estimado:</span>
+                    <span id="cart-total" class="font-black text-2xl text-amber-500">R$ 0,00</span>
                 </div>
-                <span class="text-[10px] font-black uppercase tracking-widest text-white">Sacola</span>
-            </button>
-
-            <!-- Theme Toggle -->
-            <button onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
-                <i class="fas fa-moon text-[10px]"></i>
-            </button>
-        </div>
-    </header>
-
-    <!-- Mobile Minimal Header -->
-    <header class="md:hidden fixed top-0 left-0 w-full z-50 px-6 py-8 transition-all duration-500 flex justify-center items-center pointer-events-none" id="mobile-header">
-        <!-- Centered Logo -->
-        <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-8 w-auto pointer-events-auto">
-
-        <!-- Theme Toggle on the Right -->
-        <div class="absolute top-8 right-6 pointer-events-auto">
-            <button onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
-                <i class="fas fa-moon text-[10px]"></i>
-            </button>
-        </div>
-    </header>
-
-    <section id="home" class="relative w-full h-screen overflow-hidden bg-black">
-        <div id="slideshow-container">
-            <!-- Slide 1: Main Banner -->
-            <div class="hero-slide active">
-                <img src="assets/img/brand/camila-banner.webp" alt="Camilinhas Banner">
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                    <div class="hero-content">
-                        <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Arte que<br><span class="italic text-amber-500">toca o coração.</span>
-                        </h1>
-                        <p class="text-white/60 hero-quote font-medium italic mb-8">
-                            "Muitas mulheres são exemplares, mas você a todas supera."
-                        </p>
-                        <div class="biblical-badge">Provérbios 31:29</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 2: Sagrado -->
-            <div class="hero-slide">
-                <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp" alt="Presépio Sagrado">
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                    <div class="hero-content">
-                        <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Um presente <span class="italic text-amber-500">do céu</span><br>para o seu lar.
-                        </h1>
-                        <p class="text-white/60 hero-quote font-medium italic mb-8">
-                            "Deixai vir a mim os pequeninos, não os impeçais de vir a mim..."
-                        </p>
-                        <div class="biblical-badge">Mateus 19:14</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 3: Maternidade / Mother -->
-            <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero/hero-mother.webp" alt="Afeto Materno">
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                    <div class="hero-content">
-                        <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Memórias que<br><span class="italic text-amber-500">permanecem.</span>
-                        </h1>
-                        <p class="text-white/60 hero-quote font-medium italic mb-8">
-                            "Os filhos são herança do Senhor, uma recompensa que ele dá."
-                        </p>
-                        <div class="biblical-badge">Salmos 127:3</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 4: Maternidade / Children -->
-            <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero/hero-children.webp" alt="Infância Feliz">
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                    <div class="hero-content">
-                        <h1 class="text-white hero-title font-black h-serif mb-6">
-                            O primeiro<br><span class="italic text-amber-500">melhor amigo.</span>
-                        </h1>
-                        <p class="text-white/60 hero-quote font-medium italic mb-8">
-                            "Ensina a criança no caminho em que deve andar..."
-                        </p>
-                        <div class="biblical-badge">Provérbios 22:6</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 5: Funko / Puppets -->
-            <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero/hero-puppets.webp" alt="Personagens Amigurumi">
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                    <div class="hero-content">
-                        <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Seus heróis,<br><span class="italic text-amber-500">feitos à mão.</span>
-                        </h1>
-                        <p class="text-white/60 hero-quote font-medium italic mb-8">
-                            "Tudo o que fizerem, façam de todo o coração, como para o Senhor..."
-                        </p>
-                        <div class="biblical-badge">Colossenses 3:23</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 6: Chaveiros -->
-            <div class="hero-slide">
-                <img loading="lazy" src="assets/img/hero/hero-keychain.webp" alt="Mimos em Crochê">
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                    <div class="hero-content">
-                        <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Mimos que<br><span class="italic text-amber-500">transbordam afeto.</span>
-                        </h1>
-                        <p class="text-white/60 hero-quote font-medium italic mb-8">
-                            "A vossa doçura seja conhecida de todos os homens."
-                        </p>
-                        <div class="biblical-badge">Filipenses 4:5</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Slide 7: Capybara -->
-            <div class="hero-slide">
-                <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco Mimo">
-
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                    <div class="hero-content">
-                        <h1 class="text-white hero-title font-black h-serif mb-6">
-                            Cada detalhe,<br><span class="italic text-amber-500">um carinho.</span>
-                        </h1>
-                        <p class="text-white/60 hero-quote font-medium italic mb-8">
-                            "O coração alegre aformoseia o rosto..."
-                        </p>
-                        <div class="biblical-badge">Provérbios 15:13</div>
-                    </div>
-                </div>
+                <button onclick="finalizeOrder()" class="btn-order">Finalizar Encomenda</button>
             </div>
         </div>
 
-        <!-- Fixed Hero CTA (Stay even when slides change) -->
-        <div class="absolute inset-0 flex items-center px-10 md:px-32 pointer-events-none z-30">
-            <div class="hero-content mt-80 pointer-events-auto">
-                <a href="#products" class="btn-netflix-main">Ver Vitrine</a>
-            </div>
-        </div>
+        <!-- Product Quick View Modal -->
+        <div id="product-modal"
+            class="fixed inset-0 z-[100] bg-black/60 backdrop-blur-md opacity-0 pointer-events-none transition-all duration-300 flex items-center justify-center p-4">
+            <!-- Close overlay -->
+            <div class="absolute inset-0" onclick="closeProductModal()"></div>
 
-        <!-- Hero Transition Gradient -->
-        <div class="absolute bottom-0 left-0 w-full h-48 z-20 pointer-events-none" id="hero-transition"></div>
-    </section>
-
-    <!-- Vitrine Categorizada Dark -->
-    <main class="bg-[#121212] py-32 px-6 scroll-mt-24" id="products">
-        <div class="max-w-7xl mx-auto space-y-32">
-
-            <!-- Categoria: Sagrado -->
-            <section id="biblical">
-                <div class="category-header">
-                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Coleção Bíblica</h2>
-                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções</p>
+            <!-- Modal Content (Glassmorphism + Rounded) -->
+            <div class="relative bg-[#1a1a1a]/80 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300"
+                id="product-modal-content">
+                <button onclick="closeProductModal()"
+                    class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white flex items-center justify-center backdrop-blur-md z-10 transition-colors text-2xl font-light">
+                    &times;
+                </button>
+                <div
+                    class="relative w-full aspect-square rounded-[30px] overflow-hidden mb-8 shadow-2xl border border-white/5">
+                    <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
                 </div>
-                <div class="product-grid" id="biblical-grid">
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp" alt="Presépio Sagrado">
-                        <h3 class="product-title">Presépio Sagrado</h3>
-                        <p class="product-meta mb-4">Tam: 15cm | Kit Completo</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 350</span>
-                        </div>
-                        <button onclick="addToCart('Presépio Sagrado', 350)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/religiosos/sagrada-familia.png" alt="Sagrada Família">
-                        <h3 class="product-title">Sagrada Família</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Kit M</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 280</span>
-                        </div>
-                        <button onclick="addToCart('Sagrada Família', 280)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/religiosos/jesus-funko.png" alt="Jesus Funko">
-                        <h3 class="product-title">Jesus Funko</h3>
-                        <p class="product-meta mb-4">Tam: 18cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Jesus Funko', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
+                <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
+                <p id="modal-meta" class="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-6"></p>
+                <div class="flex justify-between items-center mb-8">
+                    <span id="modal-price" class="text-3xl font-black text-amber-500"></span>
                 </div>
-            </section>
-
-            <!-- Categoria: Funko -->
-            <section id="funko">
-                <div class="category-header">
-                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Universo Funko</h2>
-                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções</p>
-                </div>
-                <div class="product-grid">
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/turma-do-chaves/turma-do-chaves.webp" alt="Turma do Chaves">
-
-                        <h3 class="product-title">Vila do Chaves (Kit)</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 850</span>
-                        </div>
-                        <button onclick="addToCart('Vila do Chaves (Kit)', 850)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/turma-do-chaves/chaves.webp" alt="Chaves">
-
-                        <h3 class="product-title">Chaves</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Chaves', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/turma-do-chaves/chiquinha.webp" alt="Chiquinha">
-
-                        <h3 class="product-title">Chiquinha</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Chiquinha', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/turma-do-chaves/quico.webp" alt="Quico">
-
-                        <h3 class="product-title">Quico</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Quico', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/turma-do-chaves/sr-madruga.webp" alt="Seu Madruga">
-
-                        <h3 class="product-title">Seu Madruga</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Seu Madruga', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/turma-do-chaves/dona-florinda.webp" alt="Dona Florinda">
-
-                        <h3 class="product-title">Dona Florinda</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Dona Florinda', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/turma-do-chaves/chapolim-colorado.webp" alt="Chapolim Colorado">
-
-                        <h3 class="product-title">Chapolim Colorado</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Funko</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Chapolim Colorado', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Categoria: Animais -->
-            <section id="animals">
-                <div class="category-header">
-                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Animais</h2>
-                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções</p>
-                </div>
-                <div class="product-grid">
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/animals/fox-joy.webp" alt="Raposa Joy">
-
-                        <h3 class="product-title">Raposa Joy</h3>
-                        <p class="product-meta mb-4">Tam: 25cm | Kit</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 160</span>
-                        </div>
-                        <button onclick="addToCart('Raposa Joy', 160)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/animals/lion.webp" alt="Leão">
-
-                        <h3 class="product-title">Leão Safari</h3>
-                        <p class="product-meta mb-4">Tam: 25cm | Kit</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 180</span>
-                        </div>
-                        <button onclick="addToCart('Leão Safari', 180)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/animals/bunny.webp" alt="Coelhinha">
-
-                        <h3 class="product-title">Coelhinha Mel</h3>
-                        <p class="product-meta mb-4">Tam: 25cm | Kit</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 150</span>
-                        </div>
-                        <button onclick="addToCart('Coelhinha Mel', 150)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/animals/dino.webp" alt="Dino">
-
-                        <h3 class="product-title">Dino Baby</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Kit</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 140</span>
-                        </div>
-                        <button onclick="addToCart('Dino Baby', 140)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/outros/galo.png" alt="Galo">
-                        <h3 class="product-title">Galo Amigurumi</h3>
-                        <p class="product-meta mb-4">Tam: 20cm | Animal</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 150</span>
-                        </div>
-                        <button onclick="addToCart('Galo Amigurumi', 150)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Categoria: Chaveiros -->
-            <section>
-                <div class="category-header">
-                    <h2 class="text-clamp-lg text-white h-serif italic font-light">Mimos & Chaveiros</h2>
-                    <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Lembranças Especiais</p>
-                </div>
-                <div class="product-grid">
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco">
-
-                        <h3 class="product-title">Capicaco</h3>
-                        <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 45</span>
-                        </div>
-                        <button onclick="addToCart('Capicaco Chaveiro', 45)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/products/animals/octopus.webp" alt="Polvinho">
-
-                        <h3 class="product-title">Polvinho Baby</h3>
-                        <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 60</span>
-                        </div>
-                        <button onclick="addToCart('Polvinho Baby', 60)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-                    <div class="product-card group">
-                        <img loading="lazy" src="assets/img/hero/hero-keychain.webp" alt="Coração Mimo">
-
-                        <h3 class="product-title">Coração Afeto</h3>
-                        <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="product-price">R$ 35</span>
-                        </div>
-                        <button onclick="addToCart('Coração Afeto', 35)" class="btn-add-mini">ADICIONAR</button>
-                    </div>
-
-                </div>
-            </section>
-
-        </div>
-    </main>
-
-    <!-- Seção Sobre: Adriana Nunes -->
-    <section id="about" class="py-12 px-6 bg-[#0b0b0b] relative overflow-hidden scroll-mt-48">
-        <div class="absolute top-0 right-0 w-1/4 h-full bg-gradient-to-l from-amber-500/5 to-transparent"></div>
-        <div class="max-w-5xl mx-auto">
-            <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
-                <!-- Foto Otimizada e Colorida -->
-                <div class="w-full max-w-[260px] lg:max-w-[300px] shrink-0">
-                    <div class="relative group">
-                        <div class="absolute -inset-2 bg-amber-500/10 blur-2xl opacity-20"></div>
-                        <div
-                            class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5]">
-                            <img loading="lazy" src="assets/img/about/adriana-nunes.webp" alt="Adriana Nunes"
-                                class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 saturate-[1.2] brightness-[1.05]">
-
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute bottom-4 left-5">
-                                <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-0.5">Artesã
-                                    Fundadora</p>
-                                <h3 class="text-white text-lg h-serif italic" style="color: white !important;">Adriana Nunes</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Conteúdo de Texto Proporcional -->
-                <div class="flex-1 space-y-5">
-                    <div class="category-header !mb-0 text-left">
-                        <h2 class="text-clamp-lg text-white h-serif italic font-light leading-tight">Onde a Fé encontra
-                            o Fio</h2>
-                        <p class="text-[8px] font-black text-white/30 uppercase tracking-[0.4em] mt-2">A Alma do Ateliê
-                        </p>
-                    </div>
-
-                    <div class="space-y-4 text-white/70 font-medium leading-relaxed text-clamp-sm">
-                        <div class="bg-white/5 border-l-2 border-amber-500/50 p-4 rounded-r-xl space-y-2">
-                            <p class="text-white/90 italic font-serif text-sm md:text-base">
-                                "Eu te louvo porque me fizeste de modo especial e admirável. Tuas obras são
-                                maravilhosas! Disso tenho plena certeza."
-                            </p>
-                            <p class="text-amber-500 font-bold text-[10px] uppercase tracking-widest">Salmos 139:14</p>
-                        </div>
-
-                        <p>
-                            Adriana Nunes não apenas tece fios; ela tece propósitos. Natural de <span
-                                class="text-white font-bold">Campo Grande - MS</span>, traz em suas mãos a sabedoria de
-                            50 anos e a sensibilidade de uma vida dedicada à família e à fé como <span
-                                class="text-amber-500/80 border-b border-amber-500/20">Adventista do Sétimo Dia</span>.
-                        </p>
-                        <p>
-                            Há mais de três anos, o Camilinhas Amigurumi tornou-se o palco onde o algodão se transforma em
-                            histórias sagradas. Cada peça é um convite ao aconchego, um testemunho de amor e um presente
-                            que carrega a alma de quem entende que o artesanato é, acima de tudo, um ato de adoração.
-                        </p>
-                    </div>
-
-                    <div class="flex gap-10 pt-6 border-t border-white/5 mt-8">
-                        <div class="group">
-                            <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Experiência
-                            </p>
-                            <p class="text-white font-bold text-lg h-serif italic">+3 Anos</p>
-                        </div>
-                        <div class="group">
-                            <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Origem</p>
-                            <p class="text-white font-bold text-lg h-serif italic">Campo Grande, MS</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Seção de Projetos Especiais Premium Compacta -->
-    <section id="custom" class="py-20 px-6 bg-[#121212] border-t border-white/5 scroll-mt-48">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="reveal-content">
-                    <span class="text-amber-500 font-black text-[8px] uppercase tracking-[0.4em] mb-2 block">Atendimento
-                        Exclusivo</span>
-                    <h2 class="text-white h-serif italic font-light mb-4 text-4xl">Projetos <br>Especiais</h2>
-                    <p class="text-white/40 font-medium leading-relaxed mb-6 text-sm max-w-md">
-                        Para grandes encomendas, lembranças de eventos ou amigurumis de grande porte, entre em contato
-                        para um orçamento detalhado.
-                    </p>
-
-                    <!-- Social Links Compact -->
-                    <div class="flex gap-3 mb-8">
-                        <a href="https://wa.me/556792804803" target="_blank"
-                            class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
-                            <span class="text-amber-500 text-lg"><i class="fab fa-whatsapp"></i></span>
-                            <div class="text-left">
-                                <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">WhatsApp</p>
-                                <p class="text-white font-bold text-xs">Falar com Adriana</p>
-                            </div>
-                        </a>
-                        <a href="https://instagram.com/camilinhasamigurumi" target="_blank"
-                            class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
-                            <span class="text-amber-500 text-lg"><i class="fab fa-instagram"></i></span>
-                            <div class="text-left">
-                                <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">Instagram</p>
-                                <p class="text-white font-bold text-xs">@camilinhasamigurumi</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="relative group">
-                    <div
-                        class="absolute -inset-4 bg-amber-500/10 blur-2xl opacity-0 group-hover:opacity-100 transition-duration-1000">
-                    </div>
-                    <div
-                        class="relative p-8 bg-[#1c1c1c] border border-amber-500/20 text-white rounded-[40px] shadow-2xl overflow-hidden">
-                        <h3 class="text-2xl font-black mb-4 italic h-serif text-amber-500">Concierge Camilinhas</h3>
-                        <p class="text-white/60 mb-6 font-medium text-sm leading-relaxed">
-                            Solicite um orçamento para projetos que exigem atenção especial. Retornaremos via WhatsApp
-                            com uma proposta.
-                        </p>
-                        <div id="custom-orders-container" class="space-y-4 mb-4">
-                            <div class="border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500">
-                                <textarea oninput="saveCustomFields()" placeholder="Descreva como você imagina seu amigurumi... (Cores, tamanho, personagem)"
-                                    class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-24 resize-none custom-desc outline-none"></textarea>
-                            </div>
-                        </div>
-                        
-                        <button type="button" onclick="addCustomField()" class="flex items-center gap-2 text-amber-500 font-black text-[9px] uppercase tracking-widest mb-8 hover:text-amber-400 transition-colors">
-                            <span class="w-6 h-6 rounded-full border border-amber-500/30 flex items-center justify-center text-lg">+</span>
-                            Adicionar outro pedido
-                        </button>
-                        <button onclick="submitCustomOrder()"
-                            class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl">
-                            Enviar via WhatsApp
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="relative bg-[#0a0a0a] border-t border-white/10 pt-16 md:pt-24 pb-48 md:pb-12 overflow-hidden">
-        <!-- Subtle Glow Effect -->
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-500/5 blur-[100px] pointer-events-none"></div>
-        
-        <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-            <!-- Mobile Layout (visible only on mobile) -->
-            <div class="block md:hidden space-y-12">
-                <!-- Brand Mobile -->
-                <div class="text-center space-y-4">
-                    <div class="inline-block relative">
-                        <div class="absolute -inset-2 bg-amber-500/20 blur-xl rounded-full opacity-50"></div>
-                        <img src="assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas" class="h-20 w-20 relative rounded-full border border-white/10 shadow-2xl mx-auto">
-                    </div>
-                    <h4 class="text-white h-serif italic text-2xl tracking-tight">Camilinhas Amigurumi</h4>
-                    <p class="text-white/40 text-xs leading-relaxed max-w-[250px] mx-auto uppercase tracking-[0.2em] font-medium">
-                        Arte que toca o coração
+                <button id="modal-add-btn"
+                    class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl mb-4">
+                    ADICIONAR À SACOLA
+                </button>
+                <div class="flex items-start gap-2 px-2">
+                    <i class="fas fa-info-circle text-amber-500/50 mt-0.5 text-xs"></i>
+                    <p class="text-left text-[11px] font-medium text-white/40 leading-tight">
+                        <strong class="text-white/60">Atenção:</strong> O valor refere-se apenas ao amigurumi. Cenários
+                        e itens decorativos da foto não estão inclusos.
                     </p>
                 </div>
-
-                <!-- Social Bar Mobile -->
-                <div class="flex justify-center gap-6 pt-8 pb-12 border-t border-white/5">
-                    <a href="https://wa.me/556792804803" class="text-white/20 hover:text-amber-500 text-xl"><i class="fab fa-whatsapp"></i></a>
-                    <a href="https://instagram.com/camilinhasamigurumi" class="text-white/20 hover:text-amber-500 text-xl"><i class="fab fa-instagram"></i></a>
-                    <a href="#home" class="text-white/20 hover:text-amber-500 text-xl"><i class="fas fa-chevron-up"></i></a>
-                </div>
             </div>
+        </div>
 
-            <!-- Desktop Layout (visible only on desktop) -->
-            <div class="hidden md:flex flex-col items-center text-center space-y-12 py-12">
-                <!-- Brand -->
-                <div class="space-y-4">
-                    <img loading="lazy" src="assets/img/brand/logo-amber.webp" alt="Camilinhas Amigurumi" class="h-20 mx-auto">
-                </div>
+        <!-- Navigation -->
+        <!-- Desktop Glass Header -->
+        <header
+            class="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl h-20 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full z-50 px-10 items-center justify-between shadow-2xl transition-all duration-500"
+            id="desktop-nav">
+            <!-- Logo Left -->
+            <a href="#home" class="group block">
+                <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas"
+                    class="h-10 w-auto transition-transform group-hover:scale-105">
+            </a>
 
-                <!-- Footer Links -->
-                <nav class="flex gap-12 text-[11px] font-black uppercase tracking-[0.3em] text-white/40">
-                    <a href="#home" class="hover:text-amber-500 transition-colors">Home</a>
-                    <a href="#products" class="hover:text-amber-500 transition-colors">Catálogo</a>
-                    <a href="#custom" class="hover:text-amber-500 transition-colors">Personalizados</a>
+            <!-- Nav Links + Cart -->
+            <div class="flex items-center gap-8">
+                <nav class="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-white/50">
+                    <a href="#home" class="hover:text-amber-500 transition-colors">Início</a>
+                    <a href="#products" class="hover:text-amber-500 transition-colors">Vitrine</a>
+                    <a href="#custom" class="hover:text-amber-500 transition-colors">Encomendar</a>
+                    <a href="#about" class="hover:text-amber-500 transition-colors">Sobre</a>
                 </nav>
 
+                <button onclick="toggleCart()"
+                    class="flex items-center gap-3 bg-white/10 hover:bg-amber-500/20 px-5 py-2.5 rounded-full transition-all group">
+                    <div class="relative">
+                        <span
+                            class="absolute -top-2 -right-2 bg-amber-500 text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center font-black"
+                            id="desktop-cart-count">0</span>
+                        <i class="fas fa-shopping-bag text-amber-500 text-sm"></i>
+                    </div>
+                    <span class="text-[10px] font-black uppercase tracking-widest text-white">Sacola</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()"
+                    class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
+                    <i class="fas fa-moon text-[10px]"></i>
+                </button>
             </div>
-        </div>
-    </footer>
+        </header>
 
-    <script>
-        let cart = [];
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.hero-slide');
-        
-        // Smooth Scroll Setup moved to DOMContentLoaded for reliability
+        <!-- Mobile Minimal Header -->
+        <header
+            class="md:hidden fixed top-0 left-0 w-full z-50 px-6 py-8 transition-all duration-500 flex justify-center items-center pointer-events-none"
+            id="mobile-header">
+            <!-- Centered Logo -->
+            <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-8 w-auto pointer-events-auto">
 
-        function nextSlide() {
-            slides[currentSlide].classList.remove('active');
-            currentSlide = (currentSlide + 1) % slides.length;
-            slides[currentSlide].classList.add('active');
+            <!-- Theme Toggle on the Right -->
+            <div class="absolute top-8 right-6 pointer-events-auto">
+                <button onclick="toggleTheme()"
+                    class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
+                    <i class="fas fa-moon text-[10px]"></i>
+                </button>
+            </div>
+        </header>
+
+        <section id="home" class="relative w-full h-screen overflow-hidden bg-black">
+            <div id="slideshow-container">
+                <!-- Slide 1: Main Banner -->
+                <div class="hero-slide active">
+                    <img src="assets/img/brand/camila-banner.webp" alt="Camilinhas Banner">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                        <div class="hero-content">
+                            <h1 class="text-white hero-title font-black h-serif mb-6">
+                                Arte que<br><span class="italic text-amber-500">toca o coração.</span>
+                            </h1>
+                            <p class="text-white/60 hero-quote font-medium italic mb-8">
+                                "Muitas mulheres são exemplares, mas você a todas supera."
+                            </p>
+                            <div class="biblical-badge">Provérbios 31:29</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 2: Sagrado -->
+                <div class="hero-slide">
+                    <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp"
+                        alt="Presépio Sagrado">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                        <div class="hero-content">
+                            <h1 class="text-white hero-title font-black h-serif mb-6">
+                                Um presente <span class="italic text-amber-500">do céu</span><br>para o seu lar.
+                            </h1>
+                            <p class="text-white/60 hero-quote font-medium italic mb-8">
+                                "Deixai vir a mim os pequeninos, não os impeçais de vir a mim..."
+                            </p>
+                            <div class="biblical-badge">Mateus 19:14</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 3: Maternidade / Mother -->
+                <div class="hero-slide">
+                    <img loading="lazy" src="assets/img/hero/hero-mother.webp" alt="Afeto Materno">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                        <div class="hero-content">
+                            <h1 class="text-white hero-title font-black h-serif mb-6">
+                                Memórias que<br><span class="italic text-amber-500">permanecem.</span>
+                            </h1>
+                            <p class="text-white/60 hero-quote font-medium italic mb-8">
+                                "Os filhos são herança do Senhor, uma recompensa que ele dá."
+                            </p>
+                            <div class="biblical-badge">Salmos 127:3</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 4: Maternidade / Children -->
+                <div class="hero-slide">
+                    <img loading="lazy" src="assets/img/hero/hero-children.webp" alt="Infância Feliz">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                        <div class="hero-content">
+                            <h1 class="text-white hero-title font-black h-serif mb-6">
+                                O primeiro<br><span class="italic text-amber-500">melhor amigo.</span>
+                            </h1>
+                            <p class="text-white/60 hero-quote font-medium italic mb-8">
+                                "Ensina a criança no caminho em que deve andar..."
+                            </p>
+                            <div class="biblical-badge">Provérbios 22:6</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 5: Funko / Puppets -->
+                <div class="hero-slide">
+                    <img loading="lazy" src="assets/img/hero/hero-puppets.webp" alt="Personagens Amigurumi">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                        <div class="hero-content">
+                            <h1 class="text-white hero-title font-black h-serif mb-6">
+                                Seus heróis,<br><span class="italic text-amber-500">feitos à mão.</span>
+                            </h1>
+                            <p class="text-white/60 hero-quote font-medium italic mb-8">
+                                "Tudo o que fizerem, façam de todo o coração, como para o Senhor..."
+                            </p>
+                            <div class="biblical-badge">Colossenses 3:23</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 6: Chaveiros -->
+                <div class="hero-slide">
+                    <img loading="lazy" src="assets/img/hero/hero-keychain.webp" alt="Mimos em Crochê">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                        <div class="hero-content">
+                            <h1 class="text-white hero-title font-black h-serif mb-6">
+                                Mimos que<br><span class="italic text-amber-500">transbordam afeto.</span>
+                            </h1>
+                            <p class="text-white/60 hero-quote font-medium italic mb-8">
+                                "A vossa doçura seja conhecida de todos os homens."
+                            </p>
+                            <div class="biblical-badge">Filipenses 4:5</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Slide 7: Capybara -->
+                <div class="hero-slide">
+                    <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco Mimo">
+
+                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
+                        <div class="hero-content">
+                            <h1 class="text-white hero-title font-black h-serif mb-6">
+                                Cada detalhe,<br><span class="italic text-amber-500">um carinho.</span>
+                            </h1>
+                            <p class="text-white/60 hero-quote font-medium italic mb-8">
+                                "O coração alegre aformoseia o rosto..."
+                            </p>
+                            <div class="biblical-badge">Provérbios 15:13</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fixed Hero CTA (Stay even when slides change) -->
+            <div class="absolute inset-0 flex items-center px-10 md:px-32 pointer-events-none z-30">
+                <div class="hero-content mt-80 pointer-events-auto">
+                    <a href="#products" class="btn-netflix-main">Ver Vitrine</a>
+                </div>
+            </div>
+
+            <!-- Hero Transition Gradient -->
+            <div class="absolute bottom-0 left-0 w-full h-48 z-20 pointer-events-none" id="hero-transition"></div>
+        </section>
+
+        <!-- Vitrine Categorizada Dark -->
+        <main class="bg-[#121212] py-32 px-6 scroll-mt-24" id="products">
+            <div class="max-w-7xl mx-auto space-y-32">
+
+                <!-- Categoria: Sagrado -->
+                <section id="biblical">
+                    <div class="category-header">
+                        <h2 class="text-clamp-lg text-white h-serif italic font-light">Coleção Bíblica</h2>
+                        <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções
+                        </p>
+                    </div>
+                    <div class="product-grid" id="biblical-grid">
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp"
+                                alt="Presépio Sagrado">
+                            <h3 class="product-title">Presépio Sagrado</h3>
+                            <p class="product-meta mb-4">Tam: 15cm | Kit Completo</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 350</span>
+                            </div>
+                            <button onclick="addToCart('Presépio Sagrado', 350)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/religiosos/sagrada-familia.png"
+                                alt="Sagrada Família">
+                            <h3 class="product-title">Sagrada Família</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Kit M</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 280</span>
+                            </div>
+                            <button onclick="addToCart('Sagrada Família', 280)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/religiosos/jesus-funko.png" alt="Jesus Funko">
+                            <h3 class="product-title">Jesus Funko</h3>
+                            <p class="product-meta mb-4">Tam: 18cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Jesus Funko', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Categoria: Funko -->
+                <section id="funko">
+                    <div class="category-header">
+                        <h2 class="text-clamp-lg text-white h-serif italic font-light">Universo Funko</h2>
+                        <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções
+                        </p>
+                    </div>
+                    <div class="product-grid">
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/turma-do-chaves/turma-do-chaves.webp"
+                                alt="Turma do Chaves">
+
+                            <h3 class="product-title">Vila do Chaves (Kit)</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 850</span>
+                            </div>
+                            <button onclick="addToCart('Vila do Chaves (Kit)', 850)"
+                                class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/turma-do-chaves/chaves.webp" alt="Chaves">
+
+                            <h3 class="product-title">Chaves</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Chaves', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/turma-do-chaves/chiquinha.webp"
+                                alt="Chiquinha">
+
+                            <h3 class="product-title">Chiquinha</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Chiquinha', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/turma-do-chaves/quico.webp" alt="Quico">
+
+                            <h3 class="product-title">Quico</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Quico', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/turma-do-chaves/sr-madruga.webp"
+                                alt="Seu Madruga">
+
+                            <h3 class="product-title">Seu Madruga</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Seu Madruga', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/turma-do-chaves/dona-florinda.webp"
+                                alt="Dona Florinda">
+
+                            <h3 class="product-title">Dona Florinda</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Dona Florinda', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/turma-do-chaves/chapolim-colorado.webp"
+                                alt="Chapolim Colorado">
+
+                            <h3 class="product-title">Chapolim Colorado</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Chapolim Colorado', 160)"
+                                class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Categoria: Animais -->
+                <section id="animals">
+                    <div class="category-header">
+                        <h2 class="text-clamp-lg text-white h-serif italic font-light">Animais</h2>
+                        <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Nossas Coleções
+                        </p>
+                    </div>
+                    <div class="product-grid">
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/animals/fox-joy.webp" alt="Raposa Joy">
+
+                            <h3 class="product-title">Raposa Joy</h3>
+                            <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="addToCart('Raposa Joy', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/animals/lion.webp" alt="Leão">
+
+                            <h3 class="product-title">Leão Safari</h3>
+                            <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 180</span>
+                            </div>
+                            <button onclick="addToCart('Leão Safari', 180)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/animals/bunny.webp" alt="Coelhinha">
+
+                            <h3 class="product-title">Coelhinha Mel</h3>
+                            <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 150</span>
+                            </div>
+                            <button onclick="addToCart('Coelhinha Mel', 150)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/animals/dino.webp" alt="Dino">
+
+                            <h3 class="product-title">Dino Baby</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Kit</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 140</span>
+                            </div>
+                            <button onclick="addToCart('Dino Baby', 140)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/outros/galo.png" alt="Galo">
+                            <h3 class="product-title">Galo Amigurumi</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Animal</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 150</span>
+                            </div>
+                            <button onclick="addToCart('Galo Amigurumi', 150)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Categoria: Chaveiros -->
+                <section>
+                    <div class="category-header">
+                        <h2 class="text-clamp-lg text-white h-serif italic font-light">Mimos & Chaveiros</h2>
+                        <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Lembranças
+                            Especiais</p>
+                    </div>
+                    <div class="product-grid">
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco">
+
+                            <h3 class="product-title">Capicaco</h3>
+                            <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 45</span>
+                            </div>
+                            <button onclick="addToCart('Capicaco Chaveiro', 45)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/products/animals/octopus.webp" alt="Polvinho">
+
+                            <h3 class="product-title">Polvinho Baby</h3>
+                            <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 60</span>
+                            </div>
+                            <button onclick="addToCart('Polvinho Baby', 60)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group">
+                            <img loading="lazy" src="assets/img/hero/hero-keychain.webp" alt="Coração Mimo">
+
+                            <h3 class="product-title">Coração Afeto</h3>
+                            <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 35</span>
+                            </div>
+                            <button onclick="addToCart('Coração Afeto', 35)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+
+                    </div>
+                </section>
+
+            </div>
+        </main>
+
+        <!-- Seção Sobre: Adriana Nunes -->
+        <section id="about" class="py-12 px-6 bg-[#0b0b0b] relative overflow-hidden scroll-mt-48">
+            <div class="absolute top-0 right-0 w-1/4 h-full bg-gradient-to-l from-amber-500/5 to-transparent"></div>
+            <div class="max-w-5xl mx-auto">
+                <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
+                    <!-- Foto Otimizada e Colorida -->
+                    <div class="w-full max-w-[260px] lg:max-w-[300px] shrink-0">
+                        <div class="relative group">
+                            <div class="absolute -inset-2 bg-amber-500/10 blur-2xl opacity-20"></div>
+                            <div
+                                class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5]">
+                                <img loading="lazy" src="assets/img/about/adriana-nunes.webp" alt="Adriana Nunes"
+                                    class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 saturate-[1.2] brightness-[1.05]">
+
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                </div>
+                                <div class="absolute bottom-4 left-5">
+                                    <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-0.5">
+                                        Artesã
+                                        Fundadora</p>
+                                    <h3 class="text-white text-lg h-serif italic" style="color: white !important;">
+                                        Adriana Nunes</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Conteúdo de Texto Proporcional -->
+                    <div class="flex-1 space-y-5">
+                        <div class="category-header !mb-0 text-left">
+                            <h2 class="text-clamp-lg text-white h-serif italic font-light leading-tight">Onde a Fé
+                                encontra
+                                o Fio</h2>
+                            <p class="text-[8px] font-black text-white/30 uppercase tracking-[0.4em] mt-2">A Alma do
+                                Ateliê
+                            </p>
+                        </div>
+
+                        <div class="space-y-4 text-white/70 font-medium leading-relaxed text-clamp-sm">
+                            <div class="bg-white/5 border-l-2 border-amber-500/50 p-4 rounded-r-xl space-y-2">
+                                <p class="text-white/90 italic font-serif text-sm md:text-base">
+                                    "Eu te louvo porque me fizeste de modo especial e admirável. Tuas obras são
+                                    maravilhosas! Disso tenho plena certeza."
+                                </p>
+                                <p class="text-amber-500 font-bold text-[10px] uppercase tracking-widest">Salmos 139:14
+                                </p>
+                            </div>
+
+                            <p>
+                                Adriana Nunes não apenas tece fios; ela tece propósitos. Natural de <span
+                                    class="text-white font-bold">Campo Grande - MS</span>, traz em suas mãos a
+                                sensibilidade e paixão de uma vida dedicada ao lar e à fé como <span
+                                    class="text-amber-500/80 border-b border-amber-500/20">Adventista do Sétimo
+                                    Dia</span>.
+                            </p>
+                            <p>
+                                Há mais de três anos, o Camilinhas Amigurumi tornou-se o palco onde o algodão se
+                                transforma em
+                                histórias sagradas. Cada peça é um convite ao aconchego, um testemunho de amor e um
+                                presente
+                                que carrega a alma de quem entende que o artesanato é, acima de tudo, um ato de
+                                adoração.
+                            </p>
+                        </div>
+
+                        <div class="flex gap-10 pt-6 border-t border-white/5 mt-8">
+                            <div class="group">
+                                <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">
+                                    Experiência
+                                </p>
+                                <p class="text-white font-bold text-lg h-serif italic">+3 Anos</p>
+                            </div>
+                            <div class="group">
+                                <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Origem
+                                </p>
+                                <p class="text-white font-bold text-lg h-serif italic">Campo Grande, MS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seção de Projetos Especiais Premium Compacta -->
+        <section id="custom" class="py-20 px-6 bg-[#121212] border-t border-white/5 scroll-mt-48">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="reveal-content">
+                        <span
+                            class="text-amber-500 font-black text-[8px] uppercase tracking-[0.4em] mb-2 block">Atendimento
+                            Exclusivo</span>
+                        <h2 class="text-white h-serif italic font-light mb-4 text-4xl">Projetos <br>Especiais</h2>
+                        <p class="text-white/40 font-medium leading-relaxed mb-6 text-sm max-w-md">
+                            Para grandes encomendas, lembranças de eventos ou amigurumis de grande porte, entre em
+                            contato
+                            para um orçamento detalhado.
+                        </p>
+
+                        <!-- Social Links Compact -->
+                        <div class="flex gap-3 mb-8">
+                            <a href="https://wa.me/556792804803" target="_blank"
+                                class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
+                                <span class="text-amber-500 text-lg"><i class="fab fa-whatsapp"></i></span>
+                                <div class="text-left">
+                                    <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">WhatsApp
+                                    </p>
+                                    <p class="text-white font-bold text-xs">Falar com Adriana</p>
+                                </div>
+                            </a>
+                            <a href="https://instagram.com/camilinhasamigurumi" target="_blank"
+                                class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
+                                <span class="text-amber-500 text-lg"><i class="fab fa-instagram"></i></span>
+                                <div class="text-left">
+                                    <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">Instagram
+                                    </p>
+                                    <p class="text-white font-bold text-xs">@camilinhasamigurumi</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="relative group">
+                        <div
+                            class="absolute -inset-4 bg-amber-500/10 blur-2xl opacity-0 group-hover:opacity-100 transition-duration-1000">
+                        </div>
+                        <div
+                            class="relative p-8 bg-[#1c1c1c] border border-amber-500/20 text-white rounded-[40px] shadow-2xl overflow-hidden">
+                            <h3 class="text-2xl font-black mb-4 italic h-serif text-amber-500">Concierge Camilinhas</h3>
+                            <p class="text-white/60 mb-6 font-medium text-sm leading-relaxed">
+                                Solicite um orçamento para projetos que exigem atenção especial. Retornaremos via
+                                WhatsApp
+                                com uma proposta.
+                            </p>
+                            <div id="custom-orders-container" class="space-y-4 mb-4">
+                                <div
+                                    class="border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500">
+                                    <textarea oninput="saveCustomFields()"
+                                        placeholder="Descreva como você imagina seu amigurumi... (Cores, tamanho, personagem)"
+                                        class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-24 resize-none custom-desc outline-none"></textarea>
+                                </div>
+                            </div>
+
+                            <button type="button" onclick="addCustomField()"
+                                class="flex items-center gap-2 text-amber-500 font-black text-[9px] uppercase tracking-widest mb-8 hover:text-amber-400 transition-colors">
+                                <span
+                                    class="w-6 h-6 rounded-full border border-amber-500/30 flex items-center justify-center text-lg">+</span>
+                                Adicionar outro pedido
+                            </button>
+                            <button onclick="submitCustomOrder()"
+                                class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl">
+                                Enviar via WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="relative bg-[#0a0a0a] border-t border-white/10 pt-16 md:pt-24 pb-48 md:pb-12 overflow-hidden">
+            <!-- Subtle Glow Effect -->
+            <div
+                class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-500/5 blur-[100px] pointer-events-none">
+            </div>
+
+            <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+                <!-- Mobile Layout (visible only on mobile) -->
+                <div class="block md:hidden space-y-12">
+                    <!-- Brand Mobile -->
+                    <div class="text-center space-y-4">
+                        <div class="inline-block relative">
+                            <div class="absolute -inset-2 bg-amber-500/20 blur-xl rounded-full opacity-50"></div>
+                            <img src="assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas"
+                                class="h-20 w-20 relative rounded-full border border-white/10 shadow-2xl mx-auto">
+                        </div>
+                        <h4 class="text-white h-serif italic text-2xl tracking-tight">Camilinhas Amigurumi</h4>
+                        <p
+                            class="text-white/40 text-xs leading-relaxed max-w-[250px] mx-auto uppercase tracking-[0.2em] font-medium">
+                            Arte que toca o coração
+                        </p>
+                    </div>
+
+                    <!-- Social Bar Mobile -->
+                    <div class="flex justify-center gap-6 pt-8 pb-12 border-t border-white/5">
+                        <a href="https://wa.me/556792804803" class="text-white/20 hover:text-amber-500 text-xl"><i
+                                class="fab fa-whatsapp"></i></a>
+                        <a href="https://instagram.com/camilinhasamigurumi"
+                            class="text-white/20 hover:text-amber-500 text-xl"><i class="fab fa-instagram"></i></a>
+                        <a href="#home" class="text-white/20 hover:text-amber-500 text-xl"><i
+                                class="fas fa-chevron-up"></i></a>
+                    </div>
+                </div>
+
+                <!-- Desktop Layout (visible only on desktop) -->
+                <div class="hidden md:flex flex-col items-center text-center space-y-12 py-12">
+                    <!-- Brand -->
+                    <div class="space-y-4">
+                        <img loading="lazy" src="assets/img/brand/logo-amber.webp" alt="Camilinhas Amigurumi"
+                            class="h-20 mx-auto">
+                    </div>
+
+                    <!-- Footer Links -->
+                    <nav class="flex gap-12 text-[11px] font-black uppercase tracking-[0.3em] text-white/40">
+                        <a href="#home" class="hover:text-amber-500 transition-colors">Home</a>
+                        <a href="#products" class="hover:text-amber-500 transition-colors">Catálogo</a>
+                        <a href="#custom" class="hover:text-amber-500 transition-colors">Personalizados</a>
+                    </nav>
+
+                </div>
+            </div>
+        </footer>
+
+        <script>
+            let cart = [];
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.hero-slide');
+
+            // Smooth Scroll Setup moved to DOMContentLoaded for reliability
+
+            function nextSlide() {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+                setTimeout(nextSlide, 10000);
+            }
+
+            // Global Slide State
             setTimeout(nextSlide, 10000);
-        }
-
-        // Global Slide State
-        setTimeout(nextSlide, 10000);
 
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            const themeIcon = document.getElementById('theme-icon');
-            
-            if (html.classList.contains('light')) {
-                html.classList.remove('light');
-                if(themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.classList.add('light');
-                if(themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
-                localStorage.setItem('theme', 'light');
-            }
-        }
-
-        // Check LocalStorage on Load
-        document.addEventListener('DOMContentLoaded', () => {
-            if (localStorage.getItem('theme') === 'light') {
-                document.documentElement.classList.add('light');
+            function toggleTheme() {
+                const html = document.documentElement;
                 const themeIcon = document.getElementById('theme-icon');
-                if(themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+
+                if (html.classList.contains('light')) {
+                    html.classList.remove('light');
+                    if (themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    html.classList.add('light');
+                    if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+                    localStorage.setItem('theme', 'light');
+                }
             }
 
-            // Smooth Scroll Initialization
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    const targetEl = document.querySelector(targetId);
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: 'smooth' });
-                    }
+            // Check LocalStorage on Load
+            document.addEventListener('DOMContentLoaded', () => {
+                if (localStorage.getItem('theme') === 'light') {
+                    document.documentElement.classList.add('light');
+                    const themeIcon = document.getElementById('theme-icon');
+                    if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+                }
+
+                // Smooth Scroll Initialization
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        const targetId = this.getAttribute('href');
+                        const targetEl = document.querySelector(targetId);
+                        if (targetEl) {
+                            targetEl.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    });
                 });
-            });
 
-            // Restore Cart
-            const savedCart = localStorage.getItem('camilinhas-cart');
-            if (savedCart) {
-                try {
-                    cart = JSON.parse(savedCart);
-                    updateCart();
-                } catch(e) {}
-            }
+                // Restore Cart
+                const savedCart = localStorage.getItem('camilinhas-cart');
+                if (savedCart) {
+                    try {
+                        cart = JSON.parse(savedCart);
+                        updateCart();
+                    } catch (e) { }
+                }
 
-            // Restore Custom Fields
-            const savedCustom = localStorage.getItem('camilinhas-custom');
-            if (savedCustom) {
-                try {
-                    const arr = JSON.parse(savedCustom);
-                    if (arr.length > 0) {
-                        const container = document.getElementById('custom-orders-container');
-                        container.innerHTML = '';
-                        arr.forEach((text, i) => {
-                            if (i === 0) {
-                                container.innerHTML += `
+                // Restore Custom Fields
+                const savedCustom = localStorage.getItem('camilinhas-custom');
+                if (savedCustom) {
+                    try {
+                        const arr = JSON.parse(savedCustom);
+                        if (arr.length > 0) {
+                            const container = document.getElementById('custom-orders-container');
+                            container.innerHTML = '';
+                            arr.forEach((text, i) => {
+                                if (i === 0) {
+                                    container.innerHTML += `
                                     <div class="border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500">
                                         <textarea oninput="saveCustomFields()" placeholder="Descreva como você imagina seu amigurumi... (Cores, tamanho, personagem)"
                                             class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-24 resize-none custom-desc outline-none">${text}</textarea>
                                     </div>
                                 `;
-                            } else {
-                                addCustomField(text);
-                            }
-                        });
-                    }
-                } catch(e) {}
-            }
-        });
+                                } else {
+                                    addCustomField(text);
+                                }
+                            });
+                        }
+                    } catch (e) { }
+                }
+            });
 
-        function saveCart() {
-            localStorage.setItem('camilinhas-cart', JSON.stringify(cart));
-        }
-
-        function saveCustomFields() {
-            const descs = Array.from(document.querySelectorAll('.custom-desc')).map(t => t.value);
-            localStorage.setItem('camilinhas-custom', JSON.stringify(descs));
-        }
-
-        function toggleCart() { document.getElementById('cart-drawer').classList.toggle('active'); }
-
-        function addToCart(name, price) {
-            const existingItem = cart.find(item => item.name === name);
-            if (existingItem) {
-                existingItem.quantity += 1;
-            } else {
-                cart.push({ name, price, quantity: 1, type: 'standard' });
-            }
-            updateCart();
-            saveCart();
-            
-            // Animate PC Cart Button
-            const cartBtn = document.querySelector('#desktop-nav button[onclick="toggleCart()"]');
-            if(cartBtn && getComputedStyle(cartBtn.parentElement.parentElement).display !== 'none') {
-                const cartIcon = cartBtn.querySelector('i');
-                gsap.timeline()
-                    .to(cartBtn, { scale: 1.1, duration: 0.15, ease: "back.out(2)" })
-                    .to(cartIcon, { color: '#ffffff', duration: 0.15 }, "<")
-                    .to(cartBtn, { scale: 1, duration: 0.4, ease: "bounce.out" });
+            function saveCart() {
+                localStorage.setItem('camilinhas-cart', JSON.stringify(cart));
             }
 
-            // Animate Mobile Cart Nav
-            const mobileNavCart = document.getElementById('mobile-nav-cart');
-            if(mobileNavCart && getComputedStyle(mobileNavCart).display !== 'none') {
-                const iconContainer = mobileNavCart.querySelector('div');
-                gsap.timeline()
-                    .to(iconContainer, { scale: 1.2, duration: 0.15, ease: "back.out(2)", backgroundColor: "#d97706" })
-                    .to(iconContainer, { scale: 1, duration: 0.4, ease: "bounce.out", clearProps: "backgroundColor" });
+            function saveCustomFields() {
+                const descs = Array.from(document.querySelectorAll('.custom-desc')).map(t => t.value);
+                localStorage.setItem('camilinhas-custom', JSON.stringify(descs));
             }
-        }
 
-        function updateQuantity(index, delta) {
-            if (cart[index].quantity + delta > 0) {
-                cart[index].quantity += delta;
-            } else {
-                cart.splice(index, 1);
+            function toggleCart() { document.getElementById('cart-drawer').classList.toggle('active'); }
+
+            function addToCart(name, price) {
+                const existingItem = cart.find(item => item.name === name);
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ name, price, quantity: 1, type: 'standard' });
+                }
+                updateCart();
+                saveCart();
+
+                // Animate PC Cart Button
+                const cartBtn = document.querySelector('#desktop-nav button[onclick="toggleCart()"]');
+                if (cartBtn && getComputedStyle(cartBtn.parentElement.parentElement).display !== 'none') {
+                    const cartIcon = cartBtn.querySelector('i');
+                    gsap.timeline()
+                        .to(cartBtn, { scale: 1.1, duration: 0.15, ease: "back.out(2)" })
+                        .to(cartIcon, { color: '#ffffff', duration: 0.15 }, "<")
+                        .to(cartBtn, { scale: 1, duration: 0.4, ease: "bounce.out" });
+                }
+
+                // Animate Mobile Cart Nav
+                const mobileNavCart = document.getElementById('mobile-nav-cart');
+                if (mobileNavCart && getComputedStyle(mobileNavCart).display !== 'none') {
+                    const iconContainer = mobileNavCart.querySelector('div');
+                    gsap.timeline()
+                        .to(iconContainer, { scale: 1.2, duration: 0.15, ease: "back.out(2)", backgroundColor: "#d97706" })
+                        .to(iconContainer, { scale: 1, duration: 0.4, ease: "bounce.out", clearProps: "backgroundColor" });
+                }
             }
-            updateCart();
-            saveCart();
-        }
 
-        function setQuantity(index, value) {
-            let val = parseInt(value, 10);
-            if (isNaN(val) || val <= 0) val = 1;
-            cart[index].quantity = val;
-            updateCart();
-            saveCart();
-        }
+            function updateQuantity(index, delta) {
+                if (cart[index].quantity + delta > 0) {
+                    cart[index].quantity += delta;
+                } else {
+                    cart.splice(index, 1);
+                }
+                updateCart();
+                saveCart();
+            }
 
-        function updateCart() {
-            const list = document.getElementById('cart-items');
-            const totalEl = document.getElementById('cart-total');
-            if (!list) return;
+            function setQuantity(index, value) {
+                let val = parseInt(value, 10);
+                if (isNaN(val) || val <= 0) val = 1;
+                cart[index].quantity = val;
+                updateCart();
+                saveCart();
+            }
 
-            list.innerHTML = '';
-            let total = 0;
-            let itemsCount = 0;
-            
-            cart.forEach((item, index) => {
-                const div = document.createElement('div');
-                div.className = 'flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5 mb-3 gap-4';
-                div.innerHTML = `
+            function updateCart() {
+                const list = document.getElementById('cart-items');
+                const totalEl = document.getElementById('cart-total');
+                if (!list) return;
+
+                list.innerHTML = '';
+                let total = 0;
+                let itemsCount = 0;
+
+                cart.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'flex justify-between items-center p-4 bg-white/5 rounded-2xl border border-white/5 mb-3 gap-4';
+                    div.innerHTML = `
                     <div class="flex-1">
                         <div class="text-sm font-black text-white mb-1">${item.name}</div>
                         <div class="text-amber-500 font-black text-xs">R$ ${item.price}</div>
@@ -1078,294 +1159,308 @@
                         </button>
                     </div>
                 `;
-                list.appendChild(div);
-                total += item.price * item.quantity;
-                itemsCount += item.quantity;
-            });
+                    list.appendChild(div);
+                    total += item.price * item.quantity;
+                    itemsCount += item.quantity;
+                });
 
-            // Update all counters
-            const mobileCount = document.getElementById('mobile-cart-count');
-            const desktopCount = document.getElementById('desktop-cart-count');
-            const globalCount = document.getElementById('cart-count'); // Fallback if exists
+                // Update all counters
+                const mobileCount = document.getElementById('mobile-cart-count');
+                const desktopCount = document.getElementById('desktop-cart-count');
+                const globalCount = document.getElementById('cart-count'); // Fallback if exists
 
-            if(mobileCount) mobileCount.innerText = itemsCount;
-            if(desktopCount) desktopCount.innerText = itemsCount;
-            if(globalCount) globalCount.innerText = itemsCount;
-            
-            if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
-        }
+                if (mobileCount) mobileCount.innerText = itemsCount;
+                if (desktopCount) desktopCount.innerText = itemsCount;
+                if (globalCount) globalCount.innerText = itemsCount;
 
-        function removeFromCart(index) { cart.splice(index, 1); updateCart(); saveCart(); }
+                if (totalEl) totalEl.innerText = `R$ ${total.toFixed(2)}`;
+            }
 
-        function addCustomField(value = '') {
-            const container = document.getElementById('custom-orders-container');
-            const newField = document.createElement('div');
-            newField.className = 'border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500 relative group mt-4';
-            newField.innerHTML = `
+            function removeFromCart(index) { cart.splice(index, 1); updateCart(); saveCart(); }
+
+            function addCustomField(value = '') {
+                const container = document.getElementById('custom-orders-container');
+                const newField = document.createElement('div');
+                newField.className = 'border-b border-white/10 pb-2 transition-colors focus-within:border-amber-500 relative group mt-4';
+                newField.innerHTML = `
                 <textarea oninput="saveCustomFields()" placeholder="Descreva outro pedido personalizado..."
                     class="w-full bg-transparent border-none text-white placeholder-white/20 focus:ring-0 text-sm h-24 resize-none custom-desc outline-none">${value}</textarea>
                 <button onclick="this.parentElement.remove(); saveCustomFields();" class="absolute top-0 right-0 text-white/20 hover:text-red-500 transition-colors text-lg">×</button>
             `;
-            container.appendChild(newField);
-        }
-
-        function submitCustomOrder() {
-            const descs = Array.from(document.querySelectorAll('.custom-desc')).map(t => t.value).filter(v => v.trim());
-            if (descs.length === 0) {
-                alert('Por favor, descreva seu pedido.');
-                return;
-            }
-            
-            const message = `Olá! Gostaria de fazer orçamentos personalizados para:\n\n${descs.join('\n\n--- NEXT ---\n\n')}`;
-            window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function finalizeOrder() {
-            if (cart.length === 0) return alert('Sacola vazia!');
-            
-            let message = `✨ *NOVO PEDIDO - CAMILINHAS*\n`;
-            message += `━━━━━━━━━━━━━━━━━━\n\n`;
-            
-            let total = 0;
-            const standard = cart.filter(i => i.type === 'standard');
-            
-            if (standard.length > 0) {
-                message += `🛍️ *ITENS DA VITRINE:*\n`;
-                standard.forEach(i => { 
-                    const itemTotal = i.price * i.quantity;
-                    const formattedTotal = itemTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-                    message += `• ${i.quantity}x ${i.name} — R$ ${formattedTotal}\n`; 
-                    total += itemTotal; 
-                });
+                container.appendChild(newField);
             }
 
-            const formattedFinalTotal = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
-            message += `\n━━━━━━━━━━━━━━━━━━\n`;
-            message += `💰 *TOTAL ESTIMADO:* R$ ${formattedFinalTotal}\n\n`;
-            message += `Olá Adriana! Vi seu catálogo e gostaria de fazer este pedido.`;
-            
-            window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function openProductModal(src, title, meta, price, btnCall) {
-            document.getElementById('modal-img').src = src;
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-meta').innerText = meta;
-            document.getElementById('modal-price').innerText = price;
-            
-            const btn = document.getElementById('modal-add-btn');
-            btn.setAttribute('onclick', btnCall + '; closeProductModal();');
-            
-            const modal = document.getElementById('product-modal');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            
-            const content = document.getElementById('product-modal-content');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-            
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeProductModal() {
-            const modal = document.getElementById('product-modal');
-            const content = document.getElementById('product-modal-content');
-            
-            content.classList.remove('scale-100');
-            content.classList.add('scale-95');
-            
-            setTimeout(() => {
-                modal.classList.add('opacity-0', 'pointer-events-none');
-                document.body.style.overflow = 'auto';
-            }, 300);
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.product-card').forEach(card => {
-                card.classList.add('cursor-pointer');
-                card.addEventListener('click', (e) => {
-                    if(e.target.closest('button')) return;
-                    const img = card.querySelector('img').src;
-                    const title = card.querySelector('.product-title').innerText;
-                    const meta = card.querySelector('.product-meta').innerText;
-                    const price = card.querySelector('.product-price').innerText;
-                    const btnCall = card.querySelector('button').getAttribute('onclick');
-                    openProductModal(img, title, meta, price, btnCall);
-                });
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            const desktopNav = document.getElementById('desktop-nav');
-            if (desktopNav) {
-                if (window.scrollY > 50) {
-                    desktopNav.classList.add('bg-[#1a1a1a]/80', 'py-4');
-                    desktopNav.classList.remove('top-6');
-                    desktopNav.classList.add('top-2');
-                } else {
-                    desktopNav.classList.remove('bg-[#1a1a1a]/80', 'py-4');
-                    desktopNav.classList.add('top-6');
-                    desktopNav.classList.remove('top-2');
+            function submitCustomOrder() {
+                const descs = Array.from(document.querySelectorAll('.custom-desc')).map(t => t.value).filter(v => v.trim());
+                if (descs.length === 0) {
+                    alert('Por favor, descreva seu pedido.');
+                    return;
                 }
-            }
-        });
 
-        function toggleMobileMenu() {
-            const nav = document.getElementById('nav-links');
-            const icon = document.getElementById('menu-icon');
-            nav.classList.toggle('mobile-active');
-            icon.classList.toggle('fa-bars');
-            icon.classList.toggle('fa-times');
-            if (nav.classList.contains('mobile-active')) {
+                const message = `Olá! Gostaria de fazer orçamentos personalizados para:\n\n${descs.join('\n\n--- NEXT ---\n\n')}`;
+                window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
+            }
+
+            function finalizeOrder() {
+                if (cart.length === 0) return alert('Sacola vazia!');
+
+                let message = `✨ *NOVO PEDIDO - CAMILINHAS*\n`;
+                message += `━━━━━━━━━━━━━━━━━━\n\n`;
+
+                let total = 0;
+                const standard = cart.filter(i => i.type === 'standard');
+
+                if (standard.length > 0) {
+                    message += `🛍️ *ITENS DA VITRINE:*\n`;
+                    standard.forEach(i => {
+                        const itemTotal = i.price * i.quantity;
+                        const formattedTotal = itemTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                        message += `• ${i.quantity}x ${i.name} — R$ ${formattedTotal}\n`;
+                        total += itemTotal;
+                    });
+                }
+
+                const formattedFinalTotal = total.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                message += `\n━━━━━━━━━━━━━━━━━━\n`;
+                message += `💰 *TOTAL ESTIMADO:* R$ ${formattedFinalTotal}\n\n`;
+                message += `Olá Adriana! Vi seu catálogo e gostaria de fazer este pedido.`;
+
+                window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
+            }
+
+            function openProductModal(src, title, meta, price, btnCall) {
+                document.getElementById('modal-img').src = src;
+                document.getElementById('modal-title').innerText = title;
+                document.getElementById('modal-meta').innerText = meta;
+                document.getElementById('modal-price').innerText = price;
+
+                const btn = document.getElementById('modal-add-btn');
+                btn.setAttribute('onclick', btnCall + '; closeProductModal();');
+
+                const modal = document.getElementById('product-modal');
+                modal.classList.remove('opacity-0', 'pointer-events-none');
+
+                const content = document.getElementById('product-modal-content');
+                content.classList.remove('scale-95');
+                content.classList.add('scale-100');
+
                 document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
             }
-        }
 
-        document.querySelectorAll('#nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
+            function closeProductModal() {
+                const modal = document.getElementById('product-modal');
+                const content = document.getElementById('product-modal-content');
+
+                content.classList.remove('scale-100');
+                content.classList.add('scale-95');
+
+                setTimeout(() => {
+                    modal.classList.add('opacity-0', 'pointer-events-none');
+                    document.body.style.overflow = 'auto';
+                }, 300);
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.product-card').forEach(card => {
+                    card.classList.add('cursor-pointer');
+                    card.addEventListener('click', (e) => {
+                        if (e.target.closest('button')) return;
+                        const img = card.querySelector('img').src;
+                        const title = card.querySelector('.product-title').innerText;
+                        const meta = card.querySelector('.product-meta').innerText;
+                        const price = card.querySelector('.product-price').innerText;
+                        const btnCall = card.querySelector('button').getAttribute('onclick');
+                        openProductModal(img, title, meta, price, btnCall);
+                    });
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                const desktopNav = document.getElementById('desktop-nav');
+                if (desktopNav) {
+                    if (window.scrollY > 50) {
+                        desktopNav.classList.add('bg-[#1a1a1a]/80', 'py-4');
+                        desktopNav.classList.remove('top-6');
+                        desktopNav.classList.add('top-2');
+                    } else {
+                        desktopNav.classList.remove('bg-[#1a1a1a]/80', 'py-4');
+                        desktopNav.classList.add('top-6');
+                        desktopNav.classList.remove('top-2');
+                    }
+                }
+            });
+
+            function toggleMobileMenu() {
                 const nav = document.getElementById('nav-links');
+                const icon = document.getElementById('menu-icon');
+                nav.classList.toggle('mobile-active');
+                icon.classList.toggle('fa-bars');
+                icon.classList.toggle('fa-times');
                 if (nav.classList.contains('mobile-active')) {
-                    toggleMobileMenu();
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
                 }
-            });
-        });
-
-        // Unified Initialization & Loader Sequence
-        (function() {
-            // 1. Initial State for interactives
-            const cursor = document.getElementById('custom-cursor');
-            const interactiveLogo = document.querySelector('.logo-interactive');
-            const interactives = document.querySelectorAll('button, a, .product-card, input, textarea');
-
-            // 2. Cursor & Logo Mouse Track
-            window.addEventListener('mousemove', (e) => {
-                if (cursor) gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
-
-                if (interactiveLogo) {
-                    const rect = interactiveLogo.getBoundingClientRect();
-                    const logoX = e.clientX - (rect.left + rect.width / 2);
-                    const logoY = e.clientY - (rect.top + rect.height / 2);
-                    gsap.to(interactiveLogo, {
-                        filter: `invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.1)`,
-                        duration: 0.4,
-                        ease: "power2.out"
-                    });
-                }
-            });
-
-            interactives.forEach(el => {
-                el.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(250, 204, 21, 0.3)', duration: 0.3 }); });
-                el.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#facc15', duration: 0.3 }); });
-            });
-
-            // 3. Loader Progress
-            gsap.to("#loader-line", {
-                width: "100%",
-                duration: 2.5,
-                ease: "power2.inOut"
-            });
-
-            // 4. Reveal Function
-            const reveal = () => {
-                const loader = document.getElementById('loader');
-                const content = document.getElementById('app-content');
-                if (loader && loader.style.display !== 'none') {
-                    gsap.to(loader, {
-                        opacity: 0,
-                        duration: 0.8,
-                        onComplete: () => {
-                            loader.style.display = 'none';
-                            if (content) content.classList.add('revealed');
-                            document.body.style.overflow = 'auto';
-                            window.scrollTo(0,0);
-                            
-                            // Entrance Animations
-                            gsap.from(".hero-title, .hero-quote, .biblical-badge", {
-                                y: 30,
-                                opacity: 0,
-                                duration: 1,
-                                stagger: 0.2,
-                                ease: "power3.out"
-                            });
-                            gsap.from(".btn-netflix-main", {
-                                scale: 0.8,
-                                opacity: 0,
-                                duration: 0.8,
-                                delay: 0.6,
-                                ease: "back.out(1.7)"
-                            });
-                        }
-                    });
-                }
-            };
-
-            window.forceReveal = reveal;
-
-            // 5. Lifecycle Events
-            const safetyTimeout = setTimeout(() => {
-                console.warn('Loader safety timeout reached. Forcing reveal.');
-                reveal();
-            }, 5000);
-
-            window.addEventListener('load', () => {
-                clearTimeout(safetyTimeout);
-                setTimeout(reveal, 800); // Slight delay for premium feel
-            });
-
-            // Extra check: if page is already loaded (from cache)
-            if (document.readyState === 'complete') {
-                clearTimeout(safetyTimeout);
-                setTimeout(reveal, 800);
             }
-        })();
+
+            document.querySelectorAll('#nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    const nav = document.getElementById('nav-links');
+                    if (nav.classList.contains('mobile-active')) {
+                        toggleMobileMenu();
+                    }
+                });
+            });
+
+            // Unified Initialization & Loader Sequence
+            (function () {
+                // 1. Initial State for interactives
+                const cursor = document.getElementById('custom-cursor');
+                const interactiveLogo = document.querySelector('.logo-interactive');
+                const interactives = document.querySelectorAll('button, a, .product-card, input, textarea');
+
+                // 2. Cursor & Logo Mouse Track
+                window.addEventListener('mousemove', (e) => {
+                    if (cursor) gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1, ease: "power2.out" });
+
+                    if (interactiveLogo) {
+                        const rect = interactiveLogo.getBoundingClientRect();
+                        const logoX = e.clientX - (rect.left + rect.width / 2);
+                        const logoY = e.clientY - (rect.top + rect.height / 2);
+                        gsap.to(interactiveLogo, {
+                            filter: `invert(1) sepia(1) saturate(20) hue-rotate(-15deg) brightness(1.1)`,
+                            duration: 0.4,
+                            ease: "power2.out"
+                        });
+                    }
+                });
+
+                interactives.forEach(el => {
+                    el.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(250, 204, 21, 0.3)', duration: 0.3 }); });
+                    el.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#facc15', duration: 0.3 }); });
+                });
+
+                // 3. Loader Progress
+                gsap.to("#loader-line", {
+                    width: "100%",
+                    duration: 2.5,
+                    ease: "power2.inOut"
+                });
+
+                // 4. Reveal Function
+                const reveal = () => {
+                    const loader = document.getElementById('loader');
+                    const content = document.getElementById('app-content');
+                    if (loader && loader.style.display !== 'none') {
+                        gsap.to(loader, {
+                            opacity: 0,
+                            duration: 0.8,
+                            onComplete: () => {
+                                loader.style.display = 'none';
+                                if (content) content.classList.add('revealed');
+                                document.body.style.overflow = 'auto';
+                                window.scrollTo(0, 0);
+
+                                // Entrance Animations
+                                gsap.from(".hero-title, .hero-quote, .biblical-badge", {
+                                    y: 30,
+                                    opacity: 0,
+                                    duration: 1,
+                                    stagger: 0.2,
+                                    ease: "power3.out"
+                                });
+                                gsap.from(".btn-netflix-main", {
+                                    scale: 0.8,
+                                    opacity: 0,
+                                    duration: 0.8,
+                                    delay: 0.6,
+                                    ease: "back.out(1.7)"
+                                });
+                            }
+                        });
+                    }
+                };
+
+                window.forceReveal = reveal;
+
+                // 5. Lifecycle Events
+                const safetyTimeout = setTimeout(() => {
+                    console.warn('Loader safety timeout reached. Forcing reveal.');
+                    reveal();
+                }, 5000);
+
+                window.addEventListener('load', () => {
+                    clearTimeout(safetyTimeout);
+                    setTimeout(reveal, 800); // Slight delay for premium feel
+                });
+
+                // Extra check: if page is already loaded (from cache)
+                if (document.readyState === 'complete') {
+                    clearTimeout(safetyTimeout);
+                    setTimeout(reveal, 800);
+                }
+            })();
 
 
-    </script>
-</div> <!-- End #app-content -->
+        </script>
+    </div> <!-- End #app-content -->
 
     <!-- Mobile Bottom Navigation (Ultra-Refined Glass) -->
-    <nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[360px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem] z-50 px-4 py-2 shadow-[0_15px_40px_rgba(0,0,0,0.3)] flex justify-between items-center transition-all duration-500" id="mobile-nav">
+    <nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[360px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem] z-50 px-4 py-2 shadow-[0_15px_40px_rgba(0,0,0,0.3)] flex justify-between items-center transition-all duration-500"
+        id="mobile-nav">
         <!-- Home -->
         <a href="#home" class="flex flex-col items-center gap-1 group">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+            <div
+                class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-home text-sm"></i>
             </div>
-            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Início</span>
+            <span
+                class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Início</span>
         </a>
 
         <!-- Catalog -->
         <a href="#products" class="flex flex-col items-center gap-1 group">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+            <div
+                class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-th-large text-sm"></i>
             </div>
-            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Vitrine</span>
+            <span
+                class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Vitrine</span>
         </a>
 
         <!-- Cart (3D Pop-out) -->
         <button id="mobile-nav-cart" onclick="toggleCart()" class="relative flex flex-col items-center group -top-6">
-            <div class="w-14 h-14 bg-amber-500 rounded-full flex items-center justify-center text-white shadow-[0_10px_25px_rgba(245,158,11,0.5)] active:scale-90 transition-all border-4 border-white/10">
+            <div
+                class="w-14 h-14 bg-amber-500 rounded-full flex items-center justify-center text-white shadow-[0_10px_25px_rgba(245,158,11,0.5)] active:scale-90 transition-all border-4 border-white/10">
                 <i class="fas fa-shopping-bag text-2xl"></i>
-                <span class="absolute -top-1 -right-1 bg-white text-amber-500 border-2 border-amber-500 w-6 h-6 rounded-full text-[10px] font-black flex items-center justify-center shadow-lg" id="mobile-cart-count">0</span>
+                <span
+                    class="absolute -top-1 -right-1 bg-white text-amber-500 border-2 border-amber-500 w-6 h-6 rounded-full text-[10px] font-black flex items-center justify-center shadow-lg"
+                    id="mobile-cart-count">0</span>
             </div>
-            <span class="mt-2 text-[8px] font-black uppercase tracking-widest text-amber-500 drop-shadow-md">Sacola</span>
+            <span
+                class="mt-2 text-[8px] font-black uppercase tracking-widest text-amber-500 drop-shadow-md">Sacola</span>
         </button>
 
         <!-- Custom Orders -->
         <a href="#custom" class="flex flex-col items-center gap-1 group">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+            <div
+                class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-pen-nib text-sm"></i>
             </div>
-            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Pedidos</span>
+            <span
+                class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Pedidos</span>
         </a>
 
         <!-- About -->
         <a href="#about" class="flex flex-col items-center gap-1 group">
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
+            <div
+                class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-user text-sm"></i>
             </div>
-            <span class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Sobre</span>
+            <span
+                class="text-[7px] font-black uppercase tracking-widest text-white/20 group-hover:text-amber-500">Sobre</span>
         </a>
     </nav>
 </body>
-</html>
+
+</html>
