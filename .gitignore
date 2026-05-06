@@ -1,0 +1,6 @@
+.vercel
+node_modules
+Receitas/
+remotion-ad/
+.DS_Store
+*.log

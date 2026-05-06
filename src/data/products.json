@@ -27,9 +27,9 @@
         },
         {
             "id": "sagrada-familia",
-            "name": "Sagrada Família Premium",
+            "name": "José, Maria e Bebê Jesus",
             "category": "Religiosos",
-            "price": 180.00,
+            "price": 280.00,
             "description": "Conjunto completo da Sagrada Família com Maria, José e o Menino Jesus. Acabamento premium com detalhes em dourado.",
             "image": "assets/img/products/sagrada-familia.jpg",
             "video": "assets/img/products/sagrada-familia.mp4",
@@ -151,7 +151,7 @@
             "category": "Religiosos",
             "price": 350.00,
             "description": "Mais de 10 peças incluindo animais, pastores e os Reis Magos. Uma obra de arte.",
-            "image": "assets/img/products/presepio.jpg",
+            "image": "assets/img/products/religiosos/presépio-completo.png",
             "video": "assets/img/products/presepio.mp4",
             "tags": ["natal", "luxo"],
             "rating": 5.0,
@@ -179,6 +179,18 @@
             "video": "assets/img/products/unicornio.mp4",
             "tags": ["fantasia", "magia"],
             "rating": 4.9,
+            "stock": true
+        },
+        {
+            "id": "anjo-gabriel",
+            "name": "Anjo Gabriel",
+            "category": "Religiosos",
+            "price": 150.00,
+            "description": "Mensageiro de Deus, o Anjo Gabriel é feito com fios de seda e detalhes celestiais. Uma peça de extrema delicadeza.",
+            "image": "assets/img/products/religiosos/Anjo Gabriel.png",
+            "gallery": ["assets/img/products/religiosos/Anjo Gabriel-product.png"],
+            "tags": ["religioso", "anjo", "presente"],
+            "rating": 5.0,
             "stock": true
         }
     ]

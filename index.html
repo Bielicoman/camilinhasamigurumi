@@ -214,8 +214,13 @@
             }
 
             .product-title {
-                font-size: 13px !important;
-                line-height: 1.2 !important;
+                font-size: 11px !important;
+                line-height: 1.3 !important;
+                min-height: 2.6em !important;
+                display: -webkit-box !important;
+                -webkit-line-clamp: 2 !important;
+                -webkit-box-orient: vertical !important;
+                overflow: hidden !important;
                 margin-top: 10px !important;
                 margin-bottom: 4px !important;
             }
@@ -265,6 +270,116 @@
             height: 100%;
             width: 0%;
             background: #f59e0b;
+        }
+
+        /* Modal Carousel Styles */
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 20;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .modal-arrow.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-arrow:hover {
+            background: var(--amber-500);
+            border-color: var(--amber-500);
+            scale: 1.1;
+        }
+
+        .modal-arrow.prev {
+            left: 12px;
+        }
+
+        .modal-arrow.next {
+            right: 12px;
+        }
+
+        .modal-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 20;
+        }
+
+        .modal-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .modal-dot.active {
+            background: var(--amber-500);
+            width: 16px;
+            border-radius: 3px;
+        }
+
+        /* Custom Scrollbar for Modal */
+        #product-modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #product-modal-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #product-modal-content::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        #product-modal-content::-webkit-scrollbar-thumb:hover {
+            background: var(--amber-500);
+        }
+
+        /* Global Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border: 2px solid var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--amber-500);
+        }
+
+        #cart-items::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #cart-items::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
@@ -316,30 +431,41 @@
             <div class="absolute inset-0" onclick="closeProductModal()"></div>
 
             <!-- Modal Content (Glassmorphism + Rounded) -->
-            <div class="relative bg-[#1a1a1a]/80 backdrop-blur-2xl border border-white/10 rounded-[40px] p-8 max-w-sm w-full shadow-2xl transform scale-95 transition-transform duration-300"
+            <div class="relative bg-[#1a1a1a]/95 backdrop-blur-2xl border border-white/10 rounded-[28px] p-6 md:p-8 max-w-[400px] w-full shadow-2xl transform scale-95 transition-all duration-300"
                 id="product-modal-content">
                 <button onclick="closeProductModal()"
-                    class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white flex items-center justify-center backdrop-blur-md z-10 transition-colors text-2xl font-light">
+                    class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/5 border border-white/10 text-white/50 hover:text-white flex items-center justify-center backdrop-blur-md z-20 transition-colors text-xl font-light">
                     &times;
                 </button>
                 <div
-                    class="relative w-full aspect-square rounded-[30px] overflow-hidden mb-8 shadow-2xl border border-white/5">
-                    <img id="modal-img" src="" alt="" class="w-full h-full object-cover">
+                    class="relative w-full mx-auto aspect-square rounded-[24px] overflow-hidden mb-6 shadow-2xl border border-white/5 bg-black/20">
+                    <img id="modal-img" src="" alt="" class="w-full h-full object-cover transition-all duration-500">
+
+                    <!-- Navigation Arrows -->
+                    <button id="modal-prev" onclick="prevModalImage()" class="modal-arrow prev">
+                        <i class="fas fa-chevron-left text-xs"></i>
+                    </button>
+                    <button id="modal-next" onclick="nextModalImage()" class="modal-arrow next">
+                        <i class="fas fa-chevron-right text-xs"></i>
+                    </button>
+
+                    <!-- Indicators -->
+                    <div id="modal-dots" class="modal-dots"></div>
                 </div>
-                <h3 id="modal-title" class="text-3xl font-bold text-white mb-2"></h3>
-                <p id="modal-meta" class="text-[10px] font-black text-white/40 uppercase tracking-[0.2em] mb-6"></p>
-                <div class="flex justify-between items-center mb-8">
-                    <span id="modal-price" class="text-3xl font-black text-amber-500"></span>
+                <h3 id="modal-title" class="text-2xl font-bold text-white mb-1"></h3>
+                <p id="modal-meta" class="text-[10px] font-black text-white/40 uppercase tracking-[0.15em] mb-6"></p>
+                <div class="flex justify-between items-center mb-4">
+                    <span id="modal-price" class="text-2xl font-black text-amber-500"></span>
                 </div>
                 <button id="modal-add-btn"
-                    class="w-full bg-amber-500 text-white py-4 rounded-2xl font-black text-sm hover:bg-amber-600 transition-all shadow-xl mb-4">
+                    class="w-full bg-amber-500 text-white py-3 rounded-xl font-black text-xs hover:bg-amber-600 transition-all shadow-xl mb-3">
                     ADICIONAR À SACOLA
                 </button>
-                <div class="flex items-start gap-2 px-2">
-                    <i class="fas fa-info-circle text-amber-500/50 mt-0.5 text-xs"></i>
-                    <p class="text-left text-[11px] font-medium text-white/40 leading-tight">
-                        <strong class="text-white/60">Atenção:</strong> O valor refere-se apenas ao amigurumi. Cenários
-                        e itens decorativos da foto não estão inclusos.
+                <div class="flex items-start gap-1.5 px-1">
+                    <i class="fas fa-info-circle text-amber-500/50 mt-0.5 text-[10px]"></i>
+                    <p class="text-left text-[9px] font-medium text-white/40 leading-tight">
+                        <strong class="text-white/60">Nota:</strong> Valor apenas do amigurumi. Itens decorativos não
+                        inclusos.
                     </p>
                 </div>
             </div>
@@ -348,7 +474,7 @@
         <!-- Navigation -->
         <!-- Desktop Glass Header -->
         <header
-            class="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl h-20 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full z-50 px-10 items-center justify-between shadow-2xl transition-all duration-500"
+            class="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl h-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full z-50 px-10 items-center justify-between shadow-2xl transition-all duration-500"
             id="desktop-nav">
             <!-- Logo Left -->
             <a href="#home" class="group block">
@@ -421,8 +547,8 @@
                 </div>
                 <!-- Slide 2: Sagrado -->
                 <div class="hero-slide">
-                    <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp"
-                        alt="Presépio Sagrado">
+                    <img loading="lazy" src="assets/img/products/religiosos/presépio-completo.png"
+                        alt="Presépio Completo">
 
                     <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
                     <div class="absolute inset-0 flex items-center px-10 md:px-32">
@@ -536,8 +662,8 @@
         </section>
 
         <!-- Vitrine Categorizada Dark -->
-        <main class="bg-[#121212] py-32 px-6 scroll-mt-24" id="products">
-            <div class="max-w-7xl mx-auto space-y-32">
+        <main class="bg-[#121212] py-32 px-6 scroll-mt-32" id="products">
+            <div class="max-w-6xl mx-auto space-y-32">
 
                 <!-- Categoria: Sagrado -->
                 <section id="biblical">
@@ -548,33 +674,47 @@
                     </div>
                     <div class="product-grid" id="biblical-grid">
                         <div class="product-card group">
-                            <img loading="lazy" src="assets/img/products/religiosos/presepio-sagrado.webp"
-                                alt="Presépio Sagrado">
-                            <h3 class="product-title">Presépio Sagrado</h3>
-                            <p class="product-meta mb-4">Tam: 15cm | Kit Completo</p>
-                            <div class="flex justify-between items-center mb-4">
+                            <img loading="lazy" src="assets/img/products/religiosos/presépio-completo.png"
+                                alt="Presépio Completo">
+                            <h3 class="product-title">Presépio Completo</h3>
+                            <p class="product-meta mb-4">Tam: 12cm | Kit Completo</p>
+                            <div class="flex justify-between items-center mb-4 mt-auto">
                                 <span class="product-price">R$ 350</span>
                             </div>
-                            <button onclick="addToCart('Presépio Sagrado', 350)" class="btn-add-mini">ADICIONAR</button>
+                            <button onclick="addToCart('Presépio Completo', 350)"
+                                class="btn-add-mini">ADICIONAR</button>
                         </div>
-                        <div class="product-card group">
+                        <div class="product-card group"
+                            data-gallery="assets/img/products/religiosos/José-Maria-Bebê Jesus.png">
                             <img loading="lazy" src="assets/img/products/religiosos/sagrada-familia.png"
-                                alt="Sagrada Família">
-                            <h3 class="product-title">Sagrada Família</h3>
-                            <p class="product-meta mb-4">Tam: 20cm | Kit M</p>
+                                alt="José, Maria e Bebê Jesus">
+                            <h3 class="product-title">José, Maria e Bebê Jesus</h3>
+                            <p class="product-meta mb-4">Tam: 12cm | Kit M</p>
                             <div class="flex justify-between items-center mb-4">
                                 <span class="product-price">R$ 280</span>
                             </div>
-                            <button onclick="addToCart('Sagrada Família', 280)" class="btn-add-mini">ADICIONAR</button>
+                            <button onclick="addToCart('José, Maria e Bebê Jesus', 280)"
+                                class="btn-add-mini">ADICIONAR</button>
                         </div>
                         <div class="product-card group">
                             <img loading="lazy" src="assets/img/products/religiosos/jesus-funko.png" alt="Jesus Funko">
                             <h3 class="product-title">Jesus Funko</h3>
-                            <p class="product-meta mb-4">Tam: 18cm | Funko</p>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
                             <div class="flex justify-between items-center mb-4">
                                 <span class="product-price">R$ 160</span>
                             </div>
                             <button onclick="addToCart('Jesus Funko', 160)" class="btn-add-mini">ADICIONAR</button>
+                        </div>
+                        <div class="product-card group"
+                            data-gallery="assets/img/products/religiosos/Anjo Gabriel-product.png">
+                            <img loading="lazy" src="assets/img/products/religiosos/Anjo Gabriel.png"
+                                alt="Anjo Gabriel">
+                            <h3 class="product-title">Anjo Gabriel</h3>
+                            <p class="product-meta mb-4">Tam: 12cm | Coleção Bíblica</p>
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="product-price">R$ 150</span>
+                            </div>
+                            <button onclick="addToCart('Anjo Gabriel', 150)" class="btn-add-mini">ADICIONAR</button>
                         </div>
                     </div>
                 </section>
@@ -709,7 +849,7 @@
                             <img loading="lazy" src="assets/img/products/animals/dino.webp" alt="Dino">
 
                             <h3 class="product-title">Dino Baby</h3>
-                            <p class="product-meta mb-4">Tam: 20cm | Kit</p>
+                            <p class="product-meta mb-4">Tam: 12cm | Kit</p>
                             <div class="flex justify-between items-center mb-4">
                                 <span class="product-price">R$ 140</span>
                             </div>
@@ -718,7 +858,7 @@
                         <div class="product-card group">
                             <img loading="lazy" src="assets/img/products/outros/galo.png" alt="Galo">
                             <h3 class="product-title">Galo Amigurumi</h3>
-                            <p class="product-meta mb-4">Tam: 20cm | Animal</p>
+                            <p class="product-meta mb-4">Tam: 12cm | Animal</p>
                             <div class="flex justify-between items-center mb-4">
                                 <span class="product-price">R$ 150</span>
                             </div>
@@ -736,14 +876,14 @@
                     </div>
                     <div class="product-grid">
                         <div class="product-card group">
-                            <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco">
+                            <img loading="lazy" src="assets/img/products/animals/capimila.png" alt="Capimila">
 
-                            <h3 class="product-title">Capicaco</h3>
+                            <h3 class="product-title">Capimila</h3>
                             <p class="product-meta mb-4">Tam: 8cm | Chaveiro</p>
                             <div class="flex justify-between items-center mb-4">
                                 <span class="product-price">R$ 45</span>
                             </div>
-                            <button onclick="addToCart('Capicaco Chaveiro', 45)" class="btn-add-mini">ADICIONAR</button>
+                            <button onclick="addToCart('Capimila Chaveiro', 45)" class="btn-add-mini">ADICIONAR</button>
                         </div>
                         <div class="product-card group">
                             <img loading="lazy" src="assets/img/products/animals/octopus.webp" alt="Polvinho">
@@ -773,9 +913,9 @@
         </main>
 
         <!-- Seção Sobre: Adriana Nunes -->
-        <section id="about" class="py-12 px-6 bg-[#0b0b0b] relative overflow-hidden scroll-mt-48">
+        <section id="about" class="pt-16 pb-20 px-10 md:px-6 bg-[#0b0b0b] relative overflow-hidden scroll-mt-24">
             <div class="absolute top-0 right-0 w-1/4 h-full bg-gradient-to-l from-amber-500/5 to-transparent"></div>
-            <div class="max-w-5xl mx-auto">
+            <div class="max-w-4xl mx-auto">
                 <div class="flex flex-col lg:flex-row items-center gap-8 lg:gap-16">
                     <!-- Foto Otimizada e Colorida -->
                     <div class="w-full max-w-[260px] lg:max-w-[300px] shrink-0">
@@ -784,7 +924,7 @@
                             <div
                                 class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl aspect-[4/5]">
                                 <img loading="lazy" src="assets/img/about/adriana-nunes-v2.webp" alt="Adriana Nunes"
-                                    class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 saturate-[1.2] brightness-[1.05]">
+                                    class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105 saturate-[1.2] brightness-[1.05] grayscale-[0.2] group-hover:grayscale-0">
 
                                 <div
                                     class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
@@ -801,8 +941,8 @@
                     </div>
 
                     <!-- Conteúdo de Texto Proporcional -->
-                    <div class="flex-1 space-y-5">
-                        <div class="category-header !mb-0 text-left">
+                    <div class="flex-1 space-y-8 text-center lg:text-left max-w-md mx-auto lg:max-w-none">
+                        <div class="category-header !mb-0">
                             <h2 class="text-clamp-lg text-white h-serif italic font-light leading-tight">Onde a Fé
                                 encontra
                                 o Fio</h2>
@@ -811,14 +951,19 @@
                             </p>
                         </div>
 
-                        <div class="space-y-4 text-white/70 font-medium leading-relaxed text-clamp-sm">
-                            <div class="bg-white/5 border-l-2 border-amber-500/50 p-4 rounded-r-xl space-y-2">
-                                <p class="text-white/90 italic font-serif text-sm md:text-base">
+                        <div
+                            class="space-y-6 text-white/70 font-medium leading-relaxed text-clamp-sm text-justify lg:text-left">
+                            <div
+                                class="bg-white/5 border border-white/10 p-6 rounded-[24px] space-y-3 backdrop-blur-sm relative overflow-hidden group">
+                                <div class="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 blur-2xl rounded-full">
+                                </div>
+                                <p
+                                    class="text-white/90 italic font-serif text-base md:text-lg leading-relaxed relative z-10">
                                     "Eu te louvo porque me fizeste de modo especial e admirável. Tuas obras são
-                                    maravilhosas! Disso tenho plena certeza."
+                                    maravilhosas!"
                                 </p>
-                                <p class="text-amber-500 font-bold text-[10px] uppercase tracking-widest">Salmos 139:14
-                                </p>
+                                <p class="text-amber-500 font-bold text-[9px] uppercase tracking-[0.3em] relative z-10">
+                                    Salmos 139:14</p>
                             </div>
 
                             <p>
@@ -838,17 +983,16 @@
                             </p>
                         </div>
 
-                        <div class="flex gap-10 pt-6 border-t border-white/5 mt-8">
-                            <div class="group">
+                        <div class="grid grid-cols-2 gap-6 pt-8 border-t border-white/5 mt-8 max-w-sm mx-auto lg:mx-0">
+                            <div class="text-center lg:text-left">
                                 <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">
-                                    Experiência
-                                </p>
-                                <p class="text-white font-bold text-lg h-serif italic">+3 Anos</p>
+                                    Experiência</p>
+                                <p class="text-white font-bold text-xl h-serif italic">+3 Anos</p>
                             </div>
-                            <div class="group">
+                            <div class="text-center lg:text-left">
                                 <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Origem
                                 </p>
-                                <p class="text-white font-bold text-lg h-serif italic">Campo Grande, MS</p>
+                                <p class="text-white font-bold text-xl h-serif italic text-nowrap">Campo Grande, MS</p>
                             </div>
                         </div>
                     </div>
@@ -857,8 +1001,8 @@
         </section>
 
         <!-- Seção de Projetos Especiais Premium Compacta -->
-        <section id="custom" class="py-20 px-6 bg-[#121212] border-t border-white/5 scroll-mt-48">
-            <div class="max-w-6xl mx-auto">
+        <section id="custom" class="pt-28 pb-32 px-6 bg-[#121212] border-t border-white/5 scroll-mt-36">
+            <div class="max-w-5xl mx-auto">
                 <div class="grid lg:grid-cols-2 gap-12 items-center">
                     <div class="reveal-content">
                         <span
@@ -1228,14 +1372,21 @@
                 window.open(`https://wa.me/556792804803?text=${encodeURIComponent(message)}`, '_blank');
             }
 
-            function openProductModal(src, title, meta, price, btnCall) {
-                document.getElementById('modal-img').src = src;
+            let modalImages = [];
+            let modalImageIndex = 0;
+
+            function openProductModal(images, title, meta, price, btnCall) {
+                modalImages = Array.isArray(images) ? images : [images];
+                modalImageIndex = 0;
+
                 document.getElementById('modal-title').innerText = title;
                 document.getElementById('modal-meta').innerText = meta;
                 document.getElementById('modal-price').innerText = price;
 
                 const btn = document.getElementById('modal-add-btn');
                 btn.setAttribute('onclick', btnCall + '; closeProductModal();');
+
+                updateModalGallery();
 
                 const modal = document.getElementById('product-modal');
                 modal.classList.remove('opacity-0', 'pointer-events-none');
@@ -1245,6 +1396,49 @@
                 content.classList.add('scale-100');
 
                 document.body.style.overflow = 'hidden';
+            }
+
+            function updateModalGallery() {
+                const imgEl = document.getElementById('modal-img');
+                const prevBtn = document.getElementById('modal-prev');
+                const nextBtn = document.getElementById('modal-next');
+                const dotsContainer = document.getElementById('modal-dots');
+
+                // Update Image
+                imgEl.style.opacity = '0';
+                setTimeout(() => {
+                    imgEl.src = modalImages[modalImageIndex];
+                    imgEl.style.opacity = '1';
+                }, 200);
+
+                // Update Arrows
+                if (modalImages.length > 1) {
+                    prevBtn.classList.add('active');
+                    nextBtn.classList.add('active');
+                } else {
+                    prevBtn.classList.remove('active');
+                    nextBtn.classList.remove('active');
+                }
+
+                // Update Dots
+                dotsContainer.innerHTML = '';
+                if (modalImages.length > 1) {
+                    modalImages.forEach((_, i) => {
+                        const dot = document.createElement('div');
+                        dot.className = `modal-dot ${i === modalImageIndex ? 'active' : ''}`;
+                        dotsContainer.appendChild(dot);
+                    });
+                }
+            }
+
+            function nextModalImage() {
+                modalImageIndex = (modalImageIndex + 1) % modalImages.length;
+                updateModalGallery();
+            }
+
+            function prevModalImage() {
+                modalImageIndex = (modalImageIndex - 1 + modalImages.length) % modalImages.length;
+                updateModalGallery();
             }
 
             function closeProductModal() {
@@ -1265,12 +1459,16 @@
                     card.classList.add('cursor-pointer');
                     card.addEventListener('click', (e) => {
                         if (e.target.closest('button')) return;
-                        const img = card.querySelector('img').src;
+
+                        const mainImg = card.querySelector('img').src;
+                        const gallery = card.getAttribute('data-gallery');
+                        const images = gallery ? [mainImg, ...gallery.split(',').map(s => s.trim())] : [mainImg];
+
                         const title = card.querySelector('.product-title').innerText;
                         const meta = card.querySelector('.product-meta').innerText;
                         const price = card.querySelector('.product-price').innerText;
                         const btnCall = card.querySelector('button').getAttribute('onclick');
-                        openProductModal(img, title, meta, price, btnCall);
+                        openProductModal(images, title, meta, price, btnCall);
                     });
                 });
             });
@@ -1375,6 +1573,21 @@
                                     duration: 0.8,
                                     delay: 0.6,
                                     ease: "back.out(1.7)"
+                                });
+
+                                // Section Reveal Animations
+                                gsap.utils.toArray('section:not(#home)').forEach(section => {
+                                    gsap.from(section, {
+                                        y: 60,
+                                        opacity: 0,
+                                        duration: 1.2,
+                                        ease: "power3.out",
+                                        scrollTrigger: {
+                                            trigger: section,
+                                            start: "top 85%",
+                                            toggleActions: "play none none none"
+                                        }
+                                    });
                                 });
                             }
                         });
