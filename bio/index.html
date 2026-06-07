@@ -5,11 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camilinhas Amigurumi | Bio</title>
+    <meta name="description" content="Acesse a biografia, links e contatos do Ateliê Camilinhas Amigurumi.">
+    <meta property="og:title" content="Camilinhas Amigurumi | Bio">
+    <meta property="og:description" content="Acesse a biografia, links e contatos do Ateliê Camilinhas Amigurumi.">
+    <meta property="og:image" content="../assets/img/brand/logo-camilinhas-circle.webp">
     
     <!-- Favicon -->
     <link rel="icon" type="image/webp" href="../assets/img/brand/logo-camilinhas-circle.webp">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        amber: {
+                            400: 'var(--amber-400)',
+                            500: 'var(--amber-500)',
+                            600: 'var(--amber-600)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roobert', 'Inter', 'sans-serif'],
+                        serif: ['Gabust', 'Playfair Display', 'serif'],
+                        gabust: ['Gabust', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="../assets/css/main.css?v=1.6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -17,14 +42,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:ital,wght@0,900;1,900&display=swap');
 
         body {
-            background-color: #f7f3ee;
+            background-color: #dcf0fa;
             color: #2d2a26;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 24px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roobert', 'Inter', sans-serif;
         }
 
         .links-container {
@@ -81,25 +106,25 @@
         .link-card:hover {
             transform: scale(1.02);
             background: #ffffff;
-            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.15);
-            border-color: #f59e0b;
+            box-shadow: 0 20px 40px rgba(244, 114, 182, 0.25);
+            border-color: #f9a8d4;
         }
 
         .link-card .icon-wrapper {
             width: 32px;
             height: 32px;
-            background: #fff8f0;
+            background: #fbcfe8;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #f59e0b;
+            color: #db2777;
             transition: all 0.3s;
         }
 
         .link-card:hover .icon-wrapper {
-            background: #f59e0b;
-            color: white;
+            background: #f9a8d4;
+            color: #1e293b;
         }
 
         .social-links {
@@ -124,8 +149,8 @@
         }
 
         .social-icon:hover {
-            background: #f59e0b;
-            color: white;
+            background: #f9a8d4;
+            color: #1e293b;
             transform: translateY(-3px);
         }
 
@@ -139,9 +164,9 @@
 
         .blob {
             position: absolute;
-            background: #f59e0b;
+            background: #ff8c92;
             filter: blur(80px);
-            opacity: 0.08;
+            opacity: 0.12;
             border-radius: 50%;
         }
     </style>
@@ -150,12 +175,14 @@
 <body>
     <div class="bg-blobs">
         <div class="blob w-64 h-64 -top-20 -left-20"></div>
-        <div class="blob w-96 h-96 -bottom-32 -right-32" style="background: #eab308;"></div>
+        <div class="blob w-96 h-96 -bottom-32 -right-32" style="background: #fbcfe8;">
+        </div>
     </div>
 
     <div class="links-container">
         <!-- Profile -->
         <div class="profile-section">
+            <label class="hidden">Camilinhas Bio</label>
             <div class="profile-img">
                 <img src="../assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas Amigurumi" class="w-full h-full object-cover">
             </div>
@@ -165,35 +192,35 @@
 
         <!-- Links -->
         <div class="space-y-4">
-            <a href="../index.html" class="link-card">
+            <a class="link-card" href="../index.html">
                 <span>Loja Online</span>
                 <div class="icon-wrapper">
                     <i class="fas fa-shopping-bag"></i>
                 </div>
             </a>
             
-            <a href="https://instagram.com/camilinhasamigurumi" target="_blank" class="link-card">
+            <a class="link-card" target="_blank" href="https://instagram.com/camilinhasamigurumi">
                 <span>Instagram</span>
                 <div class="icon-wrapper">
                     <i class="fab fa-instagram"></i>
                 </div>
             </a>
 
-            <a href="https://wa.me/556792804803" target="_blank" class="link-card">
+            <a class="link-card" target="_blank" href="https://wa.me/556792804803">
                 <span>WhatsApp</span>
                 <div class="icon-wrapper">
                     <i class="fab fa-whatsapp"></i>
                 </div>
             </a>
 
-            <a href="../index.html#products" class="link-card">
+            <a class="link-card" href="../index.html#products">
                 <span>Ver Catálogo</span>
                 <div class="icon-wrapper">
                     <i class="fas fa-book-open"></i>
                 </div>
             </a>
 
-            <a href="../index.html#custom" class="link-card">
+            <a class="link-card" href="../index.html#custom">
                 <span>Encomendas</span>
                 <div class="icon-wrapper">
                     <i class="fas fa-magic"></i>
@@ -203,9 +230,9 @@
 
         <!-- Social Icons -->
         <div class="social-links">
-            <a href="https://instagram.com/camilinhasamigurumi" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="https://wa.me/556792804803" class="social-icon"><i class="fab fa-whatsapp"></i></a>
-            <a href="mailto:contato@camilinhas.com.br" class="social-icon"><i class="far fa-envelope"></i></a>
+            <a class="social-icon" href="https://instagram.com/camilinhasamigurumi"><i class="fab fa-instagram"></i></a>
+            <a class="social-icon" href="https://wa.me/556792804803"><i class="fab fa-whatsapp"></i></a>
+            <a class="social-icon" href="mailto:contato@camilinhas.com.br"><i class="far fa-envelope"></i></a>
         </div>
         
         <p class="mt-12 text-[10px] uppercase tracking-[0.4em] text-[#2d2a26]/20 font-bold">

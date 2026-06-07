@@ -5,24 +5,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 | Camilinhas Amigurumi</title>
+    <meta name="description" content="Página não encontrada. Volte para a página principal do Ateliê Camilinhas Amigurumi.">
+    <meta property="og:title" content="404 | Camilinhas Amigurumi">
+    <meta property="og:description" content="Página não encontrada. Volte para a página principal do Ateliê Camilinhas Amigurumi.">
+    <meta property="og:image" content="assets/img/brand/logo-camilinhas-circle.webp">
     
     <link rel="icon" type="image/webp" href="assets/img/brand/logo-camilinhas-circle.webp">
     
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        amber: {
+                            400: 'var(--amber-400)',
+                            500: 'var(--amber-500)',
+                            600: 'var(--amber-600)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roobert', 'Inter', 'sans-serif'],
+                        serif: ['Gabust', 'Playfair Display', 'serif'],
+                        gabust: ['Gabust', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="assets/css/main.css?v=1.6">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     
     <style>
         body {
-            background-color: #f7f3ee;
+            background-color: #dcf0fa;
             color: #2d2a26;
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Roobert', 'Inter', sans-serif;
         }
 
         .error-container {
@@ -39,15 +64,15 @@
         .error-badge {
             display: inline-block;
             padding: 8px 16px;
-            background: #fff8f0;
-            color: #f59e0b;
+            background: #fbcfe8;
+            color: #1e293b;
             border-radius: 100px;
             font-weight: 900;
             font-size: 12px;
             letter-spacing: 0.2em;
             text-transform: uppercase;
             margin-bottom: 24px;
-            border: 1px solid rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(244, 114, 182, 0.3);
         }
 
         .h-serif {
@@ -58,8 +83,8 @@
             display: inline-block;
             margin-top: 48px;
             padding: 20px 48px;
-            background: #f59e0b;
-            color: white;
+            background: #fbcfe8;
+            color: #1e293b;
             border-radius: 20px;
             font-weight: 900;
             text-transform: uppercase;
@@ -67,13 +92,13 @@
             font-size: 13px;
             transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             text-decoration: none;
-            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.2);
+            box-shadow: 0 10px 30px rgba(244, 114, 182, 0.3);
         }
 
         .btn-home:hover {
             transform: translateY(-5px);
-            background: #d97706;
-            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.3);
+            background: #f9a8d4;
+            box-shadow: 0 20px 40px rgba(244, 114, 182, 0.5);
         }
 
         .bg-glow {
@@ -83,7 +108,7 @@
             transform: translate(-50%, -50%);
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(244, 114, 182, 0.25) 0%, transparent 70%);
             pointer-events: none;
             z-index: 1;
         }
@@ -91,8 +116,8 @@
         .decor {
             position: absolute;
             font-size: 100px;
-            opacity: 0.05;
-            color: #f59e0b;
+            opacity: 0.25;
+            color: #ff8c92;
             z-index: 0;
             pointer-events: none;
         }
@@ -120,7 +145,7 @@
     
     <!-- Custom Cursor -->
     <div id="custom-cursor"
-        class="fixed w-4 h-4 bg-[#facc15] rounded-full pointer-events-none z-[9999] hidden md:block">
+        class="fixed w-4 h-4 bg-[#ff8c92] rounded-full pointer-events-none z-[9999] hidden md:block">
     </div>
     <div class="decor" style="top: 10%; left: 10%; transform: rotate(-15deg);"><i class="fas fa-heart"></i></div>
     <div class="decor" style="bottom: 15%; right: 10%; transform: rotate(20deg);"><i class="fas fa-star"></i></div>
@@ -155,12 +180,13 @@
 
         interactives.forEach(el => {
             el.addEventListener('mouseenter', () => {
-                if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(250, 204, 21, 0.3)', duration: 0.3 });
+                if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(244, 114, 182, 0.3)', duration: 0.3 });
             });
             el.addEventListener('mouseleave', () => {
-                if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#facc15', duration: 0.3 });
+                if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#ff8c92', duration: 0.3 });
             });
         });
+        // GSAP memory leak cleanup reference: gsap.kill() and gsap.revert()
     </script>
 </body>
 

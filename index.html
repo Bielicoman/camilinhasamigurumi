@@ -1,17 +1,67 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="light">
 
 <head>
+    <script>
+        // Sync theme before render to prevent flash
+        (function() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.remove('light');
+            } else if (savedTheme === 'light') {
+                document.documentElement.classList.add('light');
+            }
+        })();
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Camilinhas Amigurumi | Arte que toca o coração</title>
     <meta name="description" content="Arte personalizada e exclusiva em amigurumi. Encomende o seu!">
-    <link rel="icon" type="image/webp" href="assets/img/brand/logo-camilinhas-circle.webp">
+    <script>
+        (function() {
+            const fav = document.createElement('link');
+            fav.rel = 'icon';
+            fav.type = 'image/webp';
+            fav.href = 'assets/img/brand/logo-camilinhas-circle.webp';
+            document.head.appendChild(fav);
+        })();
+    </script>
     <meta property="og:image" content="assets/img/brand/logo-camilinhas-circle.webp">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/main.css?v=1.6">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        amber: {
+                            400: 'var(--amber-400)',
+                            500: 'var(--amber-500)',
+                            600: 'var(--amber-600)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Roobert', 'Inter', 'sans-serif'],
+                        serif: ['Great Vibes', 'cursive'],
+                        gabust: ['Great Vibes', 'cursive']
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>@import url("assets/css/main.css?v=1.6");</style>
+    <script>
+        (function() {
+            const fa = document.createElement('link');
+            fa.rel = 'stylesheet';
+            fa.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            document.head.appendChild(fa);
+        })();
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <style>
@@ -24,6 +74,10 @@
             align-items: center;
             justify-content: center;
             transition: opacity 0.5s ease-out;
+        }
+
+        html.light #loader {
+            background: #dcf0fa;
         }
 
         #app-content {
@@ -160,7 +214,7 @@
         }
 
         html.light #loader {
-            background: linear-gradient(-45deg, #f2ede4, #e8dfcc, #fcedc5, #f2ede4);
+            background: linear-gradient(-45deg, #dcf0fa, #cbe7f6, #fef08a, #dcf0fa);
             background-size: 400% 400%;
             animation: gradientFlow 5s ease infinite;
         }
@@ -214,7 +268,7 @@
             }
 
             .product-title {
-                font-size: 11px !important;
+                font-size: 14px !important;
                 line-height: 1.3 !important;
                 min-height: 2.6em !important;
                 display: -webkit-box !important;
@@ -226,7 +280,7 @@
             }
 
             .product-meta {
-                font-size: 9px !important;
+                font-size: 11px !important;
                 margin-bottom: 12px !important;
             }
 
@@ -237,11 +291,11 @@
             }
 
             .product-price {
-                font-size: 16px !important;
+                font-size: 20px !important;
             }
 
             .btn-add-mini {
-                font-size: 10px !important;
+                font-size: 12px !important;
                 padding: 10px !important;
                 border-radius: 10px !important;
                 width: 100% !important;
@@ -404,7 +458,7 @@
 
         <!-- Custom Cursor -->
         <div id="custom-cursor"
-            class="fixed w-4 h-4 bg-[#facc15] rounded-full pointer-events-none z-[9999] hidden md:block">
+            class="fixed w-4 h-4 bg-[#ff8c92] rounded-full pointer-events-none z-[9999] hidden md:block">
         </div>
 
         <!-- Cart Drawer -->
@@ -439,7 +493,7 @@
                 </button>
                 <div
                     class="relative w-full mx-auto aspect-square rounded-[24px] overflow-hidden mb-6 shadow-2xl border border-white/5 bg-black/20">
-                    <img id="modal-img" src="" alt="" class="w-full h-full object-cover transition-all duration-500">
+                    <img id="modal-img" src="" alt="Visualização do amigurumi" class="w-full h-full object-cover transition-all duration-500">
 
                     <!-- Navigation Arrows -->
                     <button id="modal-prev" onclick="prevModalImage()" class="modal-arrow prev">
@@ -471,199 +525,206 @@
             </div>
         </div>
 
-        <!-- Navigation -->
-        <!-- Desktop Glass Header -->
-        <header
-            class="hidden md:flex fixed top-6 left-1/2 -translate-x-1/2 w-[95%] max-w-7xl h-16 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full z-50 px-10 items-center justify-between shadow-2xl transition-all duration-500"
-            id="desktop-nav">
-            <!-- Logo Left -->
-            <a href="#home" class="group block">
-                <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas"
-                    class="h-10 w-auto transition-transform group-hover:scale-105">
-            </a>
+        <!-- Promo/Announcement Bar -->
+        <div class="w-full bg-amber-500 text-white dark:text-gray-900 text-center py-2 px-4 text-[10px] font-black uppercase tracking-[0.2em] relative z-50">
+            ✨ Enviamos para todo o Brasil • Feito à mão com amor ✨
+        </div>
 
-            <!-- Nav Links + Cart -->
-            <div class="flex items-center gap-8">
-                <nav class="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-white/50">
-                    <a href="#home" class="hover:text-amber-500 transition-colors">Início</a>
-                    <a href="#products" class="hover:text-amber-500 transition-colors">Vitrine</a>
-                    <a href="#custom" class="hover:text-amber-500 transition-colors">Encomendar</a>
-                    <a href="#about" class="hover:text-amber-500 transition-colors">Sobre</a>
+        <!-- Navigation -->
+        <!-- Desktop Header -->
+        <header class="hidden md:block w-full bg-white dark:bg-[#1a1a1a] border-b border-gray-100 dark:border-white/5 relative z-50 transition-all">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <!-- Logo -->
+                <a class="flex items-center gap-3" href="#home">
+                    <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-10 w-auto">
+                </a>
+
+                <!-- Navigation Links -->
+                <nav class="flex items-center gap-8 text-[11px] font-black uppercase tracking-[0.2em] text-gray-600 dark:text-white/70">
+                    <a class="hover:text-amber-500 transition-colors" href="#home">Home</a>
+                    <a class="hover:text-amber-500 transition-colors" href="#biblical">Bíblica</a>
+                    <a class="hover:text-amber-500 transition-colors" href="#animals">Animais</a>
+                    <a class="hover:text-amber-500 transition-colors" href="#funko">Funko</a>
+                    <a class="hover:text-amber-500 transition-colors" href="#about">Sobre</a>
+                    <a class="hover:text-amber-500 transition-colors" href="#custom">Encomendas</a>
                 </nav>
 
-                <button onclick="toggleCart()"
-                    class="flex items-center gap-3 bg-white/10 hover:bg-amber-500/20 px-5 py-2.5 rounded-full transition-all group">
-                    <div class="relative">
-                        <span
-                            class="absolute -top-2 -right-2 bg-amber-500 text-white w-4 h-4 rounded-full text-[9px] flex items-center justify-center font-black"
-                            id="desktop-cart-count">0</span>
-                        <i class="fas fa-shopping-bag text-amber-500 text-sm"></i>
+                <!-- Action Buttons: Search, User, Cart, Theme -->
+                <div class="flex items-center gap-4">
+                    <!-- Search Input (Desktop) -->
+                    <div class="relative w-48 xl:w-64">
+                        <input type="text" id="product-search" oninput="searchProducts(this.value)" placeholder="Buscar amigurumis..." class="w-full bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-full py-1.5 pl-4 pr-10 text-[10px] font-bold text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500">
+                        <i class="fas fa-search absolute right-3.5 top-2.5 text-gray-400 text-xs"></i>
                     </div>
-                    <span class="text-[10px] font-black uppercase tracking-widest text-white">Sacola</span>
-                </button>
 
-                <!-- Theme Toggle -->
-                <button onclick="toggleTheme()"
-                    class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
-                    <i class="fas fa-moon text-[10px]"></i>
-                </button>
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme()" class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-500 dark:text-white/50 hover:text-amber-500 transition-all">
+                        <i class="theme-icon fas fa-moon text-xs"></i>
+                    </button>
+
+                    <!-- User Profile Placeholder -->
+                    <div class="w-8 h-8 rounded-full bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-500 dark:text-white/50">
+                        <i class="fas fa-user text-xs"></i>
+                    </div>
+
+                    <!-- Cart Toggle -->
+                    <button onclick="toggleCart()" class="relative flex items-center justify-center w-10 h-10 bg-amber-500 hover:bg-amber-600 rounded-xl text-white shadow-md transition-all">
+                        <i class="fas fa-shopping-bag text-sm"></i>
+                        <span id="desktop-cart-count" class="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[9px] font-black rounded-full h-4 w-4 flex items-center justify-center">0</span>
+                    </button>
+                </div>
             </div>
         </header>
 
         <!-- Mobile Minimal Header -->
-        <header
-            class="md:hidden fixed top-0 left-0 w-full z-50 px-6 py-8 transition-all duration-500 flex justify-center items-center pointer-events-none"
-            id="mobile-header">
-            <!-- Centered Logo -->
-            <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-8 w-auto pointer-events-auto">
+        <header class="md:hidden w-full bg-white dark:bg-[#1a1a1a] border-b border-gray-100 dark:border-white/5 px-6 py-4 flex items-center justify-between relative z-50">
+            <!-- Hamburger menu button -->
+            <button onclick="toggleMobileMenu()" class="text-gray-700 dark:text-white text-lg">
+                <i id="menu-icon" class="fas fa-bars"></i>
+            </button>
+            
+            <a class="block" href="#home">
+                <img src="assets/img/brand/logo-amber.webp" alt="Camilinhas" class="h-8 w-auto">
+            </a>
 
-            <!-- Theme Toggle on the Right -->
-            <div class="absolute top-8 right-6 pointer-events-auto">
-                <button onclick="toggleTheme()"
-                    class="w-8 h-8 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white/30 hover:text-amber-500 transition-all active:scale-90">
-                    <i class="fas fa-moon text-[10px]"></i>
-                </button>
-            </div>
+            <!-- Cart button on right -->
+            <button onclick="toggleCart()" class="relative flex items-center justify-center w-8 h-8 bg-amber-500 rounded-lg text-white shadow-sm">
+                <i class="fas fa-shopping-bag text-xs"></i>
+                <span id="mobile-cart-count" class="absolute -top-1 -right-1 bg-red-500 text-white text-[8px] font-bold rounded-full h-3.5 w-3.5 flex items-center justify-center">0</span>
+            </button>
         </header>
 
-        <section id="home" class="relative w-full h-screen overflow-hidden bg-black">
-            <div id="slideshow-container">
-                <!-- Slide 1: Main Banner -->
-                <div class="hero-slide active">
-                    <img src="assets/img/brand/camila-banner.webp" alt="Camilinhas Banner">
+        <!-- Mobile Navigation Menu -->
+        <div id="nav-links" class="hidden fixed inset-0 z-40 bg-white/95 dark:bg-[#121212]/98 backdrop-blur-md flex flex-col justify-center items-center gap-6 text-lg font-black uppercase tracking-[0.2em] text-gray-700 dark:text-white">
+            <a class="hover:text-amber-500 transition-colors" href="#home">Home</a>
+            <a class="hover:text-amber-500 transition-colors" href="#biblical">Bíblica</a>
+            <a class="hover:text-amber-500 transition-colors" href="#animals">Animais</a>
+            <a class="hover:text-amber-500 transition-colors" href="#funko">Funko</a>
+            <a class="hover:text-amber-500 transition-colors" href="#about">Sobre</a>
+            <a class="hover:text-amber-500 transition-colors" href="#custom">Encomendas</a>
+        </div>
 
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                        <div class="hero-content">
-                            <h1 class="text-white hero-title font-black h-serif mb-6">
-                                Arte que<br><span class="italic text-amber-500">toca o coração.</span>
-                            </h1>
-                            <p class="text-white/60 hero-quote font-medium italic mb-8">
-                                "Muitas mulheres são exemplares, mas você a todas supera."
-                            </p>
-                            <div class="biblical-badge">Provérbios 31:29</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Slide 2: Sagrado -->
-                <div class="hero-slide">
-                    <img loading="lazy" src="assets/img/products/religiosos/presépio-completo.png"
-                        alt="Presépio Completo">
-
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                        <div class="hero-content">
-                            <h1 class="text-white hero-title font-black h-serif mb-6">
-                                Um presente <span class="italic text-amber-500">do céu</span><br>para o seu lar.
-                            </h1>
-                            <p class="text-white/60 hero-quote font-medium italic mb-8">
-                                "Deixai vir a mim os pequeninos, não os impeçais de vir a mim..."
-                            </p>
-                            <div class="biblical-badge">Mateus 19:14</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Slide 3: Maternidade / Mother -->
-                <div class="hero-slide">
-                    <img loading="lazy" src="assets/img/hero/hero-mother.webp" alt="Afeto Materno">
-
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                        <div class="hero-content">
-                            <h1 class="text-white hero-title font-black h-serif mb-6">
-                                Memórias que<br><span class="italic text-amber-500">permanecem.</span>
-                            </h1>
-                            <p class="text-white/60 hero-quote font-medium italic mb-8">
-                                "Os filhos são herança do Senhor, uma recompensa que ele dá."
-                            </p>
-                            <div class="biblical-badge">Salmos 127:3</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Slide 4: Maternidade / Children -->
-                <div class="hero-slide">
-                    <img loading="lazy" src="assets/img/hero/hero-children.webp" alt="Infância Feliz">
-
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                        <div class="hero-content">
-                            <h1 class="text-white hero-title font-black h-serif mb-6">
-                                O primeiro<br><span class="italic text-amber-500">melhor amigo.</span>
-                            </h1>
-                            <p class="text-white/60 hero-quote font-medium italic mb-8">
-                                "Ensina a criança no caminho em que deve andar..."
-                            </p>
-                            <div class="biblical-badge">Provérbios 22:6</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Slide 5: Funko / Puppets -->
-                <div class="hero-slide">
-                    <img loading="lazy" src="assets/img/hero/hero-puppets.webp" alt="Personagens Amigurumi">
-
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                        <div class="hero-content">
-                            <h1 class="text-white hero-title font-black h-serif mb-6">
-                                Seus heróis,<br><span class="italic text-amber-500">feitos à mão.</span>
-                            </h1>
-                            <p class="text-white/60 hero-quote font-medium italic mb-8">
-                                "Tudo o que fizerem, façam de todo o coração, como para o Senhor..."
-                            </p>
-                            <div class="biblical-badge">Colossenses 3:23</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Slide 6: Chaveiros -->
-                <div class="hero-slide">
-                    <img loading="lazy" src="assets/img/hero/hero-keychain.webp" alt="Mimos em Crochê">
-
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                        <div class="hero-content">
-                            <h1 class="text-white hero-title font-black h-serif mb-6">
-                                Mimos que<br><span class="italic text-amber-500">transbordam afeto.</span>
-                            </h1>
-                            <p class="text-white/60 hero-quote font-medium italic mb-8">
-                                "A vossa doçura seja conhecida de todos os homens."
-                            </p>
-                            <div class="biblical-badge">Filipenses 4:5</div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Slide 7: Capybara -->
-                <div class="hero-slide">
-                    <img loading="lazy" src="assets/img/products/animals/capybara.webp" alt="Capicaco Mimo">
-
-                    <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/20 to-transparent"></div>
-                    <div class="absolute inset-0 flex items-center px-10 md:px-32">
-                        <div class="hero-content">
-                            <h1 class="text-white hero-title font-black h-serif mb-6">
-                                Cada detalhe,<br><span class="italic text-amber-500">um carinho.</span>
-                            </h1>
-                            <p class="text-white/60 hero-quote font-medium italic mb-8">
-                                "O coração alegre aformoseia o rosto..."
-                            </p>
-                            <div class="biblical-badge">Provérbios 15:13</div>
-                        </div>
-                    </div>
-                </div>
+        <!-- Hero Section -->
+        <section id="home" class="relative w-full min-h-[500px] flex items-center bg-[#dcf0fa] dark:bg-[#151515] py-12 px-6 overflow-hidden">
+            <!-- Background pattern or blobs -->
+            <div class="absolute inset-0 z-0 pointer-events-none opacity-20 dark:opacity-5">
+                <div class="absolute w-[500px] h-[500px] bg-amber-500 blur-[120px] rounded-full -top-40 -left-40"></div>
+                <div class="absolute w-[500px] h-[500px] bg-yellow-400 blur-[120px] rounded-full -bottom-40 -right-40"></div>
             </div>
 
-            <!-- Fixed Hero CTA (Stay even when slides change) -->
-            <div class="absolute inset-0 flex items-center px-10 md:px-32 pointer-events-none z-30">
-                <div class="hero-content mt-80 pointer-events-auto">
-                    <a href="#products" class="btn-netflix-main">Ver Vitrine</a>
+            <div class="max-w-7xl mx-auto w-full grid lg:grid-cols-12 gap-8 items-center relative z-10">
+                <!-- Text / Promotion Card (Left 5 cols) -->
+                <div class="lg:col-span-5 flex flex-col items-start text-left bg-white dark:bg-[#1c1c1c] border border-gray-100 dark:border-white/5 p-8 md:p-12 rounded-[36px] shadow-xl">
+                    <span class="inline-block bg-[#fef3c7] text-[#b45309] dark:bg-amber-500/10 dark:text-amber-500 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-1.5 rounded-full mb-4">
+                        💡 Peças Exclusivas
+                    </span>
+                    <h1 class="text-clamp-lg text-gray-800 dark:text-white font-black h-serif mb-4 leading-tight">
+                        Coleções de amigurumi <br><span class="italic text-amber-500">feitas com afeto.</span>
+                    </h1>
+                    <p class="text-gray-500 dark:text-white/60 font-medium text-sm leading-relaxed mb-8">
+                        Cada amigurumi é tecido ponto a ponto, transformando fios de algodão em histórias de carinho, fé e amizade. Encomende o seu personalizado ou compre da nossa vitrine.
+                    </p>
+                    <a class="w-full sm:w-auto text-center bg-amber-500 hover:bg-amber-600 text-white font-black text-xs uppercase tracking-[0.2em] py-4 px-8 rounded-2xl transition-all shadow-lg hover:shadow-xl hover:translate-y-[-2px] active:translate-y-0" href="#products">
+                        Ver Vitrine
+                    </a>
+                </div>
+
+                <!-- Banner Image (Right 7 cols) -->
+                <div class="lg:col-span-7 relative rounded-[40px] overflow-hidden shadow-2xl aspect-[16/9] bg-white border border-gray-100 dark:border-white/5">
+                    <img src="assets/img/brand/camila-banner.webp" alt="Ateliê Camilinhas" class="w-full h-full object-cover">
+                    <!-- Overlay to match dark mode -->
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
                 </div>
             </div>
-
-            <!-- Hero Transition Gradient -->
-            <div class="absolute bottom-0 left-0 w-full h-48 z-20 pointer-events-none" id="hero-transition"></div>
         </section>
 
         <!-- Vitrine Categorizada Dark -->
         <main class="bg-[#121212] py-32 px-6 scroll-mt-32" id="products">
             <div class="max-w-6xl mx-auto space-y-32">
+
+                <section class="grid grid-cols-2 md:grid-cols-4 gap-6 pb-12 border-b border-gray-100 dark:border-white/5">
+                    <div class="flex items-center gap-4 p-5 bg-pink-50/60 dark:bg-white/5 rounded-[24px] border border-pink-100 dark:border-white/5">
+                        <span class="text-pink-500 dark:text-amber-500 text-2xl"><i class="fas fa-credit-card"></i></span>
+                        <div class="text-left">
+                            <p class="text-xs font-black text-gray-800 dark:text-white leading-tight uppercase tracking-wider">Parcelamento</p>
+                            <p class="text-[9px] text-gray-500 dark:text-white/40 font-bold uppercase tracking-widest mt-1">Em até 6x no cartão</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-5 bg-yellow-50/60 dark:bg-white/5 rounded-[24px] border border-yellow-100 dark:border-white/5">
+                        <span class="text-yellow-600 dark:text-amber-500 text-2xl"><i class="fas fa-qrcode"></i></span>
+                        <div class="text-left">
+                            <p class="text-xs font-black text-gray-800 dark:text-white leading-tight uppercase tracking-wider">Aceitamos Pix</p>
+                            <p class="text-[9px] text-gray-500 dark:text-white/40 font-bold uppercase tracking-widest mt-1">Pagamento rápido e fácil</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-5 bg-blue-50/60 dark:bg-white/5 rounded-[24px] border border-blue-100 dark:border-white/5">
+                        <span class="text-blue-500 dark:text-amber-500 text-2xl"><i class="fas fa-shield-alt"></i></span>
+                        <div class="text-left">
+                            <p class="text-xs font-black text-gray-800 dark:text-white leading-tight uppercase tracking-wider">Compra Segura</p>
+                            <p class="text-[9px] text-gray-500 dark:text-white/40 font-bold uppercase tracking-widest mt-1">Proteção de dados</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-4 p-5 bg-teal-50/60 dark:bg-white/5 rounded-[24px] border border-teal-100 dark:border-white/5">
+                        <span class="text-teal-500 dark:text-amber-500 text-2xl"><i class="fas fa-truck"></i></span>
+                        <div class="text-left">
+                            <p class="text-xs font-black text-gray-800 dark:text-white leading-tight uppercase tracking-wider">Envio Nacional</p>
+                            <p class="text-[9px] text-gray-500 dark:text-white/40 font-bold uppercase tracking-widest mt-1">Entrega em todo o Brasil</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Novidades (Top Selection) -->
+                <section id="novidades" class="scroll-mt-24">
+                    <div class="category-header">
+                        <h2 class="text-clamp-lg text-white h-serif italic font-light">Novidades do Ateliê</h2>
+                        <p class="text-[10px] font-black text-white/30 uppercase tracking-[0.3em] mt-2">Destaques Recentes</p>
+                    </div>
+                    
+                    <div class="product-grid mb-12">
+                        <!-- 4 Featured Cards -->
+                        <div class="product-card group cursor-pointer">
+                            <img loading="lazy" src="assets/img/products/religiosos/presépio-completo.png" alt="Presépio Completo">
+                            <h3 class="product-title">Presépio Completo</h3>
+                            <p class="product-meta mb-4">Tam: 12cm | Kit Completo</p>
+                            <div class="flex justify-between items-center mb-4 mt-auto">
+                                <span class="product-price">R$ 350</span>
+                            </div>
+                            <button onclick="event.stopPropagation(); addToCart('Presépio Completo', 350)" class="btn-add-mini">Adicionar ao carrinho</button>
+                        </div>
+                        
+                        <div class="product-card group cursor-pointer">
+                            <img loading="lazy" src="assets/img/products/animals/lion.webp" alt="Leão Safari">
+                            <h3 class="product-title">Leão Safari</h3>
+                            <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                            <div class="flex justify-between items-center mb-4 mt-auto">
+                                <span class="product-price">R$ 180</span>
+                            </div>
+                            <button onclick="event.stopPropagation(); addToCart('Leão Safari', 180)" class="btn-add-mini">Adicionar ao carrinho</button>
+                        </div>
+                        
+                        <div class="product-card group cursor-pointer">
+                            <img loading="lazy" src="assets/img/products/religiosos/jesus-funko.png" alt="Jesus Funko">
+                            <h3 class="product-title">Jesus Funko</h3>
+                            <p class="product-meta mb-4">Tam: 20cm | Funko</p>
+                            <div class="flex justify-between items-center mb-4 mt-auto">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="event.stopPropagation(); addToCart('Jesus Funko', 160)" class="btn-add-mini">Adicionar ao carrinho</button>
+                        </div>
+                        
+                        <div class="product-card group cursor-pointer">
+                            <img loading="lazy" src="assets/img/products/animals/fox-joy.webp" alt="Raposa Joy">
+                            <h3 class="product-title">Raposa Joy</h3>
+                            <p class="product-meta mb-4">Tam: 25cm | Kit</p>
+                            <div class="flex justify-between items-center mb-4 mt-auto">
+                                <span class="product-price">R$ 160</span>
+                            </div>
+                            <button onclick="event.stopPropagation(); addToCart('Raposa Joy', 160)" class="btn-add-mini">Adicionar ao carrinho</button>
+                        </div>
+                    </div>
+                </section>
+
+
 
                 <!-- Categoria: Sagrado -->
                 <section id="biblical">
@@ -712,9 +773,9 @@
                             <h3 class="product-title">Anjo Gabriel</h3>
                             <p class="product-meta mb-4">Tam: 12cm | Coleção Bíblica</p>
                             <div class="flex justify-between items-center mb-4">
-                                <span class="product-price">R$ 150</span>
+                                <span class="product-price">R$ 65</span>
                             </div>
-                            <button onclick="addToCart('Anjo Gabriel', 150)" class="btn-add-mini">ADICIONAR</button>
+                            <button onclick="addToCart('Anjo Gabriel', 65)" class="btn-add-mini">ADICIONAR</button>
                         </div>
                     </div>
                 </section>
@@ -845,16 +906,7 @@
                             </div>
                             <button onclick="addToCart('Coelhinha Mel', 150)" class="btn-add-mini">ADICIONAR</button>
                         </div>
-                        <div class="product-card group">
-                            <img loading="lazy" src="assets/img/products/animals/dino.webp" alt="Dino">
 
-                            <h3 class="product-title">Dino Baby</h3>
-                            <p class="product-meta mb-4">Tam: 12cm | Kit</p>
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="product-price">R$ 140</span>
-                            </div>
-                            <button onclick="addToCart('Dino Baby', 140)" class="btn-add-mini">ADICIONAR</button>
-                        </div>
                         <div class="product-card group">
                             <img loading="lazy" src="assets/img/products/outros/galo.png" alt="Galo">
                             <h3 class="product-title">Galo Amigurumi</h3>
@@ -952,23 +1004,30 @@
                         </div>
 
                         <div
-                            class="space-y-6 text-white/70 font-medium leading-relaxed text-clamp-sm text-justify lg:text-left">
+                            class="space-y-6 text-gray-700 dark:text-white/70 font-medium leading-relaxed text-clamp-sm text-justify lg:text-left">
+                            
                             <div
-                                class="bg-white/5 border border-white/10 p-6 rounded-[24px] space-y-3 backdrop-blur-sm relative overflow-hidden group">
-                                <div class="absolute top-0 right-0 w-20 h-20 bg-amber-500/5 blur-2xl rounded-full">
+                                class="bg-white dark:bg-white/5 border border-pink-100 dark:border-white/10 p-10 rounded-[32px] shadow-xl shadow-pink-100/50 dark:shadow-none backdrop-blur-md relative overflow-hidden group">
+                                <!-- Background glows -->
+                                <div class="absolute top-0 right-0 w-32 h-32 bg-pink-100/80 dark:bg-amber-500/5 blur-3xl rounded-full pointer-events-none"></div>
+                                <div class="absolute bottom-0 left-0 w-24 h-24 bg-blue-100/80 dark:bg-amber-500/5 blur-2xl rounded-full pointer-events-none"></div>
+                                
+                                <div class="relative z-10 flex flex-col items-center text-center">
+                                    <i class="fas fa-quote-left text-pink-300 dark:text-amber-500/50 text-2xl mb-4"></i>
+                                    <p
+                                        class="text-gray-800 dark:text-white/90 text-3xl md:text-4xl leading-relaxed font-bold" style="font-family: 'Caveat', cursive;">
+                                        "Eu te louvo porque me fizeste de modo especial e admirável. Tuas obras são maravilhosas!"
+                                    </p>
+                                    <div class="h-px w-16 bg-pink-200 dark:bg-white/10 my-6"></div>
+                                    <p class="text-[#db2777] dark:text-amber-500 font-black text-xs uppercase tracking-[0.3em]">
+                                        Salmos 139:14
+                                    </p>
                                 </div>
-                                <p
-                                    class="text-white/90 italic font-serif text-base md:text-lg leading-relaxed relative z-10">
-                                    "Eu te louvo porque me fizeste de modo especial e admirável. Tuas obras são
-                                    maravilhosas!"
-                                </p>
-                                <p class="text-amber-500 font-bold text-[9px] uppercase tracking-[0.3em] relative z-10">
-                                    Salmos 139:14</p>
                             </div>
 
                             <p>
                                 Adriana Nunes não apenas tece fios; ela tece propósitos. Natural de <span
-                                    class="text-white font-bold">Campo Grande - MS</span>, traz em suas mãos a
+                                    class="text-white font-bold">Sorocaba - SP</span>, traz em suas mãos a
                                 sensibilidade e paixão de uma vida dedicada ao lar e à fé como <span
                                     class="text-amber-500/80 border-b border-amber-500/20">Adventista do Sétimo
                                     Dia</span>.
@@ -992,7 +1051,7 @@
                             <div class="text-center lg:text-left">
                                 <p class="text-amber-500 font-black text-[7px] uppercase tracking-widest mb-1">Origem
                                 </p>
-                                <p class="text-white font-bold text-xl h-serif italic text-nowrap">Campo Grande, MS</p>
+                                <p class="text-white font-bold text-xl h-serif italic text-nowrap">Sorocaba, SP</p>
                             </div>
                         </div>
                     </div>
@@ -1017,8 +1076,7 @@
 
                         <!-- Social Links Compact -->
                         <div class="flex gap-3 mb-8">
-                            <a href="https://wa.me/556792804803" target="_blank"
-                                class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
+                            <a class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all" target="_blank" href="https://wa.me/556792804803">
                                 <span class="text-amber-500 text-lg"><i class="fab fa-whatsapp"></i></span>
                                 <div class="text-left">
                                     <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">WhatsApp
@@ -1026,8 +1084,7 @@
                                     <p class="text-white font-bold text-xs">Falar com Adriana</p>
                                 </div>
                             </a>
-                            <a href="https://instagram.com/camilinhasamigurumi" target="_blank"
-                                class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all">
+                            <a class="flex items-center gap-3 bg-white/5 border border-white/10 px-5 py-3 rounded-xl group hover:border-amber-500/50 transition-all" target="_blank" href="https://instagram.com/camilinhasamigurumi">
                                 <span class="text-amber-500 text-lg"><i class="fab fa-instagram"></i></span>
                                 <div class="text-left">
                                     <p class="text-[7px] text-white/30 font-black uppercase tracking-widest">Instagram
@@ -1075,100 +1132,248 @@
             </div>
         </section>
 
-        <!-- Footer -->
-        <footer class="relative bg-[#0a0a0a] border-t border-white/10 pt-16 md:pt-24 pb-48 md:pb-12 overflow-hidden">
-            <!-- Subtle Glow Effect -->
-            <div
-                class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-32 bg-amber-500/5 blur-[100px] pointer-events-none">
-            </div>
 
-            <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-                <!-- Mobile Layout (visible only on mobile) -->
-                <div class="block md:hidden space-y-12">
-                    <!-- Brand Mobile -->
-                    <div class="text-center space-y-4">
-                        <div class="inline-block relative">
-                            <div class="absolute -inset-2 bg-amber-500/20 blur-xl rounded-full opacity-50"></div>
-                            <img src="assets/img/brand/logo-camilinhas-circle.webp" alt="Camilinhas"
-                                class="h-20 w-20 relative rounded-full border border-white/10 shadow-2xl mx-auto">
+        <!-- Seção Redes Sociais -->
+        <section id="social-networks" class="py-20 px-6 bg-gray-50 dark:bg-[#121212] border-t border-gray-100 dark:border-white/5 scroll-mt-24">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="text-amber-500 font-black text-[8px] uppercase tracking-[0.4em] mb-2 block">Conecte-se Conosco</span>
+                    <h2 class="text-gray-800 dark:text-white h-serif italic font-light text-clamp-lg">Nossas Redes Sociais</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Instagram Card -->
+                    <div class="flex flex-col items-center justify-between p-8 bg-white dark:bg-[#1c1c1c] rounded-[32px] border border-gray-100 dark:border-white/5 shadow-md">
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="text-pink-500 text-4xl"><i class="fab fa-instagram"></i></span>
+                            <div class="text-left">
+                                <h3 class="text-lg font-black text-gray-800 dark:text-white">Instagram</h3>
+                                <p class="text-xs text-gray-400 dark:text-white/40">@camilinhasamigurumi</p>
+                            </div>
                         </div>
-                        <h4 class="text-white h-serif italic text-2xl tracking-tight">Camilinhas Amigurumi</h4>
-                        <p
-                            class="text-white/40 text-xs leading-relaxed max-w-[250px] mx-auto uppercase tracking-[0.2em] font-medium">
-                            Arte que toca o coração
+                        <p class="text-sm text-gray-500 dark:text-white/60 font-medium text-center mb-8 leading-relaxed">
+                            Acompanhe os bastidores do nosso ateliê, novos lançamentos e processos de confecção diários.
+                        </p>
+                        <a class="w-full text-center bg-gradient-to-r from-rose-500 to-pink-500 hover:opacity-90 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-md text-xs uppercase tracking-widest" target="_blank" href="https://instagram.com/camilinhasamigurumi">
+                            Seguir no Instagram
+                        </a>
+                    </div>
+
+                    <!-- YouTube Card -->
+                    <div class="flex flex-col items-center justify-between p-8 bg-white dark:bg-[#1c1c1c] rounded-[32px] border border-gray-100 dark:border-white/5 shadow-md">
+                        <div class="flex items-center gap-4 mb-6">
+                            <span class="text-red-500 text-4xl"><i class="fab fa-youtube"></i></span>
+                            <div class="text-left">
+                                <h3 class="text-lg font-black text-gray-800 dark:text-white">YouTube</h3>
+                                <p class="text-xs text-gray-400 dark:text-white/40">Camilinhas Ateliê</p>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-500 dark:text-white/60 font-medium text-center mb-8 leading-relaxed">
+                            Inscreva-se para assistir a vídeos tutoriais, dicas de conservação e passo a passo de crochê.
+                        </p>
+                        <a class="w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold py-3.5 px-6 rounded-2xl transition-all shadow-md text-xs uppercase tracking-widest" target="_blank" href="https://youtube.com/">
+                            Inscrever-se no YouTube
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 px-6 bg-white dark:bg-[#1a1a1a] border-t border-gray-100 dark:border-white/5 scroll-mt-24">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="text-amber-500 font-black text-[8px] uppercase tracking-[0.4em] mb-2 block">Dúvidas Comuns</span>
+                    <h2 class="text-gray-800 dark:text-white h-serif italic font-light text-clamp-lg">Dúvidas Frequentes</h2>
+                </div>
+
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <!-- FAQ Item 1 -->
+                    <div class="border border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50 dark:bg-[#1c1c1c] overflow-hidden transition-all shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 flex items-center justify-between text-left font-bold text-sm text-gray-800 dark:text-white focus:outline-none">
+                            <span>Como funcionam as encomendas personalizadas?</span>
+                            <span class="text-amber-500 transition-transform duration-300"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                            <p class="px-6 pb-5 text-xs text-gray-500 dark:text-white/60 leading-relaxed pt-2">
+                                Para encomendas personalizadas, você pode utilizar o formulário "Concierge Camilinhas" na seção de projetos especiais. Descreva o personagem, tamanho e cores desejadas. Retornaremos via WhatsApp com um orçamento personalizado.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 2 -->
+                    <div class="border border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50 dark:bg-[#1c1c1c] overflow-hidden transition-all shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 flex items-center justify-between text-left font-bold text-sm text-gray-800 dark:text-white focus:outline-none">
+                            <span>Qual é o prazo de produção das peças?</span>
+                            <span class="text-amber-500 transition-transform duration-300"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                            <p class="px-6 pb-5 text-xs text-gray-500 dark:text-white/60 leading-relaxed pt-2">
+                                O prazo médio de produção varia entre 5 a 15 dias úteis, dependendo da complexidade do amigurumi e da nossa fila de encomendas no momento da confirmação do pagamento.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 3 -->
+                    <div class="border border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50 dark:bg-[#1c1c1c] overflow-hidden transition-all shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 flex items-center justify-between text-left font-bold text-sm text-gray-800 dark:text-white focus:outline-none">
+                            <span>Como são feitos os envios e qual o valor do frete?</span>
+                            <span class="text-amber-500 transition-transform duration-300"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                            <p class="px-6 pb-5 text-xs text-gray-500 dark:text-white/60 leading-relaxed pt-2">
+                                Enviamos para todo o Brasil através dos Correios (PAC ou SEDEX) ou transportadoras parceiras. Para clientes em Sorocaba - SP, oferecemos opção de retirada agendada ou entrega por motoboy (grátis para compras acima de R$ 150).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ Item 4 -->
+                    <div class="border border-gray-100 dark:border-white/5 rounded-2xl bg-gray-50 dark:bg-[#1c1c1c] overflow-hidden transition-all shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 flex items-center justify-between text-left font-bold text-sm text-gray-800 dark:text-white focus:outline-none">
+                            <span>Quais são as formas de pagamento aceitas?</span>
+                            <span class="text-amber-500 transition-transform duration-300"><i class="fas fa-plus"></i></span>
+                        </button>
+                        <div class="faq-content max-h-0 overflow-hidden transition-all duration-300 ease-in-out">
+                            <p class="px-6 pb-5 text-xs text-gray-500 dark:text-white/60 leading-relaxed pt-2">
+                                Aceitamos PIX (com 5% de desconto automático), cartões de crédito em até 6x (com parcelas mínimas de R$ 50), e boleto bancário à vista.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="relative bg-gray-100 dark:bg-[#0a0a0a] border-t border-gray-200 dark:border-white/10 pt-16 pb-12 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-6 relative z-10">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                    <!-- Column 1: Brand / Info -->
+                    <div class="space-y-4">
+                        <img loading="lazy" src="assets/img/brand/logo-amber.webp" alt="Camilinhas Amigurumi" class="h-16">
+                        <p class="text-xs text-gray-500 dark:text-white/40 leading-relaxed font-medium">
+                            Arte personalizada em crochê amigurumi. Levando afeto, doçura e beleza para todos os lares através de peças tecidas com amor.
                         </p>
                     </div>
 
-                    <!-- Social Bar Mobile -->
-                    <div class="flex justify-center gap-6 pt-8 pb-12 border-t border-white/5">
-                        <a href="https://wa.me/556792804803" class="text-white/20 hover:text-amber-500 text-xl"><i
-                                class="fab fa-whatsapp"></i></a>
-                        <a href="https://instagram.com/camilinhasamigurumi"
-                            class="text-white/20 hover:text-amber-500 text-xl"><i class="fab fa-instagram"></i></a>
-                        <a href="#home" class="text-white/20 hover:text-amber-500 text-xl"><i
-                                class="fas fa-chevron-up"></i></a>
+                    <!-- Column 2: Quick Links -->
+                    <div>
+                        <h4 class="text-xs font-black uppercase tracking-wider text-gray-700 dark:text-white mb-4">Acesso Rápido</h4>
+                        <ul class="space-y-2 text-xs font-bold text-gray-500 dark:text-white/50">
+                            <li><a class="hover:text-amber-500 transition-colors" href="#home">Página Inicial</a></li>
+                            <li><a class="hover:text-amber-500 transition-colors" href="#novidades">Novidades</a></li>
+                            <li><a class="hover:text-amber-500 transition-colors" href="#biblical">Coleção Bíblica</a></li>
+                            <li><a class="hover:text-amber-500 transition-colors" href="#animals">Coleção Animais</a></li>
+                            <li><a class="hover:text-amber-500 transition-colors" href="#custom">Projetos Especiais</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 3: Atendimento -->
+                    <div>
+                        <h4 class="text-xs font-black uppercase tracking-wider text-gray-700 dark:text-white mb-4">Atendimento</h4>
+                        <ul class="space-y-2 text-xs font-bold text-gray-500 dark:text-white/50">
+                            <li><span class="text-amber-500"><i class="fab fa-whatsapp mr-2"></i></span>(67) 99280-4803</li>
+                            <li><span class="text-amber-500"><i class="far fa-clock mr-2"></i></span>Seg a Sex: 8h às 18h</li>
+                            <li><span class="text-amber-500"><i class="fas fa-map-marker-alt mr-2"></i></span>Sorocaba - SP</li>
+                        </ul>
+                    </div>
+
+                    <!-- Column 4: Newsletter -->
+                    <div>
+                        <h4 class="text-xs font-black uppercase tracking-wider text-gray-700 dark:text-white mb-4">Novidades</h4>
+                        <p class="text-xs text-gray-500 dark:text-white/40 leading-relaxed mb-4">Inscreva-se para receber atualizações de novas coleções e descontos especiais.</p>
+                        <form onsubmit="event.preventDefault(); alert('Inscrição realizada!');" class="flex gap-2">
+                            <input type="email" required placeholder="Seu e-mail..." class="bg-white dark:bg-black/20 border border-gray-200 dark:border-white/10 text-xs px-4 py-2.5 rounded-xl w-full text-gray-800 dark:text-white placeholder-gray-400 focus:outline-none focus:border-amber-500">
+                            <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl transition-all shadow-md">Ok</button>
+                        </form>
                     </div>
                 </div>
 
-                <!-- Desktop Layout (visible only on desktop) -->
-                <div class="hidden md:flex flex-col items-center text-center space-y-12 py-12">
-                    <!-- Brand -->
-                    <div class="space-y-4">
-                        <img loading="lazy" src="assets/img/brand/logo-amber.webp" alt="Camilinhas Amigurumi"
-                            class="h-20 mx-auto">
+                <!-- Bottom Bar -->
+                <div class="pt-8 border-t border-gray-200 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <p class="text-[10px] text-gray-400 dark:text-white/30 font-bold uppercase tracking-[0.25em] text-center sm:text-left">
+                        © 2026 Camilinhas Amigurumi. Todos os direitos reservados.
+                    </p>
+                    <!-- Payment Methods Icons -->
+                    <div class="flex items-center gap-3 text-gray-400 dark:text-white/30 text-lg">
+                        <i class="fab fa-cc-visa" title="Visa"></i>
+                        <i class="fab fa-cc-mastercard" title="MasterCard"></i>
+                        <i class="fab fa-cc-diners-club" title="Diners Club"></i>
+                        <i class="fas fa-barcode" title="Boleto"></i>
+                        <span class="text-xs font-black tracking-widest border border-gray-300 dark:border-white/10 px-2 py-0.5 rounded uppercase" title="PIX">PIX</span>
                     </div>
-
-                    <!-- Footer Links -->
-                    <nav class="flex gap-12 text-[11px] font-black uppercase tracking-[0.3em] text-white/40">
-                        <a href="#home" class="hover:text-amber-500 transition-colors">Home</a>
-                        <a href="#products" class="hover:text-amber-500 transition-colors">Catálogo</a>
-                        <a href="#custom" class="hover:text-amber-500 transition-colors">Personalizados</a>
-                    </nav>
-
                 </div>
             </div>
         </footer>
 
         <script>
             let cart = [];
-            let currentSlide = 0;
-            const slides = document.querySelectorAll('.hero-slide');
 
-            // Smooth Scroll Setup moved to DOMContentLoaded for reliability
+            // FAQ Accordion Toggle
+            function toggleFaq(button) {
+                const item = button.parentElement;
+                const content = item.querySelector('.faq-content');
+                const icon = button.querySelector('span:last-child i');
+                const allContents = document.querySelectorAll('.faq-content');
+                const allIcons = document.querySelectorAll('#faq span:last-child i');
 
-            function nextSlide() {
-                slides[currentSlide].classList.remove('active');
-                currentSlide = (currentSlide + 1) % slides.length;
-                slides[currentSlide].classList.add('active');
-                setTimeout(nextSlide, 10000);
+                if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+                    content.style.maxHeight = '0px';
+                    if (icon) {
+                        icon.classList.remove('fa-minus');
+                        icon.classList.add('fa-plus');
+                    }
+                } else {
+                    // Close others
+                    allContents.forEach(c => c.style.maxHeight = '0px');
+                    allIcons.forEach(i => {
+                        i.classList.remove('fa-minus');
+                        i.classList.add('fa-plus');
+                    });
+                    
+                    // Open current
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    if (icon) {
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-minus');
+                    }
+                }
             }
-
-            // Global Slide State
-            setTimeout(nextSlide, 10000);
 
 
             function toggleTheme() {
                 const html = document.documentElement;
-                const themeIcon = document.getElementById('theme-icon');
+                const themeIcons = document.querySelectorAll('.theme-icon');
 
                 if (html.classList.contains('light')) {
                     html.classList.remove('light');
-                    if (themeIcon) { themeIcon.classList.remove('fa-moon'); themeIcon.classList.add('fa-sun'); }
+                    themeIcons.forEach(icon => {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    });
                     localStorage.setItem('theme', 'dark');
                 } else {
                     html.classList.add('light');
-                    if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
+                    themeIcons.forEach(icon => {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    });
                     localStorage.setItem('theme', 'light');
                 }
             }
 
             // Check LocalStorage on Load
             document.addEventListener('DOMContentLoaded', () => {
-                if (localStorage.getItem('theme') === 'light') {
-                    document.documentElement.classList.add('light');
-                    const themeIcon = document.getElementById('theme-icon');
-                    if (themeIcon) { themeIcon.classList.remove('fa-sun'); themeIcon.classList.add('fa-moon'); }
-                }
+                const isLight = document.documentElement.classList.contains('light');
+                const themeIcons = document.querySelectorAll('.theme-icon');
+                themeIcons.forEach(icon => {
+                    if (isLight) {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    } else {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    }
+                });
 
                 // Smooth Scroll Initialization
                 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1534,8 +1739,8 @@
                 });
 
                 interactives.forEach(el => {
-                    el.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(250, 204, 21, 0.3)', duration: 0.3 }); });
-                    el.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#facc15', duration: 0.3 }); });
+                    el.addEventListener('mouseenter', () => { if (cursor) gsap.to(cursor, { scale: 4, backgroundColor: 'rgba(244, 114, 182, 0.3)', duration: 0.3 }); });
+                    el.addEventListener('mouseleave', () => { if (cursor) gsap.to(cursor, { scale: 1, backgroundColor: '#ff8c92', duration: 0.3 }); });
                 });
 
                 // 3. Loader Progress
@@ -1613,8 +1818,7 @@
                     setTimeout(reveal, 800);
                 }
             })();
-
-
+            // GSAP memory leak cleanup reference: gsap.kill() and gsap.revert()
         </script>
     </div> <!-- End #app-content -->
 
@@ -1622,7 +1826,7 @@
     <nav class="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[85%] max-w-[360px] bg-white/10 backdrop-blur-xl border border-white/20 rounded-[2rem] z-50 px-4 py-2 shadow-[0_15px_40px_rgba(0,0,0,0.3)] flex justify-between items-center transition-all duration-500"
         id="mobile-nav">
         <!-- Home -->
-        <a href="#home" class="flex flex-col items-center gap-1 group">
+        <a class="flex flex-col items-center gap-1 group" href="#home">
             <div
                 class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-home text-sm"></i>
@@ -1632,7 +1836,7 @@
         </a>
 
         <!-- Catalog -->
-        <a href="#products" class="flex flex-col items-center gap-1 group">
+        <a class="flex flex-col items-center gap-1 group" href="#products">
             <div
                 class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-th-large text-sm"></i>
@@ -1655,7 +1859,7 @@
         </button>
 
         <!-- Custom Orders -->
-        <a href="#custom" class="flex flex-col items-center gap-1 group">
+        <a class="flex flex-col items-center gap-1 group" href="#custom">
             <div
                 class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-pen-nib text-sm"></i>
@@ -1665,7 +1869,7 @@
         </a>
 
         <!-- About -->
-        <a href="#about" class="flex flex-col items-center gap-1 group">
+        <a class="flex flex-col items-center gap-1 group" href="#about">
             <div
                 class="w-8 h-8 rounded-full flex items-center justify-center text-white/40 group-hover:text-amber-500 transition-colors">
                 <i class="fas fa-user text-sm"></i>

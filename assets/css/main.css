@@ -1,9 +1,42 @@
 
+@font-face {
+    font-family: 'Roobert';
+    src: url('../fonts/RoobertRegular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roobert';
+    src: url('../fonts/RoobertMedium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Roobert';
+    src: url('../fonts/RoobertBold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Gabust';
+    src: url('../gabust/Gabust-PersonalUse.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --bg-dark: #121212;
     --card-dark: #1c1c1c;
-    --amber-500: #f59e0b;
-    --amber-600: #d97706;
+    --amber-400: #f472b6; /* Soft pink */
+    --amber-500: #ff8c92; /* Cheeks pink from logo */
+    --amber-600: #db2777; /* Deep rose/pink for readable accents */
     --text-light: #fafaf9;
     --text-dim: rgba(250, 250, 249, 0.6);
 }
@@ -28,7 +61,7 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roobert', 'Inter', sans-serif;
     background-color: var(--bg-dark);
     color: var(--text-light);
     overflow-x: hidden;
@@ -37,6 +70,13 @@ body {
 
 .h-serif {
     font-family: 'Playfair Display', serif;
+}
+
+.font-gabust,
+.category-header h2 {
+    font-family: 'Gabust', serif !important;
+    font-style: normal !important;
+    font-weight: normal !important;
 }
 
 /* Cinematic Hero Slideshow */
@@ -120,31 +160,34 @@ body {
 }
 
 .product-title {
-    font-size: 12px;
-    font-weight: 900;
-    margin-top: 15px;
-    margin-bottom: 8px;
+    font-family: 'Roobert', 'Inter', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-top: 20px;
+    margin-bottom: 6px;
     color: var(--text-light);
-    min-height: 2.8em;
+    line-height: 1.2;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: 1.4;
+    letter-spacing: 0.02em;
 }
 
 .product-meta {
-    font-size: 8px;
+    font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     color: var(--text-dim);
+    margin-bottom: 16px;
 }
 
 .product-price {
-    font-size: 18px;
+    font-size: 26px;
     font-weight: 900;
     color: var(--amber-500);
+    letter-spacing: -0.02em;
 }
 
 .btn-add-mini {
@@ -153,7 +196,7 @@ body {
     width: 100%;
     padding: 12px;
     border-radius: 12px;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -402,7 +445,7 @@ html.light .logo-interactive {
 }
 
 html.light footer {
-    background: #ede8e1 !important;
+    background: #dcf0fa !important;
 }
 
 html.light #nav-links a {
@@ -444,12 +487,12 @@ html.light #nav-links a:hover {
     }
 
     .product-title {
-        font-size: 12px;
+        font-size: 16px;
         margin-top: 10px;
     }
 
     .product-price {
-        font-size: 15px;
+        font-size: 22px;
     }
 
     /* Category headers */
@@ -528,19 +571,19 @@ html.light #nav-links a:hover {
     }
 
     .product-title {
-        font-size: 11px;
-    }
-
-    .product-price {
         font-size: 14px;
     }
 
+    .product-price {
+        font-size: 20px;
+    }
+
     .product-meta {
-        font-size: 7px;
+        font-size: 11px;
     }
 
     .btn-add-mini {
-        font-size: 8px;
+        font-size: 12px;
         padding: 10px;
     }
 
@@ -555,29 +598,123 @@ html.light #nav-links a:hover {
 }
 
 /* ============================
-   LIGHT MODE THEME
+   LIGHT MODE THEME (Soft Baby Blue & Light Yellow)
    ============================ */
-html.light body {
-    background-color: #f2ede4 !important;
-    color: #1a1816 !important;
+html.light {
+    --amber-400: #ff8c92; /* Cheeks pink */
+    --amber-500: #db2777; /* Deep readable rose/pink for light mode text/prices */
+    --amber-600: #be185d; /* Darker pink for hover state */
 }
 
+html.light body {
+    background-color: #dcf0fa !important; /* Soft baby blue from logo */
+    color: #1e293b !important; /* Slate-800 for cool contrast */
+}
+
+/* Sections Backgrounds overrides for Light Mode */
 html.light .bg-black:not(#home),
 html.light .bg-\[\#121212\],
 html.light .bg-\[\#1a1a1a\],
 html.light .bg-\[\#0a0a0a\],
 html.light .bg-\[\#111\] {
-    background-color: #f2ede4 !important;
+    background-color: #dcf0fa !important;
 }
 
-/* Make ALL text-white elements dark */
+html.light section#home {
+    background-color: #dcf0fa !important;
+}
+
+html.light section#about {
+    background-color: #dcf0fa !important; /* Unified very light baby blue background */
+}
+
+html.light section#social-networks {
+    background-color: #dcf0fa !important;
+}
+
+html.light section#faq {
+    background-color: #dcf0fa !important;
+}
+
+/* Cards (Novidades, product-card, redes sociais) styling in Light Mode */
+html.light .product-card,
+html.light #social-networks > div > div > div {
+    background-color: #ffffff !important;
+    border-color: rgba(30, 41, 59, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(30, 41, 59, 0.04) !important;
+}
+
+html.light .product-card:hover {
+    border-color: #ff8c92 !important;
+    box-shadow: 0 20px 40px rgba(30, 41, 59, 0.1) !important;
+}
+
+html.light .product-title {
+    color: #1e293b !important;
+}
+
+html.light .product-meta {
+    color: #64748b !important;
+}
+
+/* Value Props Row in Light Mode */
+html.light section.grid.grid-cols-2.md\:grid-cols-4.gap-6.py-10.border-y {
+    border-color: rgba(30, 41, 59, 0.08) !important;
+}
+
+html.light section.grid.grid-cols-2.md\:grid-cols-4.gap-6.py-10.border-y > div {
+    background-color: rgba(255, 255, 255, 0.6) !important;
+    border-color: rgba(30, 41, 59, 0.08) !important;
+}
+
+html.light section.grid.grid-cols-2.md\:grid-cols-4.gap-6.py-10.border-y > div .text-white {
+    color: #1e293b !important;
+}
+
+html.light section.grid.grid-cols-2.md\:grid-cols-4.gap-6.py-10.border-y > div .text-white\/40 {
+    color: #64748b !important;
+}
+
+/* Buttons in Light Mode: Soft Light Yellow accent with dark text */
+html.light .btn-add-mini,
+html.light #modal-add-btn,
+html.light #cart-drawer .btn-order,
+html.light #custom button,
+html.light #social-networks a {
+    background-color: #fbcfe8 !important; /* Soft pink */
+    color: #1e293b !important; /* Dark text for contrast */
+    border-color: #f9a8d4 !important;
+    font-weight: 900 !important;
+}
+
+html.light .btn-add-mini:hover,
+html.light #modal-add-btn:hover,
+html.light #cart-drawer .btn-order:hover,
+html.light #custom button:hover {
+    background-color: #f9a8d4 !important; /* Hover pink */
+    color: #1e293b !important;
+}
+
+/* Special button styles on Hero section in Light Mode */
+html.light #home a {
+    background-color: #fbcfe8 !important;
+    color: #1e293b !important;
+}
+
+html.light #home a:hover {
+    background-color: #f9a8d4 !important;
+}
+
+/* Make ALL text-white elements dark by default */
 html.light .text-white {
-    color: #1a1816 !important;
+    color: #1e293b !important;
 }
 
-/* Except inside #home */
-html.light #home .text-white {
-    color: #ffffff !important;
+/* Except inside #home or badges */
+html.light #home .text-white,
+html.light .btn-add-mini i,
+html.light #modal-add-btn i {
+    color: inherit !important;
 }
 
 /* Specific text opacities */
@@ -587,47 +724,58 @@ html.light .text-white\/40,
 html.light .text-white\/80,
 html.light .text-white\/70,
 html.light .text-white\/90 {
-    color: #5c554a !important;
+    color: #475569 !important; /* Slate-600 */
 }
 
 html.light .text-white\/20,
 html.light .text-white\/30 {
-    color: #8c8273 !important;
+    color: #64748b !important; /* Slate-500 */
 }
 
-/* Revert opacities for #home */
-html.light #home .text-white\/50 { color: rgba(255, 255, 255, 0.5) !important; }
-html.light #home .text-white\/60 { color: rgba(255, 255, 255, 0.6) !important; }
-html.light #home .text-white\/40 { color: rgba(255, 255, 255, 0.4) !important; }
-html.light #home .text-white\/80 { color: rgba(255, 255, 255, 0.8) !important; }
-html.light #home .text-white\/70 { color: rgba(255, 255, 255, 0.7) !important; }
-html.light #home .text-white\/90 { color: rgba(255, 255, 255, 0.9) !important; }
+/* Revert text colors for About section text containers */
+html.light #about p {
+    color: #334155 !important;
+}
 
+html.light #about .text-white {
+    color: #0f172a !important;
+}
+
+html.light #about .bg-white\/5 {
+    background-color: #ffffff !important;
+    border-color: rgba(30, 41, 59, 0.08) !important;
+}
+
+html.light #about .bg-white\/5 p.text-white\/90 {
+    color: #1e293b !important;
+}
+
+/* Borders and lines in Light Mode */
 html.light .border-white\/5,
 html.light .border-white\/10 {
-    border-color: rgba(26, 24, 22, 0.1) !important;
+    border-color: rgba(30, 41, 59, 0.08) !important;
 }
 
 html.light .bg-white\/5,
 html.light .bg-white\/10 {
-    background-color: rgba(26, 24, 22, 0.05) !important;
+    background-color: rgba(255, 255, 255, 0.6) !important;
 }
 
 html.light .backdrop-blur-md,
 html.light .backdrop-blur-xl,
 html.light .backdrop-blur-2xl {
-    background-color: rgba(242, 237, 228, 0.85) !important;
+    background-color: rgba(220, 240, 250, 0.85) !important;
 }
 
 html.light .cart-drawer {
-    background: #f2ede4;
-    border-left: 1px solid rgba(26, 24, 22, 0.1);
+    background: #dcf0fa;
+    border-left: 1px solid rgba(30, 41, 59, 0.08);
     box-shadow: -20px 0 50px rgba(0, 0, 0, 0.05);
 }
 
 html.light #product-modal-content {
-    background-color: rgba(242, 237, 228, 0.95) !important;
-    border: 1px solid rgba(26, 24, 22, 0.1) !important;
+    background-color: rgba(220, 240, 250, 0.95) !important;
+    border: 1px solid rgba(30, 41, 59, 0.1) !important;
 }
 
 #hero-transition {
@@ -635,22 +783,20 @@ html.light #product-modal-content {
 }
 
 html.light #hero-transition {
-    background: linear-gradient(to top, #f2ede4 0%, transparent 100%);
+    background: linear-gradient(to top, #dcf0fa 0%, transparent 100%);
 }
-
-/* Removed Light Mode Overrides for Hero Gradients so it stays dark */
 
 html.light input, 
 html.light textarea, 
 html.light select {
-    background: rgba(45, 42, 38, 0.05) !important;
-    color: #2d2a26 !important;
-    border-color: rgba(45, 42, 38, 0.1) !important;
+    background: #ffffff !important;
+    color: #1e293b !important;
+    border-color: rgba(30, 41, 59, 0.1) !important;
 }
 
 html.light input::placeholder, 
 html.light textarea::placeholder {
-    color: rgba(45, 42, 38, 0.4) !important;
+    color: rgba(30, 41, 59, 0.4) !important;
 }
 
 /* Ensure logo remains consistent in light mode */
@@ -669,7 +815,7 @@ html.light #nav-links a,
 html.light #theme-icon,
 html.light #cart-btn,
 html.light #cart-btn i.fa-shopping-bag {
-    color: #1a1816 !important;
+    color: #1e293b !important;
 }
 
 html.light .qty-text {
@@ -682,23 +828,38 @@ html.light .nav-link-hover:hover {
 
 /* Mobile Nav Light Mode */
 html.light #mobile-nav {
-    background-color: rgba(255, 255, 255, 0.7) !important;
-    border-color: rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1) !important;
+    background-color: rgba(220, 240, 250, 0.9) !important;
+    border-color: rgba(30, 41, 59, 0.1) !important;
+    box-shadow: 0 15px 40px rgba(30, 41, 59, 0.15) !important;
+}
+
+html.light #mobile-nav a,
+html.light #mobile-nav button {
+    color: #475569 !important;
 }
 
 html.light #mobile-nav .text-white\/40,
 html.light #mobile-nav .text-white\/20 {
-    color: #1a1816 !important;
-    opacity: 0.5;
+    color: #475569 !important;
+    opacity: 0.7;
 }
 
 html.light #mobile-nav .text-amber-500 {
-    color: var(--amber-500) !important;
+    color: #db2777 !important;
     opacity: 1;
 }
 
+html.light #mobile-nav .bg-amber-500 {
+    background-color: #fbcfe8 !important; /* Soft pink cart button */
+    border-color: rgba(30, 41, 59, 0.05) !important;
+}
+
 html.light #mobile-nav .bg-amber-500 i {
+    color: #1e293b !important; /* Dark icon on soft pink */
+}
+
+html.light #mobile-nav #mobile-cart-count {
+    background-color: #db2777 !important;
     color: #ffffff !important;
 }
 
