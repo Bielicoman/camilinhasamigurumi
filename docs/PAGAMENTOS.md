@@ -33,7 +33,9 @@ O frete vai na preferência como `shipments: { mode: "not_specified", cost }`, e
 | `MP_ACCESS_TOKEN` | sim | criar preferências e consultar pagamentos |
 | `MP_WEBHOOK_SECRET` | sim | validar a assinatura das notificações |
 | `SITE_URL` | sim | `back_urls`, `notification_url` e checagem de origem (`https://…`, sem barra final) |
-| `RESEND_API_KEY`, `ORDER_NOTIFY_EMAIL`, `ORDER_FROM_EMAIL` | não | e-mail ao ateliê a cada pagamento aprovado |
+| `RESEND_API_KEY`, `ORDER_NOTIFY_EMAIL`, `ORDER_FROM_EMAIL` | para vender o Pro | e-mail ao ateliê e entrega da licença ao comprador |
+| `LICENCA_SEGREDO` | para vender o Pro | assina as chaves de licença (ver `PONTO-A-PONTO-PRO.md`) |
+| `LICENCA_ORIGENS` | não | origens liberadas no CORS de `/api/licenca` |
 
 Sem `MP_ACCESS_TOKEN` ou com `SITE_URL` sem https, o checkout responde 503 com a mensagem "fale com a gente no WhatsApp" — a loja continua navegável.
 

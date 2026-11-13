@@ -1,6 +1,7 @@
 import { json } from './_lib/http.js';
 import { assinaturaValida, buscarPagamento } from './_lib/mercadopago.js';
-import { avisarAtelie } from './_lib/aviso.js';
+import { avisarAtelie, conferirPagamento, enviarLicenca } from './_lib/aviso.js';
+import { gerarChave, pagamentoIncluiPro } from './_lib/licenca.js';
 
 /**
  * POST /api/webhook — notificações de pagamento do Mercado Pago.
@@ -30,7 +31,21 @@ export default async function handler(req, res, { fetchImpl = fetch, env = proce
   try {
     const pagamento = await buscarPagamento(dataId, { token: env.MP_ACCESS_TOKEN, fetchImpl });
     if (pagamento?.status === 'approved') {
-      await avisarAtelie(pagamento, { env, fetchImpl });
+      let extra = '';
+      if (pagamentoIncluiPro(pagamento)) {
+        if (conferirPagamento(pagamento).length) {
+          extra = 'Licença do Ponto a Ponto Pro NÃO enviada por causa da divergência. Confira e envie manualmente se estiver tudo certo.';
+        } else {
+          if (!env.LICENCA_SEGREDO) throw new Error('LICENCA_SEGREDO ausente');
+          const email = pagamento.metadata?.cliente_email || pagamento.payer?.email;
+          const chave = gerarChave(pagamento.id, email, env.LICENCA_SEGREDO);
+          const enviada = await enviarLicenca(pagamento, chave, { env, fetchImpl });
+          extra = enviada
+            ? `Licença do Ponto a Ponto Pro enviada para ${email}.`
+            : `Licença do Ponto a Ponto Pro NÃO enviada (e-mail indisponível). Chave para enviar manualmente: ${chave}`;
+        }
+      }
+      await avisarAtelie(pagamento, { env, fetchImpl, extra });
     } else {
       console.info('[webhook] pagamento', pagamento?.id, pagamento?.status, pagamento?.external_reference);
     }

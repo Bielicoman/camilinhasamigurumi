@@ -32,7 +32,7 @@ function sanear(lista) {
 
 export const sacola = {
   iniciar(catalogo) {
-    idsValidos = new Set(catalogo.produtos.filter((p) => p.disponivel).map((p) => p.id));
+    idsValidos = new Set(catalogo.produtos.filter((p) => p.disponivel && p.tipo !== 'digital').map((p) => p.id));
     itens = sanear(ler());
     gravar();
   },

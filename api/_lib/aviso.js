@@ -52,14 +52,7 @@ export function textoDoAviso(pagamento, divergencias = conferirPagamento(pagamen
   ].join('\n');
 }
 
-export async function avisarAtelie(pagamento, { env = process.env, fetchImpl = fetch } = {}) {
-  const divergencias = conferirPagamento(pagamento);
-  const texto = textoDoAviso(pagamento, divergencias);
-  if (divergencias.length) console.warn('[aviso] pagamento divergente', pagamento.external_reference, pagamento.id, divergencias);
-  if (!env.RESEND_API_KEY || !env.ORDER_NOTIFY_EMAIL) {
-    console.info('[aviso] pagamento aprovado', pagamento.external_reference, pagamento.id);
-    return { enviado: false };
-  }
+async function enviarEmail({ env, fetchImpl, para, assunto, texto, idempotencia }) {
   const controle = new AbortController();
   const timer = setTimeout(() => controle.abort(), 8000);
   const resposta = await fetchImpl('https://api.resend.com/emails', {
@@ -68,22 +61,56 @@ export async function avisarAtelie(pagamento, { env = process.env, fetchImpl = f
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
-      // Evita e-mail duplicado quando o Mercado Pago reenvia a notificação.
-      'Idempotency-Key': `pagamento-${pagamento.id}`,
+      'Idempotency-Key': idempotencia,
     },
     body: JSON.stringify({
       from: env.ORDER_FROM_EMAIL || 'Camilinhas <pedidos@resend.dev>',
-      to: [env.ORDER_NOTIFY_EMAIL],
-      subject: divergencias.length
-        ? `ATENÇÃO, pedido divergente: ${pagamento.external_reference}`
-        : `Novo pedido pago: ${pagamento.external_reference}`,
+      to: [para],
+      subject: assunto,
       text: texto,
     }),
   }).finally(() => clearTimeout(timer));
-  if (resposta.status === 429 || resposta.status >= 500) {
-    // Erro temporário: lança para o webhook responder 500 e o Mercado Pago reenviar.
-    throw new Error(`Resend ${resposta.status}`);
+  if (resposta.status === 429 || resposta.status >= 500) throw new Error(`Resend ${resposta.status}`);
+  if (!resposta.ok) console.error('[email] Resend respondeu', resposta.status);
+  return resposta.ok;
+}
+
+/** Envia a chave de licença do Ponto a Ponto Pro ao comprador. */
+export async function enviarLicenca(pagamento, chave, { env = process.env, fetchImpl = fetch, aparelhos = 3 } = {}) {
+  const para = pagamento.metadata?.cliente_email || pagamento.payer?.email;
+  if (!env.RESEND_API_KEY || !para) {
+    console.error('[licenca] sem RESEND_API_KEY ou e-mail do comprador; envie a chave manualmente', pagamento.external_reference);
+    return false;
   }
-  if (!resposta.ok) console.error('[aviso] Resend respondeu', resposta.status);
-  return { enviado: resposta.ok };
+  const { textoEmailLicenca } = await import('./licenca.js');
+  return enviarEmail({
+    env, fetchImpl, para,
+    assunto: 'Sua licença do Ponto a Ponto Pro',
+    texto: textoEmailLicenca({ nome: pagamento.metadata?.cliente_nome?.split(' ')[0], chave, aparelhos }),
+    idempotencia: `licenca-${pagamento.id}`,
+  });
+}
+
+export async function avisarAtelie(pagamento, { env = process.env, fetchImpl = fetch, extra = '' } = {}) {
+  const divergencias = conferirPagamento(pagamento);
+  const texto = textoDoAviso(pagamento, divergencias) + (extra ? `
+
+${extra}` : '');
+  if (divergencias.length) console.warn('[aviso] pagamento divergente', pagamento.external_reference, pagamento.id, divergencias);
+  if (!env.RESEND_API_KEY || !env.ORDER_NOTIFY_EMAIL) {
+    console.info('[aviso] pagamento aprovado', pagamento.external_reference, pagamento.id, extra);
+    return { enviado: false };
+  }
+  // Erro temporário (429/5xx) lança: o webhook responde 500 e o Mercado Pago reenvia.
+  // A Idempotency-Key evita e-mail duplicado nesses reenvios.
+  const enviado = await enviarEmail({
+    env, fetchImpl,
+    para: env.ORDER_NOTIFY_EMAIL,
+    assunto: divergencias.length
+      ? `ATENÇÃO, pedido divergente: ${pagamento.external_reference}`
+      : `Novo pedido pago: ${pagamento.external_reference}`,
+    texto,
+    idempotencia: `pagamento-${pagamento.id}`,
+  });
+  return { enviado };
 }

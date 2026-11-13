@@ -1,6 +1,6 @@
 import { h, icone, $, $$, toast } from './dom.js';
 import { sacola } from './sacola.js';
-import { calcularPedido, calcularFrete, calcularParcelas, precoUnitario, normalizarCep, formatarReais } from './pricing.js';
+import { calcularPedido, calcularFrete, calcularParcelas, precoUnitario, precoVigente, ehDigital, normalizarCep, formatarReais } from './pricing.js';
 
 const WHATSAPP = '556792804803';
 const DOMINIOS_PAGAMENTO = ['mercadopago.com.br', 'mercadopago.com', 'mercadolivre.com.br'];
@@ -21,7 +21,7 @@ const produtoPorId = (id) => catalogo.produtos.find((p) => p.id === id);
 /* ------------------------------------------------------------------- loja */
 function renderFiltros() {
   const caixa = $('[data-filtros]');
-  const opcoes = [{ id: 'todos', nome: 'Tudo' }, ...catalogo.categorias];
+  const opcoes = [{ id: 'todos', nome: 'Tudo' }, ...catalogo.categorias.filter((c) => !c.oculta)];
   caixa.replaceChildren(
     ...opcoes.map((c) =>
       h('button', {
@@ -35,12 +35,12 @@ function renderFiltros() {
 function renderVitrine() {
   const vitrine = $('[data-vitrine]');
   const lista = catalogo.produtos
-    .filter((p) => p.disponivel && (filtroAtual === 'todos' || p.categoria === filtroAtual))
+    .filter((p) => p.disponivel && !ehDigital(p) && (filtroAtual === 'todos' || p.categoria === filtroAtual))
     .sort((a, b) => Number(b.destaque) - Number(a.destaque));
 
   vitrine.replaceChildren(
     ...lista.map((p, i) => {
-      const pix = precoUnitario(p.precoCentavos, 'pix', catalogo.pagamento);
+      const pix = precoUnitario(precoVigente(p), 'pix', catalogo.pagamento);
       const card = h('article', { class: 'card' },
         h('button', { type: 'button', class: 'card__foto', 'aria-label': `Ver detalhes de ${p.nome}`, onclick: () => abrirProduto(p.id) },
           p.destaque ? h('span', { class: 'card__selo', text: 'Destaque' }) : null,
@@ -56,7 +56,7 @@ function renderVitrine() {
             h('p', { class: 'card__resumo', text: p.resumo }),
           ),
           h('p', { class: 'card__preco' },
-            h('strong', { text: formatarReais(p.precoCentavos) }),
+            h('strong', { text: formatarReais(precoVigente(p)) }),
             h('small', { text: `${formatarReais(pix)} no Pix` }),
           ),
         ),
@@ -97,11 +97,11 @@ function abrirProduto(id) {
   );
   $('[data-produto-categoria]', m).textContent = nomeCategoria(p.categoria);
   $('[data-produto-nome]', m).textContent = p.nome;
-  const parcelas = calcularParcelas(p.precoCentavos, 'cartao', catalogo.pagamento);
+  const parcelas = calcularParcelas(precoVigente(p), 'cartao', catalogo.pagamento);
   $('[data-produto-preco]', m).replaceChildren(
-    h('strong', { text: formatarReais(p.precoCentavos) }),
-    h('span', { text: `${formatarReais(precoUnitario(p.precoCentavos, 'pix', catalogo.pagamento))} no Pix` }),
-    h('small', { text: parcelas > 1 ? `ou ${parcelas}x de ${formatarReais(Math.ceil(p.precoCentavos / parcelas))} sem juros` : 'à vista no cartão ou boleto' }),
+    h('strong', { text: formatarReais(precoVigente(p)) }),
+    h('span', { text: `${formatarReais(precoUnitario(precoVigente(p), 'pix', catalogo.pagamento))} no Pix` }),
+    h('small', { text: parcelas > 1 ? `ou ${parcelas}x de ${formatarReais(Math.ceil(precoVigente(p) / parcelas))} sem juros` : 'à vista no cartão ou boleto' }),
   );
   $('[data-produto-descricao]', m).textContent = p.descricao;
   $('[data-produto-meta]', m).replaceChildren(
@@ -186,7 +186,7 @@ function renderSacola() {
         h('img', { src: p.imagens[0].src, alt: '', width: 76, height: 76, loading: 'lazy' }),
         h('div', {},
           h('strong', { text: p.nome }),
-          h('small', { text: `${formatarReais(p.precoCentavos)} cada` }),
+          h('small', { text: `${formatarReais(precoVigente(p))} cada` }),
           h('div', { class: 'qtd', role: 'group', 'aria-label': `Quantidade de ${p.nome}` },
             h('button', { type: 'button', 'aria-label': `Diminuir ${p.nome}`, text: '−', dataset: { acao: 'menos' }, onclick: () => sacola.definir(id, quantidade - 1) }),
             h('output', { text: quantidade }),
@@ -194,15 +194,15 @@ function renderSacola() {
           ),
         ),
         h('div', { class: 'item__preco' },
-          h('span', { text: formatarReais(p.precoCentavos * quantidade) }),
+          h('span', { text: formatarReais(precoVigente(p) * quantidade) }),
           h('button', { type: 'button', class: 'remover', text: 'Remover', 'aria-label': `Remover ${p.nome}`, dataset: { acao: 'remover' }, onclick: () => sacola.remover(id) }),
         ),
       );
     }),
   );
 
-  const cheio = itens.reduce((s, i) => s + produtoPorId(i.id).precoCentavos * i.quantidade, 0);
-  const pix = itens.reduce((s, i) => s + precoUnitario(produtoPorId(i.id).precoCentavos, 'pix', catalogo.pagamento) * i.quantidade, 0);
+  const cheio = itens.reduce((s, i) => s + precoVigente(produtoPorId(i.id)) * i.quantidade, 0);
+  const pix = itens.reduce((s, i) => s + precoUnitario(precoVigente(produtoPorId(i.id)), 'pix', catalogo.pagamento) * i.quantidade, 0);
   $('[data-subtotal-sacola]').textContent = formatarReais(cheio);
   $('[data-subtotal-pix]').textContent = formatarReais(pix);
 
@@ -228,7 +228,7 @@ function valoresForm() {
 }
 
 function subtotalCheio() {
-  return sacola.itens().reduce((s, i) => s + produtoPorId(i.id).precoCentavos * i.quantidade, 0);
+  return sacola.itens().reduce((s, i) => s + precoVigente(produtoPorId(i.id)) * i.quantidade, 0);
 }
 
 function renderOpcoesEntrega() {
@@ -236,7 +236,7 @@ function renderOpcoesEntrega() {
   const caixa = $('[data-opcoes-entrega]');
   const sub = subtotalCheio();
   caixa.replaceChildren(
-    ...catalogo.entrega.metodos.map((m) => {
+    ...catalogo.entrega.metodos.filter((m) => !m.somenteDigital).map((m) => {
       const frete = calcularFrete(m, cep, sub);
       const disponivel = frete != null;
       let valor = 'informe o CEP';

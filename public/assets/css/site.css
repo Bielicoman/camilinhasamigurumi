@@ -465,6 +465,8 @@ fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
 .app-pap__lista li { display: flex; gap: var(--s-3); align-items: baseline; }
 .app-pap__lista li::before { content: ''; width: 10px; height: 10px; background: var(--terracota-app); flex: none; transform: translateY(-1px); }
 .app-pap__acoes { display: flex; flex-wrap: wrap; gap: var(--s-3); margin-top: var(--s-6); }
+.app-pap__oferta { margin-top: var(--s-4); font-size: var(--t-sm); color: var(--texto-suave); display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
+.app-pap__oferta span { font-family: var(--f-pixel); font-size: 0.5rem; text-transform: uppercase; background: var(--cacau); color: var(--creme); padding: 5px 7px; border-radius: 5px; }
 
 /* ---------- camila ---------- */
 .camila { background: var(--linho); }

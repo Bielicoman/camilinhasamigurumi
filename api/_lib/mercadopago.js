@@ -57,7 +57,7 @@ export function montarPreferencia({ pedido, cliente, pedidoId, siteUrl }) {
     items: pedido.linhas.map((l) => ({
       id: l.id,
       title: l.nome,
-      category_id: 'others',
+      category_id: l.digital ? 'services' : 'others',
       quantity: l.quantidade,
       currency_id: 'BRL',
       unit_price: reais(l.unitarioCentavos),
@@ -112,6 +112,8 @@ export function montarPreferencia({ pedido, cliente, pedidoId, siteUrl }) {
       total_centavos: pedido.totalCentavos,
       observacoes: cliente.observacoes,
       cliente_nome: cliente.nome,
+      cliente_email: cliente.email,
+      produtos_digitais: pedido.linhas.filter((l) => l.digital).map((l) => l.id).join(','),
       cliente_telefone: cliente.telefone,
       endereco: cliente.endereco,
     },

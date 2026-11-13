@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.1.0 — 2026-11-13
+
+- Página de vendas do **Ponto a Ponto Pro** (`/ponto-a-ponto/`): licença vitalícia, preço de lançamento de R$ 250 com virada automática para R$ 500 em 1º/1/2027, contagem regressiva, comparação honesta grátis × Pro e modo pré-lançamento com lista de espera.
+- Produto digital no checkout: entrega digital, uma licença por pedido, sem misturar com peças.
+- Chave de licença assinada (HMAC) enviada por e-mail no webhook; `POST /api/licenca` para o app validar, com revogação automática em estorno.
+- Política do produto digital e arrependimento de 7 dias.
+
 ## 2.0.0 — 2026-11-13
 
 Site refeito do zero.

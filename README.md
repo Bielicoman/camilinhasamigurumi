@@ -15,7 +15,7 @@
 - **Loja** com catálogo, sacola e checkout com **Mercado Pago Checkout Pro**: Pix com 5% de desconto, cartão em até 6x sem juros e boleto.
 - **Retrato em Crochê**: a linha nova do ateliê, com orçamento pelo WhatsApp.
 - **Encomendas** (Pititicos, Bebezinho, lembrancinhas) com formulário que monta a mensagem do WhatsApp.
-- Integração com o app **[Ponto a Ponto](https://github.com/Bielicoman/pontoapontocroche)**, onde as fotos viram gráfico.
+- Página de vendas do **Ponto a Ponto Pro** (`/ponto-a-ponto/`), o app do ateliê onde as fotos viram gráfico: licença vitalícia com preço de lançamento, entrega da chave por e-mail e API de validação para o app.
 - Páginas de retorno do pedido, políticas (CDC e LGPD), link na bio (`/links/`) e 404.
 
 Sem framework, sem build e sem dependências: HTML, CSS e JavaScript de módulo, mais duas funções serverless na Vercel.
@@ -30,7 +30,8 @@ public/                 site estático (é a única pasta publicada)
   pedido/ politicas/ links/ 404.html
 api/
   checkout.js           POST /api/checkout → cria a preferência no Mercado Pago
-  webhook.js            POST /api/webhook  → valida assinatura e confirma o pagamento
+  webhook.js            POST /api/webhook  → valida assinatura, confirma o pagamento e envia licenças
+  licenca.js            POST /api/licenca  → o app Ponto a Ponto valida a chave Pro
   _lib/                 validação, cliente Mercado Pago, aviso por e-mail
 tests/                  testes (node:test) da API e das regras de preço
 scripts/                servidor local e verificação estática
@@ -70,6 +71,7 @@ Tudo fica em [`public/catalog.json`](public/catalog.json). Preços são em **cen
 |---|---|
 | [Arquitetura](docs/ARQUITETURA.md) | como as peças se conectam, decisões e limites |
 | [Pagamentos](docs/PAGAMENTOS.md) | Mercado Pago, Pix, parcelas, frete, webhook, checklist de produção |
+| [Ponto a Ponto Pro](docs/PONTO-A-PONTO-PRO.md) | oferta, licença, API `/api/licenca` e o que falta no app |
 | [Segurança](docs/SEGURANCA.md) | modelo de ameaças e defesas |
 | [Design system](docs/DESIGN-SYSTEM.md) | cores, tipografia, componentes e regras de imagem |
 | [Marketing](docs/MARKETING.md) | posicionamento, mensagens e lançamento do Retrato em Crochê |

@@ -17,6 +17,25 @@ export function normalizarCep(valor) {
   return digitos.length === 8 ? digitos : null;
 }
 
+/**
+ * Preço cheio em vigor. Produtos com `lancamentoAte` custam `precoCentavos`
+ * até essa data e `precoAposLancamentoCentavos` depois — a virada é automática,
+ * para que o "preço de lançamento" anunciado seja verdadeiro.
+ */
+export function precoVigente(produto, agora = Date.now()) {
+  if (produto.lancamentoAte && produto.precoAposLancamentoCentavos != null) {
+    const fim = Date.parse(produto.lancamentoAte);
+    if (Number.isFinite(fim) && agora > fim) return produto.precoAposLancamentoCentavos;
+  }
+  return produto.precoCentavos;
+}
+
+export function emLancamento(produto, agora = Date.now()) {
+  return precoVigente(produto, agora) === produto.precoCentavos && produto.precoAposLancamentoCentavos != null;
+}
+
+export const ehDigital = (produto) => produto?.tipo === 'digital';
+
 /** Preço unitário após desconto Pix, arredondado por unidade. */
 export function precoUnitario(precoCentavos, formaPagamento, pagamento) {
   if (formaPagamento !== 'pix') return precoCentavos;
@@ -27,7 +46,8 @@ export function precoUnitario(precoCentavos, formaPagamento, pagamento) {
 /** Frete em centavos para um método e CEP. Retorna null se indisponível. */
 export function calcularFrete(metodo, cep, subtotalCentavos) {
   if (!metodo) return null;
-  if (metodo.id === 'retirada') return 0;
+  // Retirada e entrega digital não dependem de CEP.
+  if (metodo.exigeEndereco === false) return metodo.precoCentavos ?? 0;
 
   const cepOk = normalizarCep(cep);
   if (!cepOk) return null;
@@ -63,7 +83,7 @@ export function calcularParcelas(totalCentavos, formaPagamento, pagamento) {
  * @returns {{ok: true, pedido: object} | {ok: false, erro: string}}
  */
 export function calcularPedido(catalogo, entrada) {
-  const { itens, formaPagamento, entrega, cep } = entrada ?? {};
+  const { itens, formaPagamento, entrega, cep, agora = Date.now() } = entrada ?? {};
 
   if (!FORMAS_PAGAMENTO.includes(formaPagamento)) {
     return { ok: false, erro: 'Forma de pagamento inválida.' };
@@ -93,23 +113,35 @@ export function calcularPedido(catalogo, entrada) {
       return { ok: false, erro: 'Quantidade inválida.' };
     }
 
-    const unitario = precoUnitario(produto.precoCentavos, formaPagamento, catalogo.pagamento);
+    if (ehDigital(produto) && quantidade !== 1) {
+      return { ok: false, erro: 'A licença é individual: uma por pedido.' };
+    }
+    const cheio = precoVigente(produto, agora);
+    const unitario = precoUnitario(cheio, formaPagamento, catalogo.pagamento);
     linhas.push({
       id: produto.id,
       nome: produto.nome,
+      digital: ehDigital(produto),
       quantidade,
-      unitarioCheioCentavos: produto.precoCentavos,
+      unitarioCheioCentavos: cheio,
       unitarioCentavos: unitario,
       totalCentavos: unitario * quantidade,
       prazoDiasUteis: produto.prazoDiasUteis,
       imagem: produto.imagens?.[0]?.src ?? null,
     });
-    subtotalCheio += produto.precoCentavos * quantidade;
+    subtotalCheio += cheio * quantidade;
     subtotal += unitario * quantidade;
   }
 
+  const digitais = linhas.filter((l) => l.digital).length;
+  if (digitais > 0 && digitais < linhas.length) {
+    return { ok: false, erro: 'Produtos digitais são comprados separadamente das peças.' };
+  }
   const metodo = catalogo.entrega.metodos.find((m) => m.id === entrega);
   if (!metodo) return { ok: false, erro: 'Escolha uma forma de entrega.' };
+  if (Boolean(metodo.somenteDigital) !== (digitais > 0)) {
+    return { ok: false, erro: 'Forma de entrega inválida para este pedido.' };
+  }
 
   // Frete grátis do motoboy é calculado sobre o subtotal cheio (antes do Pix).
   const frete = calcularFrete(metodo, cep, subtotalCheio);
@@ -126,6 +158,7 @@ export function calcularPedido(catalogo, entrada) {
       linhas,
       formaPagamento,
       entrega: { id: metodo.id, nome: metodo.nome, exigeEndereco: metodo.exigeEndereco === true },
+      digital: digitais > 0,
       subtotalCheioCentavos: subtotalCheio,
       subtotalCentavos: subtotal,
       descontoCentavos: subtotalCheio - subtotal,

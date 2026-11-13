@@ -13,6 +13,11 @@
     {
       "id": "chaveiros",
       "nome": "Chaveiros"
+    },
+    {
+      "id": "apps",
+      "nome": "Apps",
+      "oculta": true
     }
   ],
   "produtos": [
@@ -271,6 +276,32 @@
           "alt": "Polvo azul em amigurumi com tentáculos enrolados"
         }
       ]
+    },
+    {
+      "id": "ponto-a-ponto-pro",
+      "tipo": "digital",
+      "nome": "Ponto a Ponto Pro",
+      "categoria": "apps",
+      "precoCentavos": 25000,
+      "precoAposLancamentoCentavos": 50000,
+      "lancamentoAte": "2026-12-31T23:59:59-03:00",
+      "prazoDiasUteis": 0,
+      "destaque": false,
+      "disponivel": false,
+      "resumo": "Licença vitalícia do app que transforma foto em gráfico de crochê.",
+      "descricao": "Licença vitalícia do Ponto a Ponto Pro, enviada por e-mail logo após a confirmação do pagamento.",
+      "detalhes": [
+        "Licença vitalícia",
+        "Chave enviada por e-mail",
+        "Até 3 aparelhos",
+        "Atualizações Pro incluídas"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/ponto-a-ponto/editor.webp",
+          "alt": "Editor do Ponto a Ponto com gráfico de crochê e lista de cores"
+        }
+      ]
     }
   ],
   "encomendas": [
@@ -381,6 +412,14 @@
             "precoCentavos": 4500
           }
         ]
+      },
+      {
+        "id": "digital",
+        "nome": "Entrega digital por e-mail",
+        "precoCentavos": 0,
+        "exigeEndereco": false,
+        "somenteDigital": true,
+        "prazoExtraDiasUteis": 0
       }
     ]
   },
@@ -388,5 +427,41 @@
     "whatsapp": "556792804803",
     "instagram": "camilinhasamigurumi",
     "instagramCamila": "eucamila0706"
+  },
+  "pontoAPontoPro": {
+    "beneficios": [
+      {
+        "titulo": "Modo Retrato",
+        "texto": "Ajustes feitos para foto de gente e de pet: recorte do rosto, contraste de pele e redução de cores pensada para tapestry crochet."
+      },
+      {
+        "titulo": "Exportação Pro",
+        "texto": "PDF e PNG em alta resolução, sem marca do app, com lista de materiais e legenda de cores prontas para imprimir."
+      },
+      {
+        "titulo": "Fia Pro",
+        "texto": "Cota maior de conversas e imagens com a assistente do app, com prioridade na fila."
+      },
+      {
+        "titulo": "Nuvem sem limite",
+        "texto": "Todos os seus gráficos sincronizados entre computador, celular e tablet."
+      },
+      {
+        "titulo": "Vitalícia",
+        "texto": "Pague uma vez. Todas as atualizações da versão Pro incluídas, em até 3 aparelhos."
+      },
+      {
+        "titulo": "Suporte direto",
+        "texto": "Dúvidas respondidas por quem criou o app, pelo WhatsApp."
+      }
+    ],
+    "gratisContinua": [
+      "Foto vira gráfico de crochê",
+      "10.000 modelos prontos",
+      "Contador de carreiras",
+      "Estimativa de fio e tamanho",
+      "Exportação PDF e PNG"
+    ],
+    "aparelhosPorLicenca": 3
   }
 }

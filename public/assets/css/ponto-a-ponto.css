@@ -1,0 +1,112 @@
+/* Página de vendas do Ponto a Ponto Pro.
+   Usa o design system do site com a paleta do app (creme quente + terracota). */
+
+.pap {
+  --creme: #fbf6ee;
+  --linho: #f4ebdd;
+  --terracota: #d9694a;
+  --terracota-escuro: #a8462c; /* creme sobre ele: 5,5:1 */
+  --terracota-claro: #f2b5a7;
+  --novelo-escuro: var(--terracota-escuro);
+  --novelo-hover: #b84f33;
+  --ameixa: #211b22;
+}
+
+.pap-marca { display: flex; align-items: center; gap: var(--s-2); text-decoration: none; margin-right: auto; font-family: var(--f-display); font-size: 1.3rem; font-weight: 600; }
+.pap-marca img { width: 40px; height: 40px; }
+.pap-marca em { color: var(--terracota-escuro); font-weight: 500; }
+.pap-marca b { font-family: var(--f-pixel); font-weight: 400; font-size: 0.5rem; background: var(--ameixa); color: var(--creme); padding: 4px 6px; border-radius: 4px; vertical-align: 4px; margin-left: 2px; }
+.pap-voltar { display: none; font-size: var(--t-sm); margin-right: var(--s-3); }
+@media (min-width: 700px) { .pap-voltar { display: inline-flex; } }
+
+/* hero */
+.pap-hero { position: relative; padding-block: clamp(var(--s-6), 6vw, var(--s-8)); overflow: hidden; }
+.pap-hero::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background-image:
+    linear-gradient(rgba(217, 105, 74, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(217, 105, 74, 0.09) 1px, transparent 1px);
+  background-size: 24px 24px;
+  mask-image: linear-gradient(to bottom, #000 30%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 30%, transparent 90%);
+}
+.pap-hero__grade { display: grid; gap: var(--s-7); align-items: center; }
+@media (min-width: 1000px) { .pap-hero__grade { grid-template-columns: 1fr 1.05fr; } }
+.pap-hero h1 { font-size: clamp(2.3rem, 1.5rem + 3.6vw, 4.4rem); margin-top: var(--s-4); }
+.pap-hero h1 em { font-style: italic; font-weight: 500; color: var(--terracota-escuro); }
+.pap-hero__texto { font-size: var(--t-lg); color: var(--texto-suave); max-width: 52ch; margin-top: var(--s-5); }
+
+.pap-oferta {
+  margin-top: var(--s-6); padding: var(--s-5); border-radius: var(--raio-l);
+  background: #fff; border: 2px dashed var(--terracota-claro); display: grid; gap: var(--s-2);
+  max-width: 460px;
+}
+.pap-oferta__selo {
+  justify-self: start; font-family: var(--f-pixel); font-size: 0.5rem; line-height: 1; text-transform: uppercase;
+  background: var(--ameixa); color: var(--creme); padding: 6px 8px; border-radius: 6px;
+}
+.pap-oferta__preco { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s-2) var(--s-4); }
+.pap-oferta__preco strong { font-family: var(--f-display); font-size: clamp(2.6rem, 2rem + 2vw, 3.4rem); line-height: 1; letter-spacing: -0.03em; }
+.pap-oferta__preco span { color: var(--sucesso); font-weight: 600; }
+.pap-oferta__regra { font-size: var(--t-sm); color: var(--texto-suave); }
+.pap-oferta__regra strong { color: var(--cacau); }
+.pap-contagem { font-family: var(--f-pixel); font-size: 0.5rem; text-transform: uppercase; color: var(--terracota-escuro); letter-spacing: 0.05em; }
+
+.pap-telas { position: relative; padding-bottom: 8%; }
+.pap-telas__grande { border-radius: var(--raio-m); box-shadow: var(--sombra-2); border: 1px solid var(--linho-2); }
+.pap-telas__celular {
+  position: absolute; width: 27%; right: -1%; bottom: 0;
+  border-radius: 22px; border: 6px solid var(--ameixa); box-shadow: var(--sombra-2);
+}
+
+/* benefícios */
+.pap-beneficios { display: grid; gap: var(--s-4); margin-top: var(--s-6); grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); }
+.pap-beneficio { background: #fff; border-radius: var(--raio-l); padding: var(--s-5); border: 1px solid var(--linho-2); display: grid; gap: var(--s-2); align-content: start; }
+.pap-beneficio__icone { width: 36px; height: 36px; }
+.pap-beneficio h3 { font-size: var(--t-lg); }
+.pap-beneficio p { font-size: var(--t-sm); color: var(--texto-suave); }
+
+/* galeria */
+.pap-galeria { background: var(--linho); }
+.pap-galeria__grade { display: grid; gap: var(--s-5); margin-top: var(--s-6); }
+@media (min-width: 900px) { .pap-galeria__grade { grid-template-columns: 1fr 1fr 0.42fr; align-items: start; } }
+.pap-galeria figure { margin: 0; display: grid; gap: var(--s-3); }
+.pap-galeria img { border-radius: var(--raio-m); box-shadow: var(--sombra-1); border: 1px solid var(--linho-2); }
+.pap-galeria__celular img { border-radius: 22px; border: 6px solid var(--ameixa); max-width: 260px; }
+.pap-galeria figcaption { font-size: var(--t-sm); color: var(--texto-suave); }
+.pap-galeria figcaption strong { display: block; font-family: var(--f-display); font-size: var(--t-lg); color: var(--cacau); }
+
+/* comparação */
+.pap-comparar { display: grid; gap: var(--s-6); align-items: start; }
+@media (min-width: 900px) { .pap-comparar { grid-template-columns: 0.8fr 1.2fr; } }
+.pap-tabela-wrap { overflow-x: auto; border-radius: var(--raio-l); border: 1px solid var(--linho-2); background: #fff; }
+.pap-tabela { width: 100%; border-collapse: collapse; font-size: var(--t-sm); }
+.pap-tabela th, .pap-tabela td { padding: var(--s-3) var(--s-4); text-align: left; border-bottom: 1px solid var(--linho); }
+.pap-tabela thead th { font-family: var(--f-pixel); font-weight: 400; font-size: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--linho); }
+.pap-tabela thead th:last-child { background: var(--ameixa); color: var(--creme); }
+.pap-tabela td:not(:first-child), .pap-tabela th:not(:first-child) { text-align: center; width: 80px; }
+.pap-tabela tbody tr:last-child td { border-bottom: 0; }
+.pap-tabela svg { width: 20px; height: 20px; vertical-align: middle; }
+.pap-tabela .sim { color: var(--sucesso); }
+.pap-tabela .nao { color: var(--cacau-3); }
+
+/* compra */
+.pap-compra { background: var(--ameixa); color: var(--creme); }
+.pap-compra .rotulo { color: var(--terracota-claro); }
+.pap-compra .titulo-secao em { color: var(--terracota-claro); }
+.pap-compra__grade { display: grid; gap: var(--s-7); align-items: center; }
+@media (min-width: 900px) { .pap-compra__grade { grid-template-columns: 1fr 0.9fr; } }
+.pap-inclui { list-style: none; padding: 0; margin: var(--s-6) 0 0; display: grid; gap: var(--s-3); font-size: var(--t-lg); }
+.pap-inclui li { display: flex; gap: var(--s-3); align-items: start; }
+.pap-inclui svg { width: 22px; height: 22px; color: var(--terracota-claro); flex: none; margin-top: 3px; }
+.pap-caixa { background: var(--creme); color: var(--texto); border-radius: var(--raio-l); padding: clamp(var(--s-5), 4vw, var(--s-6)); box-shadow: var(--sombra-2); }
+.pap-caixa form { display: grid; gap: var(--s-4); }
+.pap-caixa__preco { display: flex; align-items: baseline; gap: var(--s-3); flex-wrap: wrap; }
+.pap-caixa__preco span { font-family: var(--f-display); font-size: var(--t-2xl); font-weight: 600; }
+.pap-caixa__preco small { color: var(--texto-suave); }
+.pap-espera { display: grid; gap: var(--s-4); }
+.pap-espera h3 { font-size: var(--t-xl); }
+.pap-espera p { color: var(--texto-suave); }
+
+.pap .rodape { padding-block: var(--s-6); }
+.pap .rodape__fim { margin-top: 0; border-top: 0; padding-top: 0; }
