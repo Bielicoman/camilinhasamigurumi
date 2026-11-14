@@ -1,0 +1,467 @@
+{
+  "versao": "2026-11-13",
+  "moeda": "BRL",
+  "categorias": [
+    {
+      "id": "religiosos",
+      "nome": "Fé em pontos"
+    },
+    {
+      "id": "animais",
+      "nome": "Bichinhos"
+    },
+    {
+      "id": "chaveiros",
+      "nome": "Chaveiros"
+    },
+    {
+      "id": "apps",
+      "nome": "Apps",
+      "oculta": true
+    }
+  ],
+  "produtos": [
+    {
+      "id": "presepio-completo",
+      "nome": "Presépio Completo",
+      "categoria": "religiosos",
+      "precoCentavos": 35000,
+      "tamanho": "Figuras de ~12 cm",
+      "prazoDiasUteis": 15,
+      "destaque": true,
+      "disponivel": true,
+      "resumo": "Sagrada Família, anjo, Reis Magos, pastor e animais do estábulo.",
+      "descricao": "O presépio inteiro feito à mão, ponto por ponto: Maria, José e o Menino Jesus na manjedoura, o Anjo Gabriel, os três Reis Magos, o pastor e os animais do estábulo. Um conjunto para montar todo Natal e passar adiante.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Enchimento de fibra siliconada antialérgica",
+        "Olhos com trava de segurança",
+        "Peça decorativa"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/presepio-completo.webp",
+          "alt": "Presépio completo em amigurumi com Sagrada Família, Reis Magos e animais"
+        },
+        {
+          "src": "/assets/img/produtos/presepio-animais.webp",
+          "alt": "Animais do presépio em amigurumi: camelo, burrinho, boi, ovelha e galo"
+        }
+      ]
+    },
+    {
+      "id": "sagrada-familia",
+      "nome": "Sagrada Família",
+      "categoria": "religiosos",
+      "precoCentavos": 28000,
+      "tamanho": "Figuras de ~12 cm",
+      "prazoDiasUteis": 12,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Maria, José e o Menino Jesus na manjedoura.",
+      "descricao": "Maria, José e o Menino Jesus deitado na manjedoura de palha. O trio essencial para o cantinho de oração, a mesa de Natal ou um presente de batizado.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Enchimento de fibra siliconada antialérgica",
+        "Olhos com trava de segurança",
+        "Peça decorativa"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/sagrada-familia.webp",
+          "alt": "Maria, José e o Menino Jesus em amigurumi"
+        },
+        {
+          "src": "/assets/img/produtos/sagrada-familia-cena.webp",
+          "alt": "Sagrada Família em amigurumi dentro de um estábulo de madeira"
+        }
+      ]
+    },
+    {
+      "id": "jesus",
+      "nome": "Jesus",
+      "categoria": "religiosos",
+      "precoCentavos": 16000,
+      "tamanho": "~20 cm",
+      "prazoDiasUteis": 10,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Cabeçudo, de túnica e faixa vermelha.",
+      "descricao": "Jesus no estilo cabeçudo colecionável, com túnica branca, faixa vermelha, cabelo e barba texturizados e sandálias.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Cabelo e barba em fio texturizado",
+        "Olhos com trava de segurança",
+        "Peça decorativa"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/jesus.webp",
+          "alt": "Jesus em amigurumi com túnica branca e faixa vermelha"
+        }
+      ]
+    },
+    {
+      "id": "anjo-gabriel",
+      "nome": "Anjo Gabriel",
+      "categoria": "religiosos",
+      "precoCentavos": 6500,
+      "tamanho": "~12 cm",
+      "prazoDiasUteis": 7,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Cabe na palma da mão, com asas e barrado bordado.",
+      "descricao": "O mensageiro do presépio em versão de bolso: cabelo dourado, asas de crochê e barrado bordado à mão. Lindo sozinho ou completando a Sagrada Família.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Barrado bordado à mão",
+        "Olhos com trava de segurança",
+        "Peça decorativa"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/anjo-gabriel.webp",
+          "alt": "Anjo Gabriel em amigurumi segurado na palma da mão"
+        },
+        {
+          "src": "/assets/img/produtos/anjo-gabriel-ceu.webp",
+          "alt": "Anjo Gabriel em amigurumi com asas abertas"
+        }
+      ]
+    },
+    {
+      "id": "leao-safari",
+      "nome": "Leão Safari",
+      "categoria": "animais",
+      "precoCentavos": 18000,
+      "tamanho": "~25 cm",
+      "prazoDiasUteis": 12,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Juba volumosa em anéis de crochê.",
+      "descricao": "Um leão grandão, sentado e pronto para abraço, com a juba montada anel por anel. Fica lindo na prateleira do quarto infantil.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Juba em anéis de crochê",
+        "Olhos com trava de segurança",
+        "~25 cm sentado"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/leao-safari.webp",
+          "alt": "Leão em amigurumi amarelo com juba volumosa"
+        }
+      ]
+    },
+    {
+      "id": "raposa-joy",
+      "nome": "Raposa Joy",
+      "categoria": "animais",
+      "precoCentavos": 16000,
+      "tamanho": "~25 cm",
+      "prazoDiasUteis": 12,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Laranja, de rabo longo com ponta branca.",
+      "descricao": "A Raposa Joy fica de pé nas quatro patinhas, com focinho e ponta do rabo em branco. Uma peça de presença para decorar.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Fica de pé sozinha",
+        "Olhos com trava de segurança",
+        "~25 cm"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/raposa-joy.webp",
+          "alt": "Raposa em amigurumi laranja de pé sobre um tronco"
+        }
+      ]
+    },
+    {
+      "id": "coelhinha-mel",
+      "nome": "Coelhinha Mel",
+      "categoria": "animais",
+      "precoCentavos": 15000,
+      "tamanho": "~25 cm",
+      "prazoDiasUteis": 10,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Orelhas compridas e cenourinha na mão.",
+      "descricao": "Coelhinha de orelhas longas em tons claros, segurando a própria cenoura de crochê. Presente clássico para chá de bebê e Páscoa.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Cenoura de crochê inclusa",
+        "Olhos com trava de segurança",
+        "~25 cm"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/coelhinha-mel.webp",
+          "alt": "Coelhinha em amigurumi sentada segurando uma cenoura"
+        }
+      ]
+    },
+    {
+      "id": "galo",
+      "nome": "Galo Carijó",
+      "categoria": "animais",
+      "precoCentavos": 15000,
+      "tamanho": "~12 cm",
+      "prazoDiasUteis": 8,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Amarelo e azul, de crista vermelha.",
+      "descricao": "Um galinho cheio de cor, com crista vermelha, peito amarelo e asas azuis. Combina com o presépio e com cozinha de fazenda.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Olhos com trava de segurança",
+        "~12 cm",
+        "Peça decorativa"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/galo.webp",
+          "alt": "Galo em amigurumi amarelo e azul com crista vermelha"
+        }
+      ]
+    },
+    {
+      "id": "capimila",
+      "nome": "Capimila",
+      "categoria": "chaveiros",
+      "precoCentavos": 4500,
+      "tamanho": "~8 cm",
+      "prazoDiasUteis": 5,
+      "destaque": true,
+      "disponivel": true,
+      "resumo": "A capivara do ateliê, em chaveiro.",
+      "descricao": "A capivara mais calma do Brasil, em versão chaveiro para pendurar na bolsa, na mochila ou nas chaves.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Argola de metal",
+        "~8 cm",
+        "Não é brinquedo: contém partes pequenas"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/capimila.webp",
+          "alt": "Chaveiro de capivara em amigurumi segurado pela argola"
+        },
+        {
+          "src": "/assets/img/produtos/capimila-mao.webp",
+          "alt": "Chaveiro de capivara em amigurumi na mão"
+        }
+      ]
+    },
+    {
+      "id": "polvinho",
+      "nome": "Polvinho",
+      "categoria": "chaveiros",
+      "precoCentavos": 6000,
+      "tamanho": "~8 cm",
+      "prazoDiasUteis": 5,
+      "destaque": false,
+      "disponivel": true,
+      "resumo": "Tentáculos enroladinhos, cor à escolha via observação.",
+      "descricao": "Polvinho de tentáculos enroladinhos, pequeno o bastante para levar junto. Se quiser outra cor, escreva no campo de observações do pedido.",
+      "detalhes": [
+        "Fio 100% algodão",
+        "Olhos com trava de segurança",
+        "~8 cm",
+        "Cor sob consulta"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/produtos/polvinho.webp",
+          "alt": "Polvo azul em amigurumi com tentáculos enrolados"
+        }
+      ]
+    },
+    {
+      "id": "ponto-a-ponto-pro",
+      "tipo": "digital",
+      "nome": "Ponto a Ponto Pro",
+      "categoria": "apps",
+      "precoCentavos": 25000,
+      "precoAposLancamentoCentavos": 50000,
+      "lancamentoAte": "2026-12-31T23:59:59-03:00",
+      "prazoDiasUteis": 0,
+      "destaque": false,
+      "disponivel": false,
+      "resumo": "Licença vitalícia do app que transforma foto em gráfico de crochê.",
+      "descricao": "Licença vitalícia do Ponto a Ponto Pro, enviada por e-mail logo após a confirmação do pagamento.",
+      "detalhes": [
+        "Licença vitalícia",
+        "Chave enviada por e-mail",
+        "Até 3 aparelhos",
+        "Atualizações Pro incluídas"
+      ],
+      "imagens": [
+        {
+          "src": "/assets/img/ponto-a-ponto/editor.webp",
+          "alt": "Editor do Ponto a Ponto com gráfico de crochê e lista de cores"
+        }
+      ]
+    }
+  ],
+  "encomendas": [
+    {
+      "id": "retrato-em-croche",
+      "nome": "Retrato em Crochê",
+      "selo": "Novo no ateliê",
+      "descricao": "Sua foto vira um gráfico de pixels e é tecida ponto a ponto em tapestry crochet: retrato de família, do pet, do casal ou de um personagem — em quadro, bolsa ou painel.",
+      "aPartirDeCentavos": null,
+      "imagem": {
+        "src": "/assets/img/atelie/camila-pixel-croche.webp",
+        "alt": "Camila segurando uma peça de pixel crochê em verde neon e preto"
+      }
+    },
+    {
+      "id": "pititicos",
+      "nome": "Pititicos",
+      "selo": "Seu personagem",
+      "descricao": "Você manda a referência — uma pessoa, um pet, um personagem da família — e a Camila transforma em amigurumi.",
+      "aPartirDeCentavos": null,
+      "imagem": {
+        "src": "/assets/img/brand/camilinha-mascote.webp",
+        "alt": "Boneca de amigurumi de cabelo cacheado e vestido amarelo"
+      }
+    },
+    {
+      "id": "bebezinho",
+      "nome": "Bebezinho",
+      "selo": "Chá de bebê · Chá revelação",
+      "descricao": "Bebês de amigurumi na cor do enxoval para chá revelação, chá de bebê, mesversário, aniversário de um ano e lembrança de maternidade.",
+      "aPartirDeCentavos": null,
+      "imagem": {
+        "src": "/assets/img/atelie/bebezinho-ig.webp",
+        "alt": "Bebê de amigurumi rosa sentado"
+      }
+    },
+    {
+      "id": "lembrancinhas",
+      "nome": "Lembrancinhas e dedoches",
+      "selo": "Eventos",
+      "descricao": "Chaveiros e dedoches em quantidade para festas, batizados e casamentos, com a paleta do seu evento.",
+      "aPartirDeCentavos": null,
+      "imagem": {
+        "src": "/assets/img/produtos/capimila-mao.webp",
+        "alt": "Chaveiro de amigurumi na mão"
+      }
+    }
+  ],
+  "pagamento": {
+    "descontoPixPercentual": 5,
+    "parcelasMaximas": 6,
+    "parcelaMinimaCentavos": 5000
+  },
+  "entrega": {
+    "origem": "Sorocaba - SP",
+    "metodos": [
+      {
+        "id": "retirada",
+        "nome": "Retirada em Sorocaba (agendada)",
+        "precoCentavos": 0,
+        "exigeEndereco": false,
+        "prazoExtraDiasUteis": 0
+      },
+      {
+        "id": "motoboy",
+        "nome": "Motoboy em Sorocaba",
+        "precoCentavos": 1500,
+        "gratisAcimaDeCentavos": 15000,
+        "exigeEndereco": true,
+        "cepPrefixos": [
+          "180",
+          "181"
+        ],
+        "prazoExtraDiasUteis": 1,
+        "cidadeExigida": {
+          "cidade": "Sorocaba",
+          "uf": "SP"
+        }
+      },
+      {
+        "id": "correios",
+        "nome": "Correios (todo o Brasil)",
+        "exigeEndereco": true,
+        "prazoExtraDiasUteis": 8,
+        "tabelaPorRegiao": [
+          {
+            "regiao": "SP capital e interior",
+            "cepDe": "01000000",
+            "cepAte": "19999999",
+            "precoCentavos": 2500
+          },
+          {
+            "regiao": "Sudeste e Sul",
+            "cepDe": "20000000",
+            "cepAte": "39999999",
+            "precoCentavos": 3500
+          },
+          {
+            "regiao": "Sudeste e Sul",
+            "cepDe": "80000000",
+            "cepAte": "99999999",
+            "precoCentavos": 3500
+          },
+          {
+            "regiao": "Centro-Oeste, Norte e Nordeste",
+            "cepDe": "40000000",
+            "cepAte": "79999999",
+            "precoCentavos": 4500
+          }
+        ]
+      },
+      {
+        "id": "digital",
+        "nome": "Entrega digital por e-mail",
+        "precoCentavos": 0,
+        "exigeEndereco": false,
+        "somenteDigital": true,
+        "prazoExtraDiasUteis": 0
+      }
+    ]
+  },
+  "contato": {
+    "whatsapp": "556792804803",
+    "instagram": "camilinhasamigurumi",
+    "instagramCamila": "eucamila0706"
+  },
+  "pontoAPontoPro": {
+    "beneficios": [
+      {
+        "titulo": "Modo Retrato",
+        "texto": "Ajustes feitos para foto de gente e de pet: recorte do rosto, contraste de pele e redução de cores pensada para tapestry crochet."
+      },
+      {
+        "titulo": "Exportação Pro",
+        "texto": "PDF e PNG em alta resolução, sem marca do app, com lista de materiais e legenda de cores prontas para imprimir."
+      },
+      {
+        "titulo": "Fia Pro",
+        "texto": "Cota maior de conversas e imagens com a assistente do app, com prioridade na fila."
+      },
+      {
+        "titulo": "Nuvem sem limite",
+        "texto": "Todos os seus gráficos sincronizados entre computador, celular e tablet."
+      },
+      {
+        "titulo": "Vitalícia",
+        "texto": "Pague uma vez. Todas as atualizações da versão Pro incluídas, em até 3 aparelhos."
+      },
+      {
+        "titulo": "Suporte direto",
+        "texto": "Dúvidas respondidas por quem criou o app, pelo WhatsApp."
+      }
+    ],
+    "gratisContinua": [
+      "Foto vira gráfico de crochê",
+      "10.000 modelos prontos",
+      "Contador de carreiras",
+      "Estimativa de fio e tamanho",
+      "Exportação PDF e PNG"
+    ],
+    "aparelhosPorLicenca": 3
+  }
+}

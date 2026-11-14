@@ -1,0 +1,13 @@
+{
+  "name": "camilinhas-amigurumi",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Loja oficial do ateliê Camilinhas Amigurumi — amigurumi e retrato em crochê feitos à mão por Camila Lopes de Souza.",
+  "license": "MIT",
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "check": "node --test tests/*.test.js && node scripts/verificar-site.mjs"
+  }
+}
